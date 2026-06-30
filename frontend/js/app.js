@@ -97,8 +97,8 @@ if (photoUpload && profileImage) {
 
 // Backend API Integration
 async function fetchProfileData() {
-    // We try the local backend API first. If deployed, this URL should be updated or use relative path if on the same domain.
-    const apiUrl = 'http://localhost:3000/api/profile';
+    // Uses a relative path so it automatically works locally and in production (Sevalla)
+    const apiUrl = '/api/profile';
     
     try {
         const response = await fetch(apiUrl);
