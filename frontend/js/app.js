@@ -94,3 +94,36 @@ if (photoUpload && profileImage) {
         }
     });
 }
+
+// Backend API Integration
+async function fetchProfileData() {
+    // We try the local backend API first. If deployed, this URL should be updated or use relative path if on the same domain.
+    const apiUrl = 'http://localhost:3000/api/profile';
+    
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error('API response not ok');
+        
+        const data = await response.json();
+        
+        const nameElement = document.getElementById('hero-name');
+        const titleElement = document.getElementById('hero-api-title');
+        
+        if (nameElement && data.name) {
+            nameElement.textContent = data.name;
+        }
+        
+        if (titleElement && data.title) {
+            titleElement.textContent = "🎓 " + data.title + " (Fetched from API!)";
+            titleElement.style.opacity = '1';
+        }
+        
+        console.log("Successfully connected to Backend API:", data);
+    } catch (error) {
+        console.error("Could not fetch profile from Backend API:", error);
+        // We handle gracefully by doing nothing, letting the static HTML remain
+    }
+}
+
+// Fetch the API data when the page loads
+document.addEventListener('DOMContentLoaded', fetchProfileData);
