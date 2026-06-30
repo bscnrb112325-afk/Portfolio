@@ -1,5 +1,1 @@
-{
-"name":"portfolio-api",
-"scripts":{"start":"node server.js"},
-"dependencies":{"express":"^4.21.0","cors":"^2.8.5"}
-}
+{"name":"portfolio-api","scripts":{"start":"node server.js"},"dependencies":{"cors":"^2.8.5","dotenv":"^17.4.2","express":"^4.21.0"}}

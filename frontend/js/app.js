@@ -58,3 +58,39 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Profile Photo Upload Handling
+const photoUpload = document.getElementById('photo-upload');
+const profileImage = document.getElementById('profile-image');
+const avatarIcon = document.getElementById('avatar-icon');
+
+// Check if there's a saved photo in localStorage
+const savedPhoto = localStorage.getItem('profilePhoto');
+if (savedPhoto && profileImage) {
+    profileImage.src = savedPhoto;
+    profileImage.style.display = 'block';
+    if (avatarIcon) avatarIcon.style.display = 'none';
+}
+
+if (photoUpload && profileImage) {
+    photoUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const imageUrl = event.target.result;
+                profileImage.src = imageUrl;
+                profileImage.style.display = 'block';
+                if (avatarIcon) avatarIcon.style.display = 'none';
+                
+                // Save to localStorage so it persists across reloads
+                try {
+                    localStorage.setItem('profilePhoto', imageUrl);
+                } catch (err) {
+                    console.warn("Image too large to save in localStorage.");
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
