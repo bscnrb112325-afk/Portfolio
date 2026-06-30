@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve the frontend static files automatically
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '../')));
 
 app.get('/api/profile', (req, res) => {
     res.json({
@@ -20,7 +20,7 @@ app.get('/api/profile', (req, res) => {
 
 // Any other route should serve the frontend index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
