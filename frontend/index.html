@@ -58,10 +58,14 @@
             </div>
             <div class="hero-visual fade-in-up delay-1">
                 <div class="glass-card profile-card">
-                    <div class="avatar-placeholder">
-                        <!-- To add your photo, save an image as 'profile.jpg' in your frontend folder -->
-                        <img src="./profile.jpg" alt="Kelvin Kimani Mugure" class="profile-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <i class="fa-solid fa-user-astronaut"></i>
+                    <div class="avatar-placeholder" id="avatar-container">
+                        <!-- To add your photo, save an image as 'profile.png' in your frontend folder -->
+                        <img src="./profile.png" alt="Kelvin Kimani Mugure" id="profile-image" class="profile-image" onerror="this.style.display='none'; document.getElementById('avatar-icon').style.display='flex';">
+                        <i class="fa-solid fa-user-astronaut" id="avatar-icon"></i>
+                        <label for="photo-upload" class="edit-photo-overlay">
+                            <i class="fa-solid fa-camera"></i> Change Photo
+                        </label>
+                        <input type="file" id="photo-upload" accept="image/*" style="display: none;">
                     </div>
                     <div class="status-badge">
                         <span class="pulse"></span> Available for Work

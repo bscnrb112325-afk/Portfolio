@@ -1,12 +1,18 @@
-const express=require('express');
-const app=express();
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+
+app.use(cors());
 app.use(express.json());
 
-app.get('/api/profile',(req,res)=>{
-res.json({
-name:'Kelvin Kimani Mugure',
-title:'Bachelor of Science in Computer Science and System Security'
-});
+app.get('/api/profile', (req, res) => {
+    res.json({
+        name: 'Kelvin Kimani Mugure',
+        title: 'Bachelor of Science in Computer Science and System Security'
+    });
 });
 
-app.listen(5000,()=>console.log('API running'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`API running on port ${PORT}`));
