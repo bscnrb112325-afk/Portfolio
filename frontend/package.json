@@ -1,0 +1,9 @@
+{
+  "name": "portfolio-frontend",
+  "version": "1.0.0",
+  "description": "Portfolio Website",
+  "scripts": {
+    "dev": "npx serve",
+    "start": "npx serve"
+  }
+}
