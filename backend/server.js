@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, '../')));
 
 app.get('/api/profile', (req, res) => {
     res.json({
-        name: 'Kelvin Kimani Mugure',
+        name: 'kelvin',
         title: 'Bachelor of Science in Computer Science and System Security'
     });
 });
