@@ -4,11 +4,19 @@
   "description": "Portfolio Website with Express Backend",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "node backend/server.js"
+    "backend": "node backend/server.js",
+    "frontend": "npx vite --port 5173",
+    "dev:frontend": "npx vite --port 5173",
+    "dev": "node backend/server.js",
+    "db": "node backend/database/db.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
   }
 }

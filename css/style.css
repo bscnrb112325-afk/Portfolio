@@ -202,20 +202,27 @@ h1, h2, h3, h4 {
 .nav-links {
     display: flex;
     gap: 2rem;
+    margin-left: auto;
 }
 
-.nav-links a {
+.nav-links button,
+.nav-link-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text-secondary);
     transition: var(--transition-fast);
     position: relative;
+    padding: 0.4rem 0.6rem;
 }
 
-.nav-links a::after {
+.nav-link-btn::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -2px;
     left: 0;
     width: 0;
     height: 2px;
@@ -223,12 +230,22 @@ h1, h2, h3, h4 {
     transition: var(--transition-medium);
 }
 
-.nav-links a:hover {
+.nav-link-btn:hover,
+.nav-link-btn.active {
     color: var(--text-primary);
 }
 
-.nav-links a:hover::after {
+.nav-link-btn.active::after,
+.nav-link-btn:hover::after {
     width: 100%;
+}
+
+.logo-btn {
+    transition: var(--transition-fast);
+}
+
+.logo-btn:hover {
+    transform: scale(1.03);
 }
 
 /* ==========================================================================
@@ -455,6 +472,16 @@ h1, h2, h3, h4 {
 .skill-card h3 {
     font-size: 1.1rem;
     font-weight: 600;
+}
+
+.ai-service {
+    border-color: rgba(76, 201, 240, 0.28);
+    background: linear-gradient(145deg, rgba(76, 201, 240, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.ai-service .skill-icon {
+    background: rgba(76, 201, 240, 0.12);
+    color: #80ffdb;
 }
 
 /* ==========================================================================
@@ -684,4 +711,1532 @@ h1, h2, h3, h4 {
         font-size: 0.9rem !important;
         word-break: break-all;
     }
+}
+
+.module-section {
+    padding: 6rem 0 3rem 0;
+    min-height: 80vh;
+}
+
+/* Dashboard Hub Grid */
+.dashboard-hub {
+    padding: 7rem 0 4rem 0;
+    min-height: 85vh;
+}
+
+.hub-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.hub-header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, #fff 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hub-header p {
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.module-card {
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.module-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--primary-color);
+    box-shadow: 0 15px 35px rgba(76, 201, 240, 0.2);
+}
+
+.module-card .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+}
+
+.module-card .module-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(76, 201, 240, 0.15), rgba(67, 97, 238, 0.25));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: var(--primary-color);
+}
+
+.module-card .module-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+}
+
+.module-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.6rem;
+    color: #fff;
+}
+
+.module-card p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+.module-card .card-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.module-card .card-footer i {
+    transition: transform 0.2s ease;
+}
+
+.module-card:hover .card-footer i {
+    transform: translateX(5px);
+}
+
+/* Module View Controls (Back button & Module Bar) */
+.module-view-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.btn-back:hover {
+    background: var(--primary-color);
+    color: #0b0c10;
+    border-color: var(--primary-color);
+}
+
+.module-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.module-tab-btn {
+    padding: 0.5rem 1.1rem;
+    border-radius: 20px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.module-tab-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.module-tab-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Top-Left Header & Contact Information */
+.top-header {
+    padding: 2.5rem 0 1.5rem 0;
+}
+
+.top-left-profile {
+    max-width: 580px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 1.8rem 2rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: fadeInModule 0.5s ease-out forwards;
+}
+
+.explore-tagline {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 1.4rem;
+    border-left: 3px solid var(--accent-color);
+    padding-left: 1rem;
+}
+
+.top-contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.contact-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.contact-chip i {
+    color: var(--accent-color);
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+}
+
+.contact-chip:hover {
+    background: rgba(76, 201, 240, 0.12);
+    border-color: var(--accent-color);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 201, 240, 0.2);
+}
+
+.contact-chip:hover i {
+    transform: scale(1.15);
+}
+
+.top-modules-wrapper {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.top-modules-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-color);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.top-modules-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.top-module-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.top-module-btn i {
+    color: var(--primary-color);
+    font-size: 0.95rem;
+    transition: transform 0.2s ease;
+}
+
+.top-module-btn:hover {
+    background: rgba(67, 97, 238, 0.15);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.25);
+}
+
+.top-module-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: transparent;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(67, 97, 238, 0.4);
+}
+
+.top-module-btn.active i {
+    color: #fff;
+}
+
+#module-display {
+    margin-top: 2rem;
+    min-height: 50vh;
+}
+
+/* ==========================================================================
+   RESPONSIVE – TABLET  (≤ 900px)
+   ========================================================================== */
+@media (max-width: 900px) {
+    .cv-builder-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE – PHONE  (≤ 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* ── Container ── */
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* ── Top Header / Profile Card ── */
+    .top-header {
+        padding: 1rem 0 0.5rem 0;
+    }
+
+    .top-left-profile {
+        padding: 1.1rem;
+        border-radius: 16px;
+    }
+
+    .explore-tagline {
+        font-size: 0.88rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* ── Contact Chips ── */
+    .top-contact-list {
+        gap: 0.45rem;
+        flex-wrap: wrap;
+    }
+
+    .contact-chip {
+        font-size: 0.78rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 10px;
+    }
+
+    .contact-chip span {
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* ── Module Navigation Bar ── */
+    .top-modules-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        justify-content: flex-start;
+    }
+
+    .top-module-btn {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 10px;
+        gap: 0.3rem;
+    }
+
+    .top-module-btn i {
+        display: none; /* hide icons on small screens to save space */
+    }
+
+    /* ── Section Titles ── */
+    .section-title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* ── Glass Cards ── */
+    .glass-card {
+        padding: 1.2rem;
+        border-radius: 14px;
+    }
+
+    #module-display {
+        margin-top: 1.2rem;
+    }
+
+    /* ── About Module ── */
+    .about-hero-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .about-grid,
+    .about-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* ── Skills / What I Do ── */
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* ── Projects ── */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* ── AI CV Builder ── */
+    .ai-cv-section {
+        padding: 1rem 0;
+    }
+
+    .cv-builder-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .cv-actions-bar {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .cv-actions-bar button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cv-template-selector {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .cv-ats-gauge {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* ── Chat Module ── */
+    .chat-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .chat-messages-area {
+        max-height: 50vh;
+    }
+
+    .chat-input-row {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    /* ── Posts Module ── */
+    .posts-section {
+        padding: 1rem 0;
+    }
+
+    .posts-filter-bar {
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .posts-filter-btn {
+        font-size: 0.76rem;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .posts-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* ── Post Card ── */
+    .post-card-image-wrap {
+        height: 150px;
+    }
+
+    .post-card-title {
+        font-size: 0.98rem;
+    }
+
+    /* ── Post & Chat Modals ── */
+    .post-modal {
+        padding: 0.5rem;
+        align-items: flex-end; /* slides up from bottom on mobile */
+    }
+
+    .post-modal-content {
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 20px 20px 0 0;
+        padding: 1.2rem;
+    }
+
+    /* Comment form inside modal */
+    #add-comment-form > div:first-child {
+        grid-template-columns: 1fr;
+    }
+
+    /* ── AI CV modal */
+    .cv-modal,
+    .modal {
+        padding: 0.5rem;
+        align-items: flex-end;
+    }
+
+    .cv-modal-content,
+    .modal-content {
+        max-height: 92vh;
+        border-radius: 20px 20px 0 0;
+        padding: 1.2rem;
+    }
+
+    /* ── Write Post form ── */
+    #create-post-modal .post-modal-content {
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+    }
+
+    /* Two-column grid inside form → single column */
+    .post-form [style*="grid-template-columns: 1fr 1fr"] {
+        display: flex !important;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    /* ── Blobs – reduce on mobile ── */
+    .blob-1 { width: 300px; height: 300px; }
+    .blob-2 { width: 250px; height: 250px; }
+}
+
+/* ==========================================================================
+   RESPONSIVE – SMALL PHONE  (≤ 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+
+    .contact-chip span {
+        display: none; /* icon-only chips on very small screens */
+    }
+
+    .contact-chip i {
+        font-size: 1rem;
+    }
+
+    .contact-chip {
+        padding: 0.5rem 0.6rem;
+        border-radius: 50%;
+        min-width: 36px;
+        justify-content: center;
+    }
+
+    .top-module-btn {
+        font-size: 0.74rem;
+        padding: 0.35rem 0.6rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        font-size: 0.85rem;
+        padding: 0.6rem 1.2rem;
+    }
+
+    .post-card-image-wrap {
+        height: 130px;
+    }
+
+    .post-modal-content {
+        padding: 1rem;
+    }
+}
+
+/* =========================================
+   AI CV BUILDER MODULE STYLES
+   ========================================= */
+
+.ai-cv-section {
+    padding: 3rem 0;
+}
+
+/* ---- Builder Layout ---- */
+.cv-builder-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.cv-builder-form-col,
+.cv-builder-preview-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* ---- Form Panels ---- */
+.cv-form-panel {
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cv-form-panel h3 {
+    font-size: 1rem;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cv-form-panel h3 i {
+    color: var(--accent-color);
+}
+
+.cv-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.cv-form-grid.single {
+    grid-template-columns: 1fr;
+}
+
+.cv-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.cv-field label {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cv-field input,
+.cv-field textarea,
+.cv-field select {
+    padding: 0.6rem 0.9rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+}
+
+.cv-field input:focus,
+.cv-field textarea:focus,
+.cv-field select:focus {
+    border-color: var(--accent-color);
+    background: rgba(76, 201, 240, 0.05);
+}
+
+.cv-field textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.cv-field select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+/* ---- AI Feature Buttons ---- */
+.ai-features-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 1rem 1.2rem;
+    border-radius: 14px;
+    background: rgba(76, 201, 240, 0.05);
+    border: 1px solid rgba(76, 201, 240, 0.15);
+}
+
+.ai-feat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--text-secondary);
+    font-size: 0.83rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+.ai-feat-btn i {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+}
+
+.ai-feat-btn:hover {
+    background: rgba(76, 201, 240, 0.12);
+    border-color: var(--accent-color);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* ---- AI Result Box ---- */
+.ai-result-box {
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    background: rgba(76, 201, 240, 0.07);
+    border: 1px solid rgba(76, 201, 240, 0.2);
+    animation: fadeInModule 0.35s ease-out;
+    margin-top: 0.75rem;
+}
+
+.ai-result-box p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.93rem;
+    line-height: 1.7;
+}
+
+.ai-result-label {
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* ---- ATS Score ---- */
+.ats-score-display {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 0.75rem;
+}
+
+.ats-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    background: conic-gradient(var(--accent-color) 0%, rgba(255,255,255,0.1) 0%);
+    border: 3px solid var(--accent-color);
+    flex-shrink: 0;
+}
+
+.ats-circle span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-top: -2px;
+}
+
+.ats-details h4 {
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.ats-details p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ---- CV Live Preview ---- */
+.cv-preview-card {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: sticky;
+    top: 1rem;
+}
+
+.cv-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: rgba(0,0,0,0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.cv-preview-header span {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.cv-preview-header .btn-download-pdf {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.cv-preview-header .btn-download-pdf:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(67, 97, 238, 0.4);
+}
+
+/* ---- CV Preview Document ---- */
+#cv-preview-document {
+    padding: 2rem;
+    background: #fff;
+    color: #111;
+    min-height: 500px;
+    font-family: 'Inter', sans-serif;
+}
+
+.cv-preview-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.2rem;
+}
+
+.cv-preview-title {
+    font-size: 0.95rem;
+    color: #4361ee;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+}
+
+.cv-preview-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    font-size: 0.82rem;
+    color: #555;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #4361ee;
+    margin-bottom: 1rem;
+}
+
+.cv-preview-contacts a {
+    color: #4361ee;
+    text-decoration: none;
+}
+
+.cv-preview-section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #4361ee;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0.25rem;
+    margin: 1rem 0 0.6rem 0;
+}
+
+.cv-preview-body-text {
+    font-size: 0.85rem;
+    color: #333;
+    line-height: 1.6;
+}
+
+.cv-preview-exp-item {
+    margin-bottom: 0.8rem;
+}
+
+.cv-preview-exp-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #222;
+}
+
+.cv-preview-exp-org {
+    font-size: 0.82rem;
+    color: #666;
+    margin-bottom: 0.3rem;
+    font-style: italic;
+}
+
+.cv-preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+}
+
+.cv-preview-tag {
+    padding: 0.15rem 0.55rem;
+    border-radius: 10px;
+    background: #eef0ff;
+    color: #4361ee;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* ---- Template Selector ---- */
+.cv-templates-bar {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.cv-template-btn {
+    padding: 0.45rem 0.9rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.cv-template-btn.active,
+.cv-template-btn:hover {
+    background: rgba(67, 97, 238, 0.2);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+
+/* ---- Spinner ---- */
+.ai-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+    font-size: 0.88rem;
+}
+
+.ai-loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+    .cv-builder-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .cv-preview-card {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .cv-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-features-bar {
+        flex-direction: column;
+    }
+}
+
+@media print {
+    .top-header,
+    .cv-builder-form-col,
+    .cv-preview-header {
+        display: none !important;
+    }
+
+    #cv-preview-document {
+        padding: 0;
+    }
+}
+
+/* =========================================
+   AI CHAT MODULE STYLES
+   ========================================= */
+
+.chat-section {
+    padding: 3rem 0;
+}
+
+.chat-wrapper-card {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    max-height: 75vh;
+    border-radius: 20px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.chat-suggestions-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1rem;
+}
+
+.chat-prompt-chip {
+    padding: 0.35rem 0.8rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.chat-prompt-chip:hover {
+    background: rgba(76, 201, 240, 0.15);
+    border-color: var(--accent-color);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.chat-messages-container {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right: 0.5rem;
+    margin-bottom: 1rem;
+    scroll-behavior: smooth;
+}
+
+.chat-messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.chat-message {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 80%;
+    animation: fadeInModule 0.3s ease-out;
+}
+
+.chat-message.user-msg {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.chat-message.ai-msg {
+    align-self: flex-start;
+}
+
+.msg-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+}
+
+.user-msg .msg-avatar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+}
+
+.ai-msg .msg-avatar {
+    background: rgba(76, 201, 240, 0.15);
+    border: 1px solid rgba(76, 201, 240, 0.3);
+    color: var(--accent-color);
+}
+
+.msg-bubble {
+    padding: 0.85rem 1.15rem;
+    border-radius: 16px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.user-msg .msg-bubble {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-msg .msg-bubble {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+}
+
+.msg-bubble p {
+    margin: 0;
+}
+
+.chat-input-bar {
+    display: flex;
+    gap: 0.6rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chat-input-bar input {
+    flex: 1;
+    padding: 0.75rem 1.2rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.92rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.chat-input-bar input:focus {
+    border-color: var(--accent-color);
+    background: rgba(76, 201, 240, 0.05);
+}
+
+.chat-send-button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: #fff;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.chat-send-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+}
+
+/* Author Badges */
+.msg-author-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+}
+
+.gemini-badge {
+    color: var(--accent-color);
+}
+
+.kelvin-badge {
+    color: #2ecc71;
+}
+
+/* Admin / Owner Chat Layout */
+.chat-admin-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: 600px;
+    max-height: 75vh;
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.admin-conv-sidebar {
+    background: rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-conv-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.admin-conv-item {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.admin-conv-item:hover,
+.admin-conv-item.active {
+    background: rgba(76, 201, 240, 0.1);
+    border-left: 3px solid var(--accent-color);
+}
+
+.admin-chat-detail {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+@media (max-width: 768px) {
+    .chat-admin-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-conv-sidebar {
+        height: 200px;
+    }
+}
+
+@media (max-width: 640px) {
+    .chat-message {
+        max-width: 92%;
+    }
+}
+
+/* =========================================
+   POSTS MODULE STYLES
+   ========================================= */
+
+.posts-section {
+    padding: 3rem 0;
+}
+
+.posts-filter-bar {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.posts-filter-btn {
+    padding: 0.45rem 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.83rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.posts-filter-btn.active,
+.posts-filter-btn:hover {
+    background: rgba(67, 97, 238, 0.2);
+    border-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.post-card {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(76, 201, 240, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.post-card-image-wrap {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.post-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.post-card:hover .post-card-img {
+    transform: scale(1.05);
+}
+
+.post-card-body {
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.post-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.post-category-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent-color);
+    background: rgba(76, 201, 240, 0.1);
+    padding: 0.25rem 0.65rem;
+    border-radius: 12px;
+}
+
+.post-read-time {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.post-card-title {
+    font-size: 1.05rem;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.post-card-title:hover {
+    color: var(--accent-color);
+}
+
+.post-card-preview {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+
+.post-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+}
+
+.post-tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+}
+
+.post-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: auto;
+}
+
+.post-like-btn,
+.post-comment-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.post-like-btn:hover {
+    color: #e74c3c;
+    transform: scale(1.1);
+}
+
+.post-comment-btn:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Post Modal */
+.post-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1.5rem;
+}
+
+.post-modal-content {
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #0f172a;
+}
+
+.post-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.post-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.6rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.post-close-btn:hover {
+    color: #fff;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }

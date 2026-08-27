@@ -1,129 +1,186 @@
-// Automatically update copyright year
-document.getElementById('year').textContent = new Date().getFullYear();
+/**
+ * Main Application Router & Orchestrator
+ * Top-left header with contact info & interactive module switcher (About, What I Do, Projects, Mission, AI CV)
+ */
 
-// Navbar scroll effect
-const navbar = document.querySelector('.navbar');
+import { renderAbout, initAbout } from './modules/about.js';
+import { renderSkills, initSkills } from './modules/skills.js';
+import { renderProjects, initProjects } from './modules/projects.js';
+import { renderMission, initMission } from './modules/mission.js';
+import { renderAICV, initAICV } from './modules/ai-cv.js';
+import { renderChat, initChat } from './modules/chat.js';
+import { renderPosts, initPosts } from './modules/posts.js';
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
+let activeModule = 'about'; // default active module
 
-// Intersection Observer for scroll animations
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.15
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target); // Stop observing once it's visible
-        }
-    });
-}, observerOptions);
-
-// Select all elements that need to animate in
-const animateElements = document.querySelectorAll('.fade-in-up');
-
-animateElements.forEach(el => {
-    observer.observe(el);
-});
-
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        if (targetId === '#') return;
-        
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            // Offset for fixed navbar
-            const headerOffset = 80;
-            const elementPosition = targetElement.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-
-// Profile Photo Upload Handling
-const photoUpload = document.getElementById('photo-upload');
-const profileImage = document.getElementById('profile-image');
-const avatarIcon = document.getElementById('avatar-icon');
-
-// Check if there's a saved photo in localStorage
-const savedPhoto = localStorage.getItem('profilePhoto');
-if (savedPhoto && profileImage) {
-    profileImage.src = savedPhoto;
-    profileImage.style.display = 'block';
-    if (avatarIcon) avatarIcon.style.display = 'none';
-}
-
-if (photoUpload && profileImage) {
-    photoUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const imageUrl = event.target.result;
-                profileImage.src = imageUrl;
-                profileImage.style.display = 'block';
-                if (avatarIcon) avatarIcon.style.display = 'none';
-                
-                // Save to localStorage so it persists across reloads
-                try {
-                    localStorage.setItem('profilePhoto', imageUrl);
-                } catch (err) {
-                    console.warn("Image too large to save in localStorage.");
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-}
-
-// Backend API Integration
-async function fetchProfileData() {
-    // Uses a relative path so it automatically works locally and in production (Sevalla)
-    const apiUrl = '/api/profile';
-    
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error('API response not ok');
-        
-        const data = await response.json();
-        
-        const nameElement = document.getElementById('hero-name');
-        const titleElement = document.getElementById('hero-api-title');
-        
-        if (nameElement && data.name) {
-            nameElement.textContent = data.name;
-        }
-        
-        if (titleElement && data.title) {
-            titleElement.textContent = "🎓 " + data.title + " (Fetched from API!)";
-            titleElement.style.opacity = '1';
-        }
-        
-        console.log("Successfully connected to Backend API:", data);
-    } catch (error) {
-        console.error("Could not fetch profile from Backend API:", error);
-        // We handle gracefully by doing nothing, letting the static HTML remain
+function getModuleHTML(mod) {
+    switch (mod) {
+        case 'about':
+            return renderAbout();
+        case 'skills':
+            return renderSkills();
+        case 'projects':
+            return renderProjects();
+        case 'mission':
+            return renderMission();
+        case 'aicv':
+            return renderAICV();
+        case 'chat':
+            return renderChat();
+        case 'post':
+            return renderPosts();
+        default:
+            return renderAbout();
     }
 }
 
-// Fetch the API data when the page loads
-document.addEventListener('DOMContentLoaded', fetchProfileData);
+function initCurrentModule(mod) {
+    switch (mod) {
+        case 'about':
+            initAbout();
+            break;
+        case 'skills':
+            initSkills();
+            break;
+        case 'projects':
+            initProjects();
+            break;
+        case 'mission':
+            initMission();
+            break;
+        case 'aicv':
+            initAICV();
+            break;
+        case 'chat':
+            initChat();
+            break;
+        case 'post':
+            initPosts();
+            break;
+        default:
+            initAbout();
+            break;
+    }
+}
+
+export function renderTopHeader(selected = 'about') {
+    return `
+    <header class="top-header">
+        <div class="container">
+            <div class="top-left-profile glass-card">
+                <!-- Tagline -->
+                <p class="explore-tagline">
+                    Explore my portfolio to discover my projects, technical skills, and professional journey.
+                </p>
+
+                <!-- Contact Chips -->
+                <div class="top-contact-list">
+                    <a href="mailto:kelvinkimani513@gmail.com" class="contact-chip">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>kelvinkimani513@gmail.com</span>
+                    </a>
+                    <a href="tel:0701861965" class="contact-chip">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>0701861965</span>
+                    </a>
+                    <a href="https://github.com/bscnrb112325-afk" target="_blank" rel="noopener noreferrer" class="contact-chip">
+                        <i class="fa-brands fa-github"></i>
+                        <span>bscnrb112325-afk</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kelvin-kimani-a94552214/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B85kuA6LDSaukl8MUkM%2FZvA%3D%3D" target="_blank" rel="noopener noreferrer" class="contact-chip">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+
+                <!-- Modules directly below contact chips -->
+                <div class="top-modules-wrapper">
+                    <div class="top-modules-bar">
+                        <button class="top-module-btn ${selected === 'about' ? 'active' : ''}" data-mod="about">
+                            <i class="fa-solid fa-user-astronaut"></i>
+                            <span>About</span>
+                        </button>
+                        <button class="top-module-btn ${selected === 'skills' ? 'active' : ''}" data-mod="skills">
+                            <i class="fa-solid fa-cubes"></i>
+                            <span>What I Do</span>
+                        </button>
+                        <button class="top-module-btn ${selected === 'projects' ? 'active' : ''}" data-mod="projects">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span>Projects</span>
+                        </button>
+                        <button class="top-module-btn ${selected === 'mission' ? 'active' : ''}" data-mod="mission">
+                            <i class="fa-solid fa-compass"></i>
+                            <span>Mission</span>
+                        </button>
+                        <button class="top-module-btn ${selected === 'aicv' ? 'active' : ''}" data-mod="aicv">
+                            <span>AI CV</span>
+                        </button>
+                        <button class="top-module-btn ${selected === 'chat' ? 'active' : ''}" data-mod="chat">
+                            <span>Chat</span>
+                        </button>
+                        <button class="top-module-btn ${selected === 'post' ? 'active' : ''}" data-mod="post">
+                            <span>Post</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    `;
+}
+
+function renderApp(mod = 'about') {
+    activeModule = mod;
+    const app = document.getElementById('app');
+    if (!app) return;
+
+    app.innerHTML = `
+        ${renderTopHeader(activeModule)}
+        <main id="module-display">
+            ${getModuleHTML(activeModule)}
+        </main>
+    `;
+
+    // Initialize current module logic & listeners
+    initCurrentModule(activeModule);
+    attachModuleListeners();
+
+    // Fade-in animation trigger
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+}
+
+function attachModuleListeners() {
+    document.querySelectorAll('[data-mod]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetMod = btn.getAttribute('data-mod');
+            if (targetMod && targetMod !== activeModule) {
+                renderApp(targetMod);
+            }
+        });
+    });
+
+    document.querySelectorAll('[data-nav]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetMod = btn.getAttribute('data-nav');
+            if (targetMod) {
+                renderApp(targetMod);
+            }
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderApp('about');
+    console.log('✅ Top-left portfolio with module switcher initialized.');
+});
