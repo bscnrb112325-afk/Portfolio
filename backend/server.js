@@ -14,7 +14,7 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // Serve the frontend static files automatically
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 const db = require('./database/db');
 
@@ -388,7 +388,7 @@ app.post('/api/ai/generate', async (req, res) => {
 
 // Any other route should serve the frontend index.html
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
