@@ -7,10 +7,9 @@ export const aboutData = {
     greeting: "Hi, I'm",
     name: "kelvin",
     roles: [
-        "Computer Science Graduate",
-        "Software Developer",
-        "AI Solutions",
+        "A Software Developer",
         "System Security",
+        "AI Solutions",
         "Network Engineer"
     ],
     intro: "Passionate about building reliable, secure, and efficient technology solutions. I specialize in maintaining and securing network infrastructure, supporting enterprise systems, integrating AI-powered tools, managing hardware and software environments, and delivering dependable ICT operations that improve performance, accessibility, and service delivery.",
@@ -21,7 +20,7 @@ export const aboutData = {
 export function renderAbout() {
     const rolesHtml = aboutData.roles
         .map(role => `<span class="role">${role}</span>`)
-        .join('<span class="dot">•</span>');
+        .join('<span class="dot">||</span>');
 
     return `
     <header class="hero module-content-container" id="about">
@@ -29,7 +28,6 @@ export function renderAbout() {
             <div class="hero-text fade-in-up">
                 <span class="greeting">${aboutData.greeting}</span>
                 <h1 id="hero-name">${aboutData.name}</h1>
-                <p id="hero-api-title" style="color: var(--accent-color); font-size: 1rem; font-weight: 600; margin-top: -1rem; margin-bottom: 1rem; opacity: 0; transition: opacity 0.5s ease;"></p>
                 <h2 class="roles">
                     ${rolesHtml}
                 </h2>
@@ -45,10 +43,6 @@ export function renderAbout() {
                     <div class="avatar-placeholder" id="avatar-container">
                         <img src="./profile.png" alt="${aboutData.name}" id="profile-image" class="profile-image" onerror="this.style.display='none'; document.getElementById('avatar-icon').style.display='flex';">
                         <i class="fa-solid fa-user-astronaut" id="avatar-icon"></i>
-                        <label for="photo-upload" class="edit-photo-overlay">
-                            <i class="fa-solid fa-camera"></i> Change Photo
-                        </label>
-                        <input type="file" id="photo-upload" accept="image/*" style="display: none;">
                     </div>
                     <div class="status-badge">
                         <span class="pulse"></span> ${aboutData.status}
@@ -61,41 +55,6 @@ export function renderAbout() {
 }
 
 export function initAbout() {
-    const photoUpload = document.getElementById('photo-upload');
-    const profileImage = document.getElementById('profile-image');
-    const avatarIcon = document.getElementById('avatar-icon');
-
-    // Load saved avatar from localStorage if present
-    const savedPhoto = localStorage.getItem('profilePhoto');
-    if (savedPhoto && profileImage) {
-        profileImage.src = savedPhoto;
-        profileImage.style.display = 'block';
-        if (avatarIcon) avatarIcon.style.display = 'none';
-    }
-
-    // Handle photo upload
-    if (photoUpload && profileImage) {
-        photoUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const imageUrl = event.target.result;
-                    profileImage.src = imageUrl;
-                    profileImage.style.display = 'block';
-                    if (avatarIcon) avatarIcon.style.display = 'none';
-
-                    try {
-                        localStorage.setItem('profilePhoto', imageUrl);
-                    } catch (err) {
-                        console.warn("Image too large to save in localStorage.");
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-
     // Fetch dynamic profile information from backend API
     fetchProfileData();
 }

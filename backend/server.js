@@ -10,7 +10,8 @@ app.use(cors({
     origin: [frontendUrl, 'http://localhost:5173', 'http://localhost:3000'],
     credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // Serve the frontend static files automatically
 app.use(express.static(path.join(__dirname, '../')));
@@ -226,7 +227,7 @@ app.get('/api/posts', async (req, res) => {
     try {
         const query = `
             SELECT posts.*, 
-                   COALESCE((SELECT COUNT(*) FROM post_comments WHERE post_comments.post_id = posts.id), 0) as comment_count
+                   COALESCE((SELECT COUNT(*) FROM post_comments WHERE post_comments.post_id = posts.id), 0)::int as comment_count
             FROM posts 
             ORDER BY created_at DESC;
         `;
@@ -263,7 +264,18 @@ app.get('/api/posts', async (req, res) => {
                  28)
                 RETURNING *;
             `;
-            await db.query(seedQuery);
+            const seededPosts = await db.query(seedQuery);
+            
+            // Seed initial sample comments for first post
+            if (seededPosts.rows.length > 0) {
+                const firstId = seededPosts.rows[0].id;
+                await db.query(`
+                    INSERT INTO post_comments (post_id, author, comment) VALUES 
+                    ($1, 'Alex Rivera', 'Great breakdown of the PostgreSQL + Drizzle architecture! Really insightful and clean design.'),
+                    ($1, 'David Mwangi', 'How are you handling connection pooling in production? Awesome work Kelvin.')
+                `, [firstId]);
+            }
+
             result = await db.query(query);
         }
 
@@ -347,11 +359,30 @@ app.post('/api/posts/:id/comments', async (req, res) => {
             VALUES ($1, $2, $3)
             RETURNING *;
         `;
-        const result = await db.query(query, [postId, author || 'Visitor', comment.trim()]);
+        const result = await db.query(query, [postId, author?.trim() || 'Visitor', comment.trim()]);
         res.status(201).json({ success: true, comment: result.rows[0] });
     } catch (err) {
         console.error('Add comment error:', err.message);
         res.status(500).json({ error: 'Failed to add comment' });
+    }
+});
+
+// API: Gemini AI Text Generation Endpoint
+app.post('/api/ai/generate', async (req, res) => {
+    const { prompt, systemInstruction } = req.body;
+    if (!prompt) {
+        return res.status(400).json({ error: 'Prompt is required' });
+    }
+
+    try {
+        const text = await generateGeminiReply(prompt, systemInstruction);
+        if (text) {
+            return res.json({ success: true, text, source: 'gemini' });
+        }
+        res.status(503).json({ error: 'AI service temporarily unavailable' });
+    } catch (err) {
+        console.error('AI Generate Error:', err.message);
+        res.status(500).json({ error: 'Failed to generate AI response' });
     }
 });
 

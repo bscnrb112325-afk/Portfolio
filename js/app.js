@@ -8,7 +8,6 @@ import { renderSkills, initSkills } from './modules/skills.js';
 import { renderProjects, initProjects } from './modules/projects.js';
 import { renderMission, initMission } from './modules/mission.js';
 import { renderAICV, initAICV } from './modules/ai-cv.js';
-import { renderChat, initChat } from './modules/chat.js';
 import { renderPosts, initPosts } from './modules/posts.js';
 
 let activeModule = 'about'; // default active module
@@ -25,8 +24,6 @@ function getModuleHTML(mod) {
             return renderMission();
         case 'aicv':
             return renderAICV();
-        case 'chat':
-            return renderChat();
         case 'post':
             return renderPosts();
         default:
@@ -50,9 +47,6 @@ function initCurrentModule(mod) {
             break;
         case 'aicv':
             initAICV();
-            break;
-        case 'chat':
-            initChat();
             break;
         case 'post':
             initPosts();
@@ -97,26 +91,19 @@ export function renderTopHeader(selected = 'about') {
                 <div class="top-modules-wrapper">
                     <div class="top-modules-bar">
                         <button class="top-module-btn ${selected === 'about' ? 'active' : ''}" data-mod="about">
-                            <i class="fa-solid fa-user-astronaut"></i>
                             <span>About</span>
                         </button>
                         <button class="top-module-btn ${selected === 'skills' ? 'active' : ''}" data-mod="skills">
-                            <i class="fa-solid fa-cubes"></i>
                             <span>What I Do</span>
                         </button>
                         <button class="top-module-btn ${selected === 'projects' ? 'active' : ''}" data-mod="projects">
-                            <i class="fa-solid fa-diagram-project"></i>
                             <span>Projects</span>
                         </button>
                         <button class="top-module-btn ${selected === 'mission' ? 'active' : ''}" data-mod="mission">
-                            <i class="fa-solid fa-compass"></i>
                             <span>Mission</span>
                         </button>
                         <button class="top-module-btn ${selected === 'aicv' ? 'active' : ''}" data-mod="aicv">
                             <span>AI CV</span>
-                        </button>
-                        <button class="top-module-btn ${selected === 'chat' ? 'active' : ''}" data-mod="chat">
-                            <span>Chat</span>
                         </button>
                         <button class="top-module-btn ${selected === 'post' ? 'active' : ''}" data-mod="post">
                             <span>Post</span>
