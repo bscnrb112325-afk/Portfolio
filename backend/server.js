@@ -2,6 +2,8 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
+const { eq, desc, asc, sql } = require('drizzle-orm');
+const { db, messages, chatMessages, posts, postComments } = require('./database/db');
 
 const app = express();
 
@@ -16,8 +18,6 @@ app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 // Serve the frontend static files automatically
 app.use(express.static(path.join(__dirname, '../dist')));
 
-const db = require('./database/db');
-
 // API: Get Profile
 app.get('/api/profile', (req, res) => {
     res.json({
@@ -26,7 +26,7 @@ app.get('/api/profile', (req, res) => {
     });
 });
 
-// API: Submit Contact / Message (Saved to Neon PostgreSQL DB)
+// API: Submit Contact / Message (Saved via Drizzle ORM to PostgreSQL)
 app.post('/api/messages', async (req, res) => {
     const { name, email, message } = req.body;
     if (!name || !email || !message) {
@@ -34,26 +34,29 @@ app.post('/api/messages', async (req, res) => {
     }
 
     try {
-        const query = `
-            INSERT INTO messages (name, email, message)
-            VALUES ($1, $2, $3)
-            RETURNING *;
-        `;
-        const result = await db.query(query, [name, email, message]);
-        res.status(201).json({ success: true, message: 'Message saved successfully!', data: result.rows[0] });
+        const [savedMessage] = await db.insert(messages).values({
+            name,
+            email,
+            message
+        }).returning();
+
+        res.status(201).json({ success: true, message: 'Message saved successfully!', data: savedMessage });
     } catch (err) {
-        console.error('Database query error:', err.message);
+        console.error('Drizzle ORM query error (messages):', err.message);
         res.status(500).json({ error: 'Failed to save message to database.' });
     }
 });
 
-// API: Fetch All Messages
+// API: Fetch All Messages via Drizzle ORM
 app.get('/api/messages', async (req, res) => {
     try {
-        const result = await db.query('SELECT * FROM messages ORDER BY created_at DESC;');
-        res.json(result.rows);
+        const allMessages = await db.select()
+            .from(messages)
+            .orderBy(desc(messages.created_at));
+
+        res.json(allMessages);
     } catch (err) {
-        console.error('Database query error:', err.message);
+        console.error('Drizzle ORM query error (get messages):', err.message);
         res.status(500).json({ error: 'Failed to fetch messages.' });
     }
 });
@@ -104,7 +107,7 @@ Instructions:
 Reply politely, concisely, and helpfully as Kelvin's AI representative when Kelvin is offline or unavailable.
 `;
 
-// API: Send chat message & get reply (Gemini AI auto-reply or real message)
+// API: Send chat message & get reply via Drizzle ORM
 app.post('/api/chat/send', async (req, res) => {
     const { sessionId, senderName, message, enableAiAutoReply = true } = req.body;
     if (!sessionId || !message) {
@@ -112,13 +115,14 @@ app.post('/api/chat/send', async (req, res) => {
     }
 
     try {
-        // 1. Save user message to Neon DB
-        const userInsert = `
-            INSERT INTO chat_messages (session_id, sender, sender_name, message, is_admin_reply)
-            VALUES ($1, 'user', $2, $3, FALSE)
-            RETURNING *;
-        `;
-        const userResult = await db.query(userInsert, [sessionId, senderName || 'Visitor', message]);
+        // 1. Save user message via Drizzle ORM
+        const [userMessage] = await db.insert(chatMessages).values({
+            session_id: sessionId,
+            sender: 'user',
+            sender_name: senderName || 'Visitor',
+            message,
+            is_admin_reply: false,
+        }).returning();
 
         let aiReplyObj = null;
 
@@ -139,28 +143,30 @@ app.post('/api/chat/send', async (req, res) => {
                 }
             }
 
-            // Save AI reply to DB
-            const aiInsert = `
-                INSERT INTO chat_messages (session_id, sender, sender_name, message, is_admin_reply)
-                VALUES ($1, 'gemini', 'Kelvin AI (Gemini)', $2, FALSE)
-                RETURNING *;
-            `;
-            const aiResult = await db.query(aiInsert, [sessionId, aiText]);
-            aiReplyObj = aiResult.rows[0];
+            // Save AI reply via Drizzle ORM
+            const [savedAiReply] = await db.insert(chatMessages).values({
+                session_id: sessionId,
+                sender: 'gemini',
+                sender_name: 'Kelvin AI (Gemini)',
+                message: aiText,
+                is_admin_reply: false,
+            }).returning();
+
+            aiReplyObj = savedAiReply;
         }
 
         res.json({
             success: true,
-            userMessage: userResult.rows[0],
+            userMessage,
             aiReply: aiReplyObj
         });
     } catch (err) {
-        console.error('Chat send error:', err.message);
+        console.error('Chat send error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to process message' });
     }
 });
 
-// API: Get messages for a specific session
+// API: Get messages for a specific session via Drizzle ORM
 app.get('/api/chat/messages', async (req, res) => {
     const { sessionId } = req.query;
     if (!sessionId) {
@@ -168,21 +174,22 @@ app.get('/api/chat/messages', async (req, res) => {
     }
 
     try {
-        const result = await db.query(
-            'SELECT * FROM chat_messages WHERE session_id = $1 ORDER BY created_at ASC;',
-            [sessionId]
-        );
-        res.json(result.rows);
+        const rows = await db.select()
+            .from(chatMessages)
+            .where(eq(chatMessages.session_id, sessionId))
+            .orderBy(asc(chatMessages.created_at));
+
+        res.json(rows);
     } catch (err) {
-        console.error('Fetch chat messages error:', err.message);
+        console.error('Fetch chat messages error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to fetch chat history' });
     }
 });
 
-// API: Admin (Kelvin) gets all active chat sessions / conversations
+// API: Admin (Kelvin) gets all active chat sessions / conversations via Drizzle
 app.get('/api/chat/admin/conversations', async (req, res) => {
     try {
-        const query = `
+        const result = await db.execute(sql`
             SELECT session_id,
                    MAX(created_at) as last_activity,
                    COUNT(*) as message_count,
@@ -192,16 +199,16 @@ app.get('/api/chat/admin/conversations', async (req, res) => {
             FROM chat_messages m1
             GROUP BY session_id
             ORDER BY last_activity DESC;
-        `;
-        const result = await db.query(query);
+        `);
+
         res.json(result.rows);
     } catch (err) {
-        console.error('Fetch conversations error:', err.message);
+        console.error('Fetch conversations error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to fetch conversations' });
     }
 });
 
-// API: Admin (Kelvin) sends a real reply directly to a visitor
+// API: Admin (Kelvin) sends a real reply directly to a visitor via Drizzle ORM
 app.post('/api/chat/admin/reply', async (req, res) => {
     const { sessionId, message } = req.body;
     if (!sessionId || !message) {
@@ -209,84 +216,107 @@ app.post('/api/chat/admin/reply', async (req, res) => {
     }
 
     try {
-        const query = `
-            INSERT INTO chat_messages (session_id, sender, sender_name, message, is_admin_reply)
-            VALUES ($1, 'kelvin', 'Kelvin Kimani (Owner)', $2, TRUE)
-            RETURNING *;
-        `;
-        const result = await db.query(query, [sessionId, message]);
-        res.json({ success: true, reply: result.rows[0] });
+        const [reply] = await db.insert(chatMessages).values({
+            session_id: sessionId,
+            sender: 'kelvin',
+            sender_name: 'Kelvin Kimani (Owner)',
+            message,
+            is_admin_reply: true,
+        }).returning();
+
+        res.json({ success: true, reply });
     } catch (err) {
-        console.error('Admin reply error:', err.message);
+        console.error('Admin reply error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to send admin reply' });
     }
 });
 
-// API: Fetch All Posts (With Auto-Seed If Empty & Comment Count)
+// API: Fetch All Posts with comment_count & Auto-Seed via Drizzle ORM
 app.get('/api/posts', async (req, res) => {
     try {
-        const query = `
-            SELECT posts.*, 
-                   COALESCE((SELECT COUNT(*) FROM post_comments WHERE post_comments.post_id = posts.id), 0)::int as comment_count
-            FROM posts 
-            ORDER BY created_at DESC;
-        `;
-        let result = await db.query(query);
-        
-        // Auto-seed sample posts if empty
-        if (result.rows.length === 0) {
-            const seedQuery = `
-                INSERT INTO posts (title, category, read_time, image_url, content, tags, author, likes)
-                VALUES 
-                ('Building the Online Inventory Control System (OICS) with React & PostgreSQL', 
-                 'Software Engineering', 
-                 '4 min read', 
-                 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-                 'In this post, I break down the architectural decisions behind designing and deploying the Online Inventory Control System (OICS). We explore using React, Node.js, Express, and PostgreSQL with Drizzle ORM to build role-based access control, realtime stock management, and reliable sales pipelines.', 
-                 'React, Node.js, PostgreSQL, Drizzle ORM, REST API', 
-                 'Kelvin Kimani', 
-                 15),
-                ('Enterprise Network Security: Lessons from Maintaining 99.9% Uptime in Hospital LAN/WANs', 
-                 'System Security', 
-                 '5 min read', 
-                 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
-                 'Maintaining critical network infrastructure requires redundant routing, aggressive firewall rules, proactive VLAN segmentation, and automated backup strategies. Here are practical security methodologies I implemented to achieve high availability and data integrity.', 
-                 'Networking, Cybersecurity, LAN/WAN, System Administration', 
-                 'Kelvin Kimani', 
-                 21),
-                ('Integrating Google Gemini AI into Modern Full-Stack Web Applications', 
-                 'Artificial Intelligence', 
-                 '3 min read', 
-                 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80',
-                 'Generative AI is changing how software interacts with users. In this article, I walk through connecting Google Gemini 1.5/2.0 Flash APIs with Node.js backends to power dynamic resume builders, smart assistants, and automated context-aware chat workflows.', 
-                 'Python, AI, Google Gemini, API Integration, Automation', 
-                 'Kelvin Kimani', 
-                 28)
-                RETURNING *;
-            `;
-            const seededPosts = await db.query(seedQuery);
-            
-            // Seed initial sample comments for first post
-            if (seededPosts.rows.length > 0) {
-                const firstId = seededPosts.rows[0].id;
-                await db.query(`
-                    INSERT INTO post_comments (post_id, author, comment) VALUES 
-                    ($1, 'Alex Rivera', 'Great breakdown of the PostgreSQL + Drizzle architecture! Really insightful and clean design.'),
-                    ($1, 'David Mwangi', 'How are you handling connection pooling in production? Awesome work Kelvin.')
-                `, [firstId]);
+        const fetchPostsWithComments = async () => {
+            return await db.select({
+                id: posts.id,
+                title: posts.title,
+                category: posts.category,
+                read_time: posts.read_time,
+                image_url: posts.image_url,
+                content: posts.content,
+                tags: posts.tags,
+                author: posts.author,
+                likes: posts.likes,
+                created_at: posts.created_at,
+                comment_count: sql`COALESCE((SELECT COUNT(*) FROM post_comments WHERE post_comments.post_id = ${posts.id}), 0)::int`,
+            })
+            .from(posts)
+            .orderBy(desc(posts.created_at));
+        };
+
+        let postList = await fetchPostsWithComments();
+
+        // Auto-seed sample posts if empty using Drizzle ORM
+        if (postList.length === 0) {
+            const seededPosts = await db.insert(posts).values([
+                {
+                    title: 'Building the Online Inventory Control System (OICS) with React & PostgreSQL',
+                    category: 'Software Engineering',
+                    read_time: '4 min read',
+                    image_url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+                    content: 'In this post, I break down the architectural decisions behind designing and deploying the Online Inventory Control System (OICS). We explore using React, Node.js, Express, and PostgreSQL with Drizzle ORM to build role-based access control, realtime stock management, and reliable sales pipelines.',
+                    tags: 'React, Node.js, PostgreSQL, Drizzle ORM, REST API',
+                    author: 'Kelvin Kimani',
+                    likes: 15,
+                },
+                {
+                    title: 'Enterprise Network Security: Lessons from Maintaining 99.9% Uptime in Hospital LAN/WANs',
+                    category: 'System Security',
+                    read_time: '5 min read',
+                    image_url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+                    content: 'Maintaining critical network infrastructure requires redundant routing, aggressive firewall rules, proactive VLAN segmentation, and automated backup strategies. Here are practical security methodologies I implemented to achieve high availability and data integrity.',
+                    tags: 'Networking, Cybersecurity, LAN/WAN, System Administration',
+                    author: 'Kelvin Kimani',
+                    likes: 21,
+                },
+                {
+                    title: 'Integrating Google Gemini AI into Modern Full-Stack Web Applications',
+                    category: 'Artificial Intelligence',
+                    read_time: '3 min read',
+                    image_url: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80',
+                    content: 'Generative AI is changing how software interacts with users. In this article, I walk through connecting Google Gemini 1.5/2.0 Flash APIs with Node.js backends to power dynamic resume builders, smart assistants, and automated context-aware chat workflows.',
+                    tags: 'Python, AI, Google Gemini, API Integration, Automation',
+                    author: 'Kelvin Kimani',
+                    likes: 28,
+                }
+            ]).returning();
+
+            // Seed initial comments using Drizzle ORM
+            if (seededPosts.length > 0) {
+                const firstId = seededPosts[0].id;
+                await db.insert(postComments).values([
+                    {
+                        post_id: firstId,
+                        author: 'Alex Rivera',
+                        comment: 'Great breakdown of the PostgreSQL + Drizzle architecture! Really insightful and clean design.',
+                    },
+                    {
+                        post_id: firstId,
+                        author: 'David Mwangi',
+                        comment: 'How are you handling connection pooling in production? Awesome work Kelvin.',
+                    }
+                ]);
             }
 
-            result = await db.query(query);
+            postList = await fetchPostsWithComments();
         }
 
-        res.json(result.rows);
+        res.json(postList);
     } catch (err) {
-        console.error('Fetch posts error:', err.message);
+        console.error('Fetch posts error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to fetch posts' });
     }
 });
 
-// API: Create a New Post (with Image URL)
+// API: Create a New Post via Drizzle ORM
 app.post('/api/posts', async (req, res) => {
     const { title, category, read_time, image_url, content, tags, author } = req.body;
     if (!title || !content) {
@@ -294,75 +324,86 @@ app.post('/api/posts', async (req, res) => {
     }
 
     try {
-        const query = `
-            INSERT INTO posts (title, category, read_time, image_url, content, tags, author, likes)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, 0)
-            RETURNING *;
-        `;
-        const result = await db.query(query, [
-            title, 
-            category || 'Software & AI', 
-            read_time || '3 min read', 
-            image_url || '',
-            content, 
-            tags || 'General', 
-            author || 'Kelvin Kimani'
-        ]);
-        res.status(201).json({ success: true, post: result.rows[0] });
+        const [newPost] = await db.insert(posts).values({
+            title,
+            category: category || 'Software & AI',
+            read_time: read_time || '3 min read',
+            image_url: image_url || '',
+            content,
+            tags: tags || 'General',
+            author: author || 'Kelvin Kimani',
+            likes: 0,
+        }).returning();
+
+        res.status(201).json({ success: true, post: newPost });
     } catch (err) {
-        console.error('Create post error:', err.message);
+        console.error('Create post error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to create post' });
     }
 });
 
-// API: Like a Post
+// API: Like a Post via Drizzle ORM
 app.post('/api/posts/:id/like', async (req, res) => {
-    const postId = req.params.id;
+    const postId = parseInt(req.params.id, 10);
+    if (isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid post ID' });
+    }
+
     try {
-        const result = await db.query(
-            'UPDATE posts SET likes = likes + 1 WHERE id = $1 RETURNING *;',
-            [postId]
-        );
-        res.json({ success: true, post: result.rows[0] });
+        const [updatedPost] = await db.update(posts)
+            .set({ likes: sql`${posts.likes} + 1` })
+            .where(eq(posts.id, postId))
+            .returning();
+
+        res.json({ success: true, post: updatedPost });
     } catch (err) {
-        console.error('Like post error:', err.message);
+        console.error('Like post error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to like post' });
     }
 });
 
-// API: Get Comments for a Post
+// API: Get Comments for a Post via Drizzle ORM
 app.get('/api/posts/:id/comments', async (req, res) => {
-    const postId = req.params.id;
+    const postId = parseInt(req.params.id, 10);
+    if (isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid post ID' });
+    }
+
     try {
-        const result = await db.query(
-            'SELECT * FROM post_comments WHERE post_id = $1 ORDER BY created_at ASC;',
-            [postId]
-        );
-        res.json(result.rows);
+        const comments = await db.select()
+            .from(postComments)
+            .where(eq(postComments.post_id, postId))
+            .orderBy(asc(postComments.created_at));
+
+        res.json(comments);
     } catch (err) {
-        console.error('Fetch comments error:', err.message);
+        console.error('Fetch comments error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to fetch comments' });
     }
 });
 
-// API: Add a Comment to a Post
+// API: Add a Comment to a Post via Drizzle ORM
 app.post('/api/posts/:id/comments', async (req, res) => {
-    const postId = req.params.id;
+    const postId = parseInt(req.params.id, 10);
+    if (isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid post ID' });
+    }
+
     const { author, comment } = req.body;
     if (!comment || !comment.trim()) {
         return res.status(400).json({ error: 'Comment text is required' });
     }
 
     try {
-        const query = `
-            INSERT INTO post_comments (post_id, author, comment)
-            VALUES ($1, $2, $3)
-            RETURNING *;
-        `;
-        const result = await db.query(query, [postId, author?.trim() || 'Visitor', comment.trim()]);
-        res.status(201).json({ success: true, comment: result.rows[0] });
+        const [newComment] = await db.insert(postComments).values({
+            post_id: postId,
+            author: author?.trim() || 'Visitor',
+            comment: comment.trim(),
+        }).returning();
+
+        res.status(201).json({ success: true, comment: newComment });
     } catch (err) {
-        console.error('Add comment error:', err.message);
+        console.error('Add comment error via Drizzle:', err.message);
         res.status(500).json({ error: 'Failed to add comment' });
     }
 });
@@ -392,4 +433,4 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`API running on port ${PORT}`));
+app.listen(PORT, () => console.log(`API running on port ${PORT} with Drizzle ORM`));
