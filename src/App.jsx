@@ -36,7 +36,7 @@ function AppInner() {
 
             <TopHeader activeModule={activeModule} onSelectModule={setActiveModule} />
 
-            <main className="mx-auto max-w-[1200px] px-6 pb-16 pt-4">
+            <main className="mx-auto max-w-300 px-6 pb-16 pt-4">
                 <div
                     key={activeModule}
                     style={{ animation: 'fadeInModule 0.4s cubic-bezier(0.16,1,0.3,1) forwards' }}

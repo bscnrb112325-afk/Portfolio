@@ -8,7 +8,7 @@ export default function MissionModule() {
         <section id="mission" className="py-10">
             {/* Hero */}
             <div className="mb-12 text-center">
-                <h2 className="mb-6 bg-gradient-to-r from-[#4361ee] via-[#4cc9f0] to-[#7209b7] bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+                <h2 className="mb-6 bg-linear-to-r from-[#4361ee] via-[#4cc9f0] to-[#7209b7] bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
                     {missionData.title}
                 </h2>
                 <blockquote className="mx-auto max-w-2xl text-xl leading-relaxed italic" style={{ color: 'var(--text-muted)' }}>

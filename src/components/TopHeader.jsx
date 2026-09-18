@@ -37,7 +37,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                     borderBottom: '1px solid var(--border-nav)',
                 }}
             >
-                <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-3 px-6 py-3">
+                <div className="mx-auto flex max-w-300 items-center justify-between gap-3 px-6 py-3">
 
                     {/* Nav tabs */}
                     <div
@@ -56,7 +56,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                                     whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium
                                     transition-all duration-200
                                     ${isActive(mod.id)
-                                        ? 'border-transparent bg-gradient-to-r from-[#4361ee] to-[#7209b7] font-semibold text-white shadow-lg shadow-[#4361ee]/40'
+                                        ? 'border-transparent bg-linear-to-r from-[#4361ee] to-[#7209b7] font-semibold text-white shadow-lg shadow-[#4361ee]/40'
                                         : isDark
                                             ? 'border-white/15 bg-white/5 text-[#f8f9fa] hover:-translate-y-0.5 hover:border-[#4361ee] hover:bg-[#4361ee]/20 hover:text-white hover:shadow-md hover:shadow-[#4361ee]/20'
                                             : 'border-[#4361ee]/20 bg-[#4361ee]/5 text-[#12131a] hover:-translate-y-0.5 hover:border-[#4361ee] hover:bg-[#4361ee]/15 hover:text-[#4361ee] hover:shadow-md hover:shadow-[#4361ee]/15'
@@ -105,7 +105,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
 
             {/* ── Intro card shown only on About tab ── */}
             {activeModule === 'about' && (
-                <div className="mx-auto mt-6 max-w-[1200px] px-6">
+                <div className="mx-auto mt-6 max-w-300 px-6">
                     <div
                         className="max-w-xl rounded-[18px] p-7 shadow-[0_10px_30px_var(--shadow-card)] backdrop-blur-xl transition-colors duration-300"
                         style={{
@@ -139,7 +139,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                                     }}
                                 >
                                     <i className={`${icon.startsWith('fa-brands') ? icon : `fa-solid ${icon}`} text-[#4cc9f0] text-sm`}></i>
-                                    <span className="max-w-[160px] truncate">{label}</span>
+                                    <span className="max-w-40 truncate">{label}</span>
                                 </a>
                             ))}
                         </div>
