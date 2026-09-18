@@ -4,7 +4,7 @@ import { whatIDoData } from '../data/portfolioData';
 export default function SkillsModule() {
     return (
         <section id="skills" className="py-10">
-            <h2 className="mb-2 inline-block bg-gradient-to-r from-[#4361ee] to-[#4cc9f0] bg-clip-text text-4xl font-bold text-transparent">
+            <h2 className="mb-2 inline-block bg-linear-to-r from-[#4361ee] to-[#4cc9f0] bg-clip-text text-4xl font-bold text-transparent">
                 {whatIDoData.title}
             </h2>
             <p className="mb-10 max-w-2xl text-[1.05rem]" style={{ color: 'var(--text-muted)' }}>

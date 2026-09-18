@@ -60,11 +60,11 @@ export default function AboutModule() {
                     </h1>
 
                     {/* Typewriter badge */}
-                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#4cc9f0]/40 bg-gradient-to-r from-[#4361ee]/15 to-[#4cc9f0]/10 px-4 py-2 shadow-lg shadow-[#4361ee]/10">
+                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#4cc9f0]/40 bg-linear-to-r from-[#4361ee]/15 to-[#4cc9f0]/10 px-4 py-2 shadow-lg shadow-[#4361ee]/10">
                         <span className="text-xs font-bold uppercase tracking-widest text-[#4cc9f0]">
                             <i className="fa-solid fa-bolt mr-1"></i>Focus:
                         </span>
-                        <span className="min-h-[1.6rem] bg-gradient-to-r from-[#4361ee] to-[#4cc9f0] bg-clip-text text-base font-bold text-transparent">
+                        <span className="min-h-[1.6rem] bg-linear-to-r from-[#4361ee] to-[#4cc9f0] bg-clip-text text-base font-bold text-transparent">
                             {currentRoleText}
                         </span>
                         <span className="animate-[blinkCursor_0.8s_infinite] text-lg font-extrabold text-[#4cc9f0]">|</span>
@@ -132,9 +132,9 @@ export default function AboutModule() {
                         className="relative flex aspect-4/5 w-full max-w-[320px] flex-col items-center justify-center overflow-hidden rounded-2xl p-8 shadow-2xl backdrop-blur-md transition-colors duration-300"
                         style={cardStyle}
                     >
-                        <div className="pointer-events-none absolute inset-0 -skew-x-12 animate-[shine_6s_infinite] bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+                        <div className="pointer-events-none absolute inset-0 -skew-x-12 animate-[shine_6s_infinite] bg-linear-to-r from-transparent via-white/5 to-transparent"></div>
 
-                        <div className="relative mb-6 size-36 overflow-hidden rounded-full border-2 border-white/15 bg-gradient-to-br from-[#4361ee]/20 to-[#7209b7]/20 shadow-[0_0_30px_rgba(67,97,238,0.2)]">
+                        <div className="relative mb-6 size-36 overflow-hidden rounded-full border-2 border-white/15 bg-linear-to-br from-[#4361ee]/20 to-[#7209b7]/20 shadow-[0_0_30px_rgba(67,97,238,0.2)]">
                             {!imgError ? (
                                 <img src={avatarSrc} alt={profile.name} className="h-full w-full object-cover" onError={() => setImgError(true)} />
                             ) : (
