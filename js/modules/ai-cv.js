@@ -60,9 +60,33 @@ let cvState = {
             link: 'https://online-inventory-control-sy-mliso.sevalla.app/'
         },
         {
-            name: 'AI Support Assistant',
-            description: 'AI-powered assistant concept for ICT support questions, troubleshooting steps, and faster issue resolution.',
-            technologies: 'Python, AI Integration, Automation',
+            name: 'BIDIIONE (Quality Builders Management)',
+            description: 'Construction operations and material management system for site procurement, contractor allocation, and operational reporting.',
+            technologies: 'Python, Django, PostgreSQL, Gunicorn, Matplotlib, NumPy, REST API',
+            link: 'https://github.com/bscnrb112325-afk/BIDII-ONE'
+        },
+        {
+            name: 'AgriNatura',
+            description: 'Smart organic agriculture platform with microservices, cryptographic provenance, and AI-assisted crop diagnostics.',
+            technologies: 'TypeScript, React, Node.js, Python AI Service, Docker, REST API',
+            link: 'https://github.com/bscnrb112325-afk/agrinatura'
+        },
+        {
+            name: 'Productify',
+            description: 'Collaborative product & agile task management platform for backlog planning, milestones, and productivity metrics.',
+            technologies: 'React, JavaScript, Node.js, Express, PostgreSQL, Tailwind CSS',
+            link: 'https://github.com/bscnrb112325-afk/productify'
+        },
+        {
+            name: 'BrighterMonday Web Crawler',
+            description: 'Automated data crawler to extract, parse, and analyze job recruitment listings and market trends across Kenya.',
+            technologies: 'Python, BeautifulSoup4, Requests, Pandas, Automation',
+            link: ''
+        },
+        {
+            name: 'AI Bot',
+            description: 'Intelligent conversational AI assistant for technical ICT support, query resolution, and workflow automation.',
+            technologies: 'Gemini API, Python, Node.js, Prompt Engineering, NLP',
             link: ''
         }
     ],
