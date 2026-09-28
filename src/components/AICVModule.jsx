@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { defaultCvState } from '../data/cvDefaultState';
+import { apiFetch } from '../utils/api';
 
 export default function AICVModule() {
     const [cvState, setCvState] = useState(() => {
@@ -41,7 +42,7 @@ export default function AICVModule() {
         const prompt = `Write a professional, impactful 3-sentence resume summary for ${cvState.personal.name}, a ${cvState.personal.title}. Key skills: ${cvState.skills.technical}. Focus on reliability, engineering impact, and problem-solving.`;
 
         try {
-            const res = await fetch('/api/ai/generate', {
+            const res = await apiFetch('/api/ai/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt })
@@ -71,7 +72,7 @@ export default function AICVModule() {
         const prompt = `Review this resume profile and give 3 short bullet tips to improve ATS matching for software engineering roles: Name: ${cvState.personal.name}, Summary: ${cvState.summary}, Skills: ${cvState.skills.technical}`;
 
         try {
-            const res = await fetch('/api/ai/generate', {
+            const res = await apiFetch('/api/ai/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ prompt })

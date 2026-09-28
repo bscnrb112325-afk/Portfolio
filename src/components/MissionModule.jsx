@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { missionData } from '../data/portfolioData';
+import { apiFetch } from '../utils/api';
 
 export default function MissionModule() {
     const currentYear = new Date().getFullYear();
@@ -21,7 +22,7 @@ export default function MissionModule() {
         setStatus({ state: 'loading', msg: 'Sending your message...' });
 
         try {
-            const res = await fetch('/api/messages', {
+            const res = await apiFetch('/api/messages', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
