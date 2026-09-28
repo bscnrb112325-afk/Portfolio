@@ -115,66 +115,74 @@ export default function AICVModule() {
                     </div>
 
                     <div style={{ display: 'flex', gap: '0.7rem', flexWrap: 'wrap' }}>
-                        <button className="ai-feat-btn" onClick={handleGenerateAiSummary} disabled={aiLoading}>
-                            {aiLoading ? 'Drafting...' : 'AI Summary'}
+                        <button className="btn btn-primary btn-sm rounded-lg" onClick={handleGenerateAiSummary} disabled={aiLoading}>
+                            {aiLoading ? (
+                                <>
+                                    <span className="loading loading-spinner loading-xs"></span>
+                                    <span>Drafting...</span>
+                                </>
+                            ) : 'AI Summary'}
                         </button>
-                        <button className="ai-feat-btn" onClick={handleAiReview} disabled={aiLoading}>
+                        <button className="btn btn-accent btn-sm rounded-lg" onClick={handleAiReview} disabled={aiLoading}>
                             AI ATS Review
                         </button>
-                        <button className="btn-primary" onClick={handlePrint} style={{ padding: '0.55rem 1.2rem', fontSize: '0.88rem' }}>
+                        <button className="btn btn-outline btn-sm rounded-lg" onClick={handlePrint}>
                             Export PDF
                         </button>
                     </div>
                 </div>
 
                 {/* ATS Score & Template Selector Bar */}
-                <div className="glass-card" style={{ padding: '1rem 1.5rem', marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.2rem' }}>
+                <div className="card card-bordered bg-base-200/50 p-4 mb-8 flex-row items-center justify-between flex-wrap gap-4">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>ATS Readiness:</div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <div style={{ width: '120px', height: '10px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
-                                <div style={{ width: `${atsScore}%`, height: '100%', background: atsScore > 80 ? '#06d6a0' : '#ffd166', transition: 'width 0.4s ease' }}></div>
-                            </div>
+                            <progress
+                                className={`progress ${atsScore > 80 ? 'progress-success' : 'progress-warning'} w-28 sm:w-36`}
+                                value={atsScore}
+                                max="100"
+                            ></progress>
                             <span style={{ fontWeight: 'bold', color: atsScore > 80 ? '#06d6a0' : '#ffd166', fontSize: '0.9rem' }}>{atsScore}%</span>
                         </div>
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Template:</span>
-                        <button
-                            className={`cv-template-btn ${selectedTemplate === 'modern' ? 'active' : ''}`}
-                            onClick={() => setSelectedTemplate('modern')}
-                            style={{ padding: '0.35rem 0.8rem', fontSize: '0.8rem', borderRadius: '8px', cursor: 'pointer', background: selectedTemplate === 'modern' ? 'var(--accent-color)' : 'rgba(255,255,255,0.05)', color: selectedTemplate === 'modern' ? '#0f172a' : '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
-                        >
-                            Modern Tech
-                        </button>
-                        <button
-                            className={`cv-template-btn ${selectedTemplate === 'executive' ? 'active' : ''}`}
-                            onClick={() => setSelectedTemplate('executive')}
-                            style={{ padding: '0.35rem 0.8rem', fontSize: '0.8rem', borderRadius: '8px', cursor: 'pointer', background: selectedTemplate === 'executive' ? 'var(--accent-color)' : 'rgba(255,255,255,0.05)', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
-                        >
-                            Executive
-                        </button>
-                        <button
-                            className={`cv-template-btn ${selectedTemplate === 'creative' ? 'active' : ''}`}
-                            onClick={() => setSelectedTemplate('creative')}
-                            style={{ padding: '0.35rem 0.8rem', fontSize: '0.8rem', borderRadius: '8px', cursor: 'pointer', background: selectedTemplate === 'creative' ? 'var(--accent-color)' : 'rgba(255,255,255,0.05)', color: selectedTemplate === 'creative' ? '#0f172a' : '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
-                        >
-                            Creative Dark
-                        </button>
+                        <div className="join">
+                            <button
+                                className={`btn btn-xs join-item ${selectedTemplate === 'modern' ? 'btn-primary' : 'btn-ghost border border-base-content/10'}`}
+                                onClick={() => setSelectedTemplate('modern')}
+                            >
+                                Modern Tech
+                            </button>
+                            <button
+                                className={`btn btn-xs join-item ${selectedTemplate === 'executive' ? 'btn-primary' : 'btn-ghost border border-base-content/10'}`}
+                                onClick={() => setSelectedTemplate('executive')}
+                            >
+                                Executive
+                            </button>
+                            <button
+                                className={`btn btn-xs join-item ${selectedTemplate === 'creative' ? 'btn-primary' : 'btn-ghost border border-base-content/10'}`}
+                                onClick={() => setSelectedTemplate('creative')}
+                            >
+                                Creative Dark
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 {/* AI Advice Notification (if present) */}
                 {aiAdvice && (
-                    <div style={{ background: 'rgba(76, 201, 240, 0.08)', border: '1px solid rgba(76, 201, 240, 0.3)', borderRadius: '12px', padding: '1rem 1.4rem', marginBottom: '2rem', position: 'relative' }}>
-                        <h4 style={{ color: 'var(--accent-color)', margin: '0 0 0.5rem 0', fontSize: '0.95rem' }}>
-                            AI ATS Optimization Recommendations:
-                        </h4>
-                        <p style={{ color: '#e2e8f0', fontSize: '0.88rem', margin: 0, whiteSpace: 'pre-line', lineHeight: '1.6' }}>
-                            {aiAdvice}
-                        </p>
-                        <button onClick={() => setAiAdvice('')} style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}>✕</button>
+                    <div className="alert alert-info mb-8 relative">
+                        <div>
+                            <h4 className="font-bold text-sm mb-1">
+                                AI ATS Optimization Recommendations:
+                            </h4>
+                            <p className="text-xs leading-relaxed whitespace-pre-line">
+                                {aiAdvice}
+                            </p>
+                        </div>
+                        <button onClick={() => setAiAdvice('')} className="btn btn-ghost btn-circle btn-xs absolute top-2 right-2">✕</button>
                     </div>
                 )}
 
@@ -182,23 +190,13 @@ export default function AICVModule() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 420px) 1fr', gap: '2rem', alignItems: 'start' }}>
                     
                     {/* Left: Interactive Form */}
-                    <div className="glass-card" style={{ padding: '1.5rem', borderRadius: '16px' }}>
-                        <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '1.2rem', overflowX: 'auto', paddingBottom: '0.3rem' }}>
+                    <div className="card card-bordered p-6 bg-base-200/50 backdrop-blur-md">
+                        <div className="tabs tabs-boxed mb-5 bg-base-300/60 p-1">
                             {['personal', 'skills', 'experience', 'education'].map(tab => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    style={{
-                                        padding: '0.4rem 0.8rem',
-                                        fontSize: '0.8rem',
-                                        borderRadius: '6px',
-                                        background: activeTab === tab ? 'rgba(76, 201, 240, 0.2)' : 'transparent',
-                                        color: activeTab === tab ? 'var(--accent-color)' : 'var(--text-secondary)',
-                                        border: 'none',
-                                        cursor: 'pointer',
-                                        textTransform: 'capitalize',
-                                        fontWeight: activeTab === tab ? '600' : 'normal'
-                                    }}
+                                    className={`tab tab-sm capitalize font-medium ${activeTab === tab ? 'tab-active font-bold' : ''}`}
                                 >
                                     {tab}
                                 </button>
@@ -206,70 +204,70 @@ export default function AICVModule() {
                         </div>
 
                         {activeTab === 'personal' && (
-                            <div className="post-form">
+                            <div className="post-form space-y-3">
                                 <div className="cv-field">
-                                    <label>Full Name</label>
-                                    <input type="text" value={cvState.personal.name} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, name: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">Full Name</label>
+                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.name} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, name: e.target.value } })} />
                                 </div>
                                 <div className="cv-field">
-                                    <label>Professional Title</label>
-                                    <input type="text" value={cvState.personal.title} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, title: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">Professional Title</label>
+                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.title} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, title: e.target.value } })} />
                                 </div>
                                 <div className="cv-field">
-                                    <label>Email</label>
-                                    <input type="email" value={cvState.personal.email} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, email: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">Email</label>
+                                    <input className="input input-bordered input-sm w-full" type="email" value={cvState.personal.email} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, email: e.target.value } })} />
                                 </div>
                                 <div className="cv-field">
-                                    <label>Phone</label>
-                                    <input type="text" value={cvState.personal.phone} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, phone: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">Phone</label>
+                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.phone} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, phone: e.target.value } })} />
                                 </div>
                                 <div className="cv-field">
-                                    <label>Professional Summary</label>
-                                    <textarea rows="4" value={cvState.summary} onChange={e => setCvState({ ...cvState, summary: e.target.value })}></textarea>
+                                    <label className="text-xs font-semibold block mb-1">Professional Summary</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="4" value={cvState.summary} onChange={e => setCvState({ ...cvState, summary: e.target.value })}></textarea>
                                 </div>
                             </div>
                         )}
 
                         {activeTab === 'skills' && (
-                            <div className="post-form">
+                            <div className="post-form space-y-3">
                                 <div className="cv-field">
-                                    <label>Technical Skills</label>
-                                    <textarea rows="3" value={cvState.skills.technical} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, technical: e.target.value } })}></textarea>
+                                    <label className="text-xs font-semibold block mb-1">Technical Skills</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="3" value={cvState.skills.technical} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, technical: e.target.value } })}></textarea>
                                 </div>
                                 <div className="cv-field">
-                                    <label>Security & Systems</label>
-                                    <textarea rows="3" value={cvState.skills.security} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, security: e.target.value } })}></textarea>
+                                    <label className="text-xs font-semibold block mb-1">Security & Systems</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="3" value={cvState.skills.security} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, security: e.target.value } })}></textarea>
                                 </div>
                                 <div className="cv-field">
-                                    <label>Soft Skills</label>
-                                    <input type="text" value={cvState.skills.soft} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, soft: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">Soft Skills</label>
+                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.skills.soft} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, soft: e.target.value } })} />
                                 </div>
                             </div>
                         )}
 
                         {activeTab === 'experience' && (
-                            <div className="post-form">
+                            <div className="post-form space-y-3">
                                 {cvState.experience.map((exp, i) => (
                                     <div key={exp.id || i} style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                                        <div className="cv-field">
-                                            <label>Role / Position</label>
-                                            <input type="text" value={exp.title} onChange={e => {
+                                        <div className="cv-field mb-2">
+                                            <label className="text-xs font-semibold block mb-1">Role / Position</label>
+                                            <input className="input input-bordered input-sm w-full" type="text" value={exp.title} onChange={e => {
                                                 const updated = [...cvState.experience];
                                                 updated[i].title = e.target.value;
                                                 setCvState({ ...cvState, experience: updated });
                                             }} />
                                         </div>
-                                        <div className="cv-field">
-                                            <label>Company / Project</label>
-                                            <input type="text" value={exp.company} onChange={e => {
+                                        <div className="cv-field mb-2">
+                                            <label className="text-xs font-semibold block mb-1">Company / Project</label>
+                                            <input className="input input-bordered input-sm w-full" type="text" value={exp.company} onChange={e => {
                                                 const updated = [...cvState.experience];
                                                 updated[i].company = e.target.value;
                                                 setCvState({ ...cvState, experience: updated });
                                             }} />
                                         </div>
                                         <div className="cv-field">
-                                            <label>Key Accomplishments</label>
-                                            <textarea rows="3" value={exp.description} onChange={e => {
+                                            <label className="text-xs font-semibold block mb-1">Key Accomplishments</label>
+                                            <textarea className="textarea textarea-bordered textarea-sm w-full" rows="3" value={exp.description} onChange={e => {
                                                 const updated = [...cvState.experience];
                                                 updated[i].description = e.target.value;
                                                 setCvState({ ...cvState, experience: updated });
@@ -281,20 +279,20 @@ export default function AICVModule() {
                         )}
 
                         {activeTab === 'education' && (
-                            <div className="post-form">
+                            <div className="post-form space-y-3">
                                 {cvState.education.map((edu, i) => (
-                                    <div key={edu.id || i}>
-                                        <div className="cv-field">
-                                            <label>Degree</label>
-                                            <input type="text" value={edu.degree} onChange={e => {
+                                    <div key={edu.id || i} className="mb-2">
+                                        <div className="cv-field mb-2">
+                                            <label className="text-xs font-semibold block mb-1">Degree</label>
+                                            <input className="input input-bordered input-sm w-full" type="text" value={edu.degree} onChange={e => {
                                                 const updated = [...cvState.education];
                                                 updated[i].degree = e.target.value;
                                                 setCvState({ ...cvState, education: updated });
                                             }} />
                                         </div>
                                         <div className="cv-field">
-                                            <label>Institution / Year</label>
-                                            <input type="text" value={edu.school} onChange={e => {
+                                            <label className="text-xs font-semibold block mb-1">Institution / Year</label>
+                                            <input className="input input-bordered input-sm w-full" type="text" value={edu.school} onChange={e => {
                                                 const updated = [...cvState.education];
                                                 updated[i].school = e.target.value;
                                                 setCvState({ ...cvState, education: updated });
@@ -302,7 +300,7 @@ export default function AICVModule() {
                                         </div>
                                     </div>
                                 ))}
-                                <button type="button" onClick={handleReset} className="cv-template-btn" style={{ marginTop: '1rem', width: '100%' }}>
+                                <button type="button" onClick={handleReset} className="btn btn-outline btn-sm w-full mt-4">
                                     Reset to Kelvin Defaults
                                 </button>
                             </div>

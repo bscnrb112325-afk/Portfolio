@@ -24,14 +24,13 @@ export default function SkillsModule() {
                     return (
                         <div
                             key={service.title}
-                            className={`group relative flex flex-col justify-between rounded-2xl p-6 backdrop-blur-md transition-all duration-300 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 ${delay} hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)]`}
+                            className={`card card-bordered group relative flex flex-col justify-between p-6 backdrop-blur-md transition-all duration-300 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 ${delay} hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] bg-base-200/40`}
                             style={{
-                                border: `1px solid ${isSpecial ? 'var(--border-special)' : 'var(--border)'}`,
-                                backgroundColor: isSpecial ? 'var(--bg-card-featured-alt)' : 'var(--bg-card)',
+                                borderColor: isSpecial ? 'var(--border-special)' : 'var(--border)',
                             }}
                         >
                             {service.highlight && (
-                                <span className="absolute right-5 top-5 rounded-full border border-[#4cc9f0]/30 bg-[#4cc9f0]/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-[#4cc9f0]">
+                                <span className="badge badge-primary badge-outline absolute right-5 top-5 text-[0.7rem] font-semibold">
                                     {service.highlight}
                                 </span>
                             )}
@@ -58,10 +57,9 @@ export default function SkillsModule() {
 
             {/* Bottom collaboration callout */}
             <div
-                className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border p-6 text-center sm:flex-row sm:text-left"
+                className="card card-bordered mt-10 flex flex-col items-center justify-between gap-4 p-6 text-center sm:flex-row sm:text-left bg-base-200/50"
                 style={{
                     borderColor: 'var(--border)',
-                    backgroundColor: 'var(--bg-card-solid)',
                 }}
             >
                 <div>
@@ -74,7 +72,7 @@ export default function SkillsModule() {
                 </div>
                 <a
                     href="mailto:kelvinkimani513@gmail.com?subject=Project%20Inquiry%20from%20Portfolio"
-                    className="inline-flex shrink-0 items-center gap-2 rounded-full bg-linear-to-r from-[#4361ee] to-[#7209b7] px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-[#4361ee]/25 transition-all hover:opacity-90"
+                    className="btn btn-primary rounded-full px-6 text-xs font-semibold text-white shadow-md shadow-[#4361ee]/25"
                 >
                     Let&apos;s Discuss Your Idea &rarr;
                 </a>
