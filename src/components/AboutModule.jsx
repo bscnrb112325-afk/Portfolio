@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { aboutData } from '../data/portfolioData';
+import { apiFetch } from '../utils/api';
 
 export default function AboutModule() {
     const [profile, setProfile] = useState({ name: aboutData.name, title: aboutData.headline });
@@ -10,7 +11,7 @@ export default function AboutModule() {
     const [imgError, setImgError] = useState(false);
 
     useEffect(() => {
-        fetch('/api/profile')
+        apiFetch('/api/profile')
             .then(r => { if (r.ok) return r.json(); throw new Error(); })
             .then(d => setProfile(p => ({
                 ...p,

@@ -9,9 +9,22 @@ const { db, messages, chatMessages, posts, postComments } = require('./database/
 
 const app = express();
 
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000'
+].filter(Boolean);
+
 app.use(cors({
-    origin: [frontendUrl, 'http://localhost:5173', 'http://localhost:3000'],
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('192.168.')) {
+            return callback(null, true);
+        }
+        return callback(null, true);
+    },
     credentials: true
 }));
 app.use(express.json({ limit: '15mb' }));
