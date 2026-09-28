@@ -2,11 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { defaultCvState } from '../data/cvDefaultState';
 import { apiFetch } from '../utils/api';
 
+const CV_STORAGE_KEY = 'portfolio_ai_cv_data_v3';
+
 export default function AICVModule() {
     const [cvState, setCvState] = useState(() => {
         try {
-            const saved = localStorage.getItem('portfolio_ai_cv_data');
-            return saved ? JSON.parse(saved) : defaultCvState;
+            const saved = localStorage.getItem(CV_STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (parsed?.personal?.name === 'KELVIN KIMANI MUGURE') {
+                    return parsed;
+                }
+            }
+            return defaultCvState;
         } catch (e) {
             return defaultCvState;
         }
@@ -21,7 +29,7 @@ export default function AICVModule() {
     // Save CV state on update
     useEffect(() => {
         try {
-            localStorage.setItem('portfolio_ai_cv_data', JSON.stringify(cvState));
+            localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(cvState));
         } catch (e) {}
         calculateAtsScore();
     }, [cvState]);
@@ -192,7 +200,7 @@ export default function AICVModule() {
                     {/* Left: Interactive Form */}
                     <div className="card card-bordered p-6 bg-base-200/50 backdrop-blur-md">
                         <div className="tabs tabs-boxed mb-5 bg-base-300/60 p-1">
-                            {['personal', 'skills', 'experience', 'education'].map(tab => (
+                            {['personal', 'skills', 'experience', 'education', 'certifications'].map(tab => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
@@ -211,19 +219,35 @@ export default function AICVModule() {
                                 </div>
                                 <div className="cv-field">
                                     <label className="text-xs font-semibold block mb-1">Professional Title</label>
-                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.title} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, title: e.target.value } })} />
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.personal.title} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, title: e.target.value } })}></textarea>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <div className="cv-field">
+                                        <label className="text-xs font-semibold block mb-1">Email</label>
+                                        <input className="input input-bordered input-sm w-full" type="email" value={cvState.personal.email} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, email: e.target.value } })} />
+                                    </div>
+                                    <div className="cv-field">
+                                        <label className="text-xs font-semibold block mb-1">Phone</label>
+                                        <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.phone} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, phone: e.target.value } })} />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <div className="cv-field">
+                                        <label className="text-xs font-semibold block mb-1">Location</label>
+                                        <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.location} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, location: e.target.value } })} />
+                                    </div>
+                                    <div className="cv-field">
+                                        <label className="text-xs font-semibold block mb-1">GitHub</label>
+                                        <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.github} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, github: e.target.value } })} />
+                                    </div>
                                 </div>
                                 <div className="cv-field">
-                                    <label className="text-xs font-semibold block mb-1">Email</label>
-                                    <input className="input input-bordered input-sm w-full" type="email" value={cvState.personal.email} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, email: e.target.value } })} />
-                                </div>
-                                <div className="cv-field">
-                                    <label className="text-xs font-semibold block mb-1">Phone</label>
-                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.phone} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, phone: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">Portfolio URL</label>
+                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.personal.portfolio} onChange={e => setCvState({ ...cvState, personal: { ...cvState.personal, portfolio: e.target.value } })} />
                                 </div>
                                 <div className="cv-field">
                                     <label className="text-xs font-semibold block mb-1">Professional Summary</label>
-                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="4" value={cvState.summary} onChange={e => setCvState({ ...cvState, summary: e.target.value })}></textarea>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="5" value={cvState.summary} onChange={e => setCvState({ ...cvState, summary: e.target.value })}></textarea>
                                 </div>
                             </div>
                         )}
@@ -231,24 +255,36 @@ export default function AICVModule() {
                         {activeTab === 'skills' && (
                             <div className="post-form space-y-3">
                                 <div className="cv-field">
-                                    <label className="text-xs font-semibold block mb-1">Technical Skills</label>
-                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="3" value={cvState.skills.technical} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, technical: e.target.value } })}></textarea>
+                                    <label className="text-xs font-semibold block mb-1">Programming</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.skills.programming || ''} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, programming: e.target.value, technical: e.target.value } })}></textarea>
                                 </div>
                                 <div className="cv-field">
-                                    <label className="text-xs font-semibold block mb-1">Security & Systems</label>
-                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="3" value={cvState.skills.security} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, security: e.target.value } })}></textarea>
+                                    <label className="text-xs font-semibold block mb-1">Software Development</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.skills.softwareDev || ''} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, softwareDev: e.target.value } })}></textarea>
                                 </div>
                                 <div className="cv-field">
-                                    <label className="text-xs font-semibold block mb-1">Soft Skills</label>
-                                    <input className="input input-bordered input-sm w-full" type="text" value={cvState.skills.soft} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, soft: e.target.value } })} />
+                                    <label className="text-xs font-semibold block mb-1">IT & Systems</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.skills.itSystems || ''} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, itSystems: e.target.value } })}></textarea>
+                                </div>
+                                <div className="cv-field">
+                                    <label className="text-xs font-semibold block mb-1">Networking & Security</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.skills.networkingSecurity || cvState.skills.security || ''} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, networkingSecurity: e.target.value, security: e.target.value } })}></textarea>
+                                </div>
+                                <div className="cv-field">
+                                    <label className="text-xs font-semibold block mb-1">Data & Cloud</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.skills.dataCloud || ''} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, dataCloud: e.target.value } })}></textarea>
+                                </div>
+                                <div className="cv-field">
+                                    <label className="text-xs font-semibold block mb-1">Key Strengths</label>
+                                    <textarea className="textarea textarea-bordered textarea-sm w-full" rows="2" value={cvState.skills.soft || ''} onChange={e => setCvState({ ...cvState, skills: { ...cvState.skills, soft: e.target.value } })}></textarea>
                                 </div>
                             </div>
                         )}
 
                         {activeTab === 'experience' && (
-                            <div className="post-form space-y-3">
+                            <div className="post-form space-y-4">
                                 {cvState.experience.map((exp, i) => (
-                                    <div key={exp.id || i} style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                                    <div key={exp.id || i} className="p-3 rounded-xl border border-base-content/10 bg-base-300/30">
                                         <div className="cv-field mb-2">
                                             <label className="text-xs font-semibold block mb-1">Role / Position</label>
                                             <input className="input input-bordered input-sm w-full" type="text" value={exp.title} onChange={e => {
@@ -257,17 +293,27 @@ export default function AICVModule() {
                                                 setCvState({ ...cvState, experience: updated });
                                             }} />
                                         </div>
-                                        <div className="cv-field mb-2">
-                                            <label className="text-xs font-semibold block mb-1">Company / Project</label>
-                                            <input className="input input-bordered input-sm w-full" type="text" value={exp.company} onChange={e => {
-                                                const updated = [...cvState.experience];
-                                                updated[i].company = e.target.value;
-                                                setCvState({ ...cvState, experience: updated });
-                                            }} />
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                                            <div className="cv-field">
+                                                <label className="text-xs font-semibold block mb-1">Company / Project</label>
+                                                <input className="input input-bordered input-sm w-full" type="text" value={exp.company} onChange={e => {
+                                                    const updated = [...cvState.experience];
+                                                    updated[i].company = e.target.value;
+                                                    setCvState({ ...cvState, experience: updated });
+                                                }} />
+                                            </div>
+                                            <div className="cv-field">
+                                                <label className="text-xs font-semibold block mb-1">Period</label>
+                                                <input className="input input-bordered input-sm w-full" type="text" value={exp.period} onChange={e => {
+                                                    const updated = [...cvState.experience];
+                                                    updated[i].period = e.target.value;
+                                                    setCvState({ ...cvState, experience: updated });
+                                                }} />
+                                            </div>
                                         </div>
                                         <div className="cv-field">
-                                            <label className="text-xs font-semibold block mb-1">Key Accomplishments</label>
-                                            <textarea className="textarea textarea-bordered textarea-sm w-full" rows="3" value={exp.description} onChange={e => {
+                                            <label className="text-xs font-semibold block mb-1">Key Responsibilities & Accomplishments</label>
+                                            <textarea className="textarea textarea-bordered textarea-sm w-full" rows="4" value={exp.description} onChange={e => {
                                                 const updated = [...cvState.experience];
                                                 updated[i].description = e.target.value;
                                                 setCvState({ ...cvState, experience: updated });
@@ -281,23 +327,53 @@ export default function AICVModule() {
                         {activeTab === 'education' && (
                             <div className="post-form space-y-3">
                                 {cvState.education.map((edu, i) => (
-                                    <div key={edu.id || i} className="mb-2">
+                                    <div key={edu.id || i} className="p-3 rounded-xl border border-base-content/10 bg-base-300/30">
                                         <div className="cv-field mb-2">
-                                            <label className="text-xs font-semibold block mb-1">Degree</label>
+                                            <label className="text-xs font-semibold block mb-1">Degree / Qualification</label>
                                             <input className="input input-bordered input-sm w-full" type="text" value={edu.degree} onChange={e => {
                                                 const updated = [...cvState.education];
                                                 updated[i].degree = e.target.value;
                                                 setCvState({ ...cvState, education: updated });
                                             }} />
                                         </div>
-                                        <div className="cv-field">
-                                            <label className="text-xs font-semibold block mb-1">Institution / Year</label>
-                                            <input className="input input-bordered input-sm w-full" type="text" value={edu.school} onChange={e => {
-                                                const updated = [...cvState.education];
-                                                updated[i].school = e.target.value;
-                                                setCvState({ ...cvState, education: updated });
-                                            }} />
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            <div className="cv-field">
+                                                <label className="text-xs font-semibold block mb-1">Institution</label>
+                                                <input className="input input-bordered input-sm w-full" type="text" value={edu.school} onChange={e => {
+                                                    const updated = [...cvState.education];
+                                                    updated[i].school = e.target.value;
+                                                    setCvState({ ...cvState, education: updated });
+                                                }} />
+                                            </div>
+                                            <div className="cv-field">
+                                                <label className="text-xs font-semibold block mb-1">Period</label>
+                                                <input className="input input-bordered input-sm w-full" type="text" value={edu.period} onChange={e => {
+                                                    const updated = [...cvState.education];
+                                                    updated[i].period = e.target.value;
+                                                    setCvState({ ...cvState, education: updated });
+                                                }} />
+                                            </div>
                                         </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {activeTab === 'certifications' && (
+                            <div className="post-form space-y-3">
+                                <label className="text-xs font-semibold block">Training &amp; Certifications</label>
+                                {cvState.certifications?.map((cert, i) => (
+                                    <div key={cert.id || i} className="flex gap-2">
+                                        <input
+                                            className="input input-bordered input-sm w-full"
+                                            type="text"
+                                            value={cert.name}
+                                            onChange={e => {
+                                                const updated = [...cvState.certifications];
+                                                updated[i].name = e.target.value;
+                                                setCvState({ ...cvState, certifications: updated });
+                                            }}
+                                        />
                                     </div>
                                 ))}
                                 <button type="button" onClick={handleReset} className="btn btn-outline btn-sm w-full mt-4">
@@ -311,56 +387,108 @@ export default function AICVModule() {
                     <div className="cv-preview-card" id="cv-print-area" style={{ background: selectedTemplate === 'executive' ? '#ffffff' : (selectedTemplate === 'modern' ? '#0f172a' : '#090d16'), color: selectedTemplate === 'executive' ? '#1e293b' : '#f8fafc', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 50px rgba(0,0,0,0.5)', minHeight: '680px' }}>
                         
                         {/* CV Header */}
-                        <div style={{ borderBottom: `2px solid ${selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)'}`, paddingBottom: '1.2rem', marginBottom: '1.5rem' }}>
-                            <h1 style={{ fontSize: '1.8rem', margin: '0 0 0.3rem 0', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff' }}>{cvState.personal.name}</h1>
-                            <p style={{ fontSize: '1rem', color: selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)', fontWeight: '600', margin: '0 0 0.6rem 0' }}>{cvState.personal.title}</p>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.82rem', color: selectedTemplate === 'executive' ? '#64748b' : 'var(--text-secondary)' }}>
-                                <span>{cvState.personal.email}</span>
+                        <div style={{ borderBottom: `2px solid ${selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)'}`, paddingBottom: '1.2rem', marginBottom: '1.4rem' }}>
+                            <h1 style={{ fontSize: '1.75rem', fontWeight: '800', letterSpacing: '0.5px', margin: '0 0 0.3rem 0', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff' }}>{cvState.personal.name}</h1>
+                            <p style={{ fontSize: '0.86rem', color: selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px', margin: '0 0 0.6rem 0' }}>{cvState.personal.title}</p>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem 1rem', fontSize: '0.8rem', color: selectedTemplate === 'executive' ? '#64748b' : 'var(--text-secondary)' }}>
+                                <span>{cvState.personal.location}</span>
                                 <span>•</span>
                                 <span>{cvState.personal.phone}</span>
                                 <span>•</span>
-                                <span>{cvState.personal.location}</span>
+                                <span>{cvState.personal.email}</span>
+                                {cvState.personal.github && (
+                                    <>
+                                        <span>•</span>
+                                        <span>GitHub: {cvState.personal.github}</span>
+                                    </>
+                                )}
+                                {cvState.personal.portfolio && (
+                                    <>
+                                        <span>•</span>
+                                        <span>Portfolio: {cvState.personal.portfolio}</span>
+                                    </>
+                                )}
                             </div>
                         </div>
 
-                        {/* Summary */}
-                        <div style={{ marginBottom: '1.5rem' }}>
-                            <h3 style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.6rem' }}>Professional Summary</h3>
-                            <p style={{ fontSize: '0.88rem', lineHeight: '1.6', margin: 0, opacity: 0.9 }}>{cvState.summary}</p>
+                        {/* Professional Summary */}
+                        <div style={{ marginBottom: '1.4rem' }}>
+                            <h3 style={{ fontSize: '0.92rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.5rem' }}>Professional Summary</h3>
+                            <p style={{ fontSize: '0.84rem', lineHeight: '1.6', margin: 0, opacity: 0.9 }}>{cvState.summary}</p>
                         </div>
 
-                        {/* Skills */}
-                        <div style={{ marginBottom: '1.5rem' }}>
-                            <h3 style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.6rem' }}>Core Technical Competencies</h3>
-                            <p style={{ fontSize: '0.88rem', margin: '0 0 0.4rem 0' }}><strong>Full-Stack & Programming:</strong> {cvState.skills.technical}</p>
-                            <p style={{ fontSize: '0.88rem', margin: 0 }}><strong>Security & Networks:</strong> {cvState.skills.security}</p>
-                        </div>
-
-                        {/* Experience */}
-                        <div style={{ marginBottom: '1.5rem' }}>
-                            <h3 style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.8rem' }}>Relevant Experience & Engineering Projects</h3>
+                        {/* Professional Experience */}
+                        <div style={{ marginBottom: '1.4rem' }}>
+                            <h3 style={{ fontSize: '0.92rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.7rem' }}>Professional Experience</h3>
                             {cvState.experience.map(exp => (
                                 <div key={exp.id} style={{ marginBottom: '1rem' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', fontWeight: 'bold' }}>
-                                        <span>{exp.title}</span>
-                                        <span style={{ color: selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)', fontSize: '0.82rem' }}>{exp.period}</span>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: '0.88rem', fontWeight: 'bold' }}>
+                                        <span style={{ color: selectedTemplate === 'executive' ? '#0f172a' : '#fff' }}>{exp.title}</span>
+                                        <span style={{ color: selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)', fontSize: '0.78rem' }}>{exp.period}</span>
                                     </div>
-                                    <div style={{ fontSize: '0.84rem', opacity: 0.8, marginBottom: '0.3rem' }}>{exp.company}</div>
-                                    <p style={{ fontSize: '0.85rem', lineHeight: '1.55', margin: 0, opacity: 0.9 }}>{exp.description}</p>
+                                    <div style={{ fontSize: '0.82rem', fontWeight: '600', opacity: 0.85, marginBottom: '0.35rem', color: selectedTemplate === 'executive' ? '#0284c7' : '#4cc9f0' }}>{exp.company}</div>
+                                    <div style={{ fontSize: '0.82rem', lineHeight: '1.55', opacity: 0.9, whiteSpace: 'pre-line' }}>{exp.description}</div>
                                 </div>
                             ))}
+                        </div>
+
+                        {/* Technical Skills */}
+                        <div style={{ marginBottom: '1.4rem' }}>
+                            <h3 style={{ fontSize: '0.92rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.5rem' }}>Technical Skills</h3>
+                            <div style={{ fontSize: '0.82rem', lineHeight: '1.6' }}>
+                                {cvState.skills.programming && (
+                                    <p style={{ margin: '0 0 0.25rem 0' }}><strong>Programming:</strong> {cvState.skills.programming}</p>
+                                )}
+                                {cvState.skills.softwareDev && (
+                                    <p style={{ margin: '0 0 0.25rem 0' }}><strong>Software Development:</strong> {cvState.skills.softwareDev}</p>
+                                )}
+                                {cvState.skills.itSystems && (
+                                    <p style={{ margin: '0 0 0.25rem 0' }}><strong>IT &amp; Systems:</strong> {cvState.skills.itSystems}</p>
+                                )}
+                                {(cvState.skills.networkingSecurity || cvState.skills.security) && (
+                                    <p style={{ margin: '0 0 0.25rem 0' }}><strong>Networking &amp; Security:</strong> {cvState.skills.networkingSecurity || cvState.skills.security}</p>
+                                )}
+                                {cvState.skills.dataCloud && (
+                                    <p style={{ margin: '0 0 0.25rem 0' }}><strong>Data &amp; Cloud:</strong> {cvState.skills.dataCloud}</p>
+                                )}
+                            </div>
                         </div>
 
                         {/* Education */}
-                        <div>
-                            <h3 style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.6rem' }}>Education & Degree</h3>
+                        <div style={{ marginBottom: '1.4rem' }}>
+                            <h3 style={{ fontSize: '0.92rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.5rem' }}>Education</h3>
                             {cvState.education.map(edu => (
-                                <div key={edu.id}>
-                                    <div style={{ fontWeight: 'bold', fontSize: '0.88rem' }}>{edu.degree}</div>
-                                    <div style={{ fontSize: '0.82rem', opacity: 0.8 }}>{edu.school} • {edu.period}</div>
+                                <div key={edu.id} style={{ marginBottom: '0.6rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontSize: '0.84rem' }}>
+                                        <span style={{ fontWeight: 'bold' }}>{edu.school}</span>
+                                        <span style={{ color: selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)', fontSize: '0.78rem' }}>{edu.period}</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.82rem', opacity: 0.85 }}>{edu.degree}</div>
                                 </div>
                             ))}
                         </div>
+
+                        {/* Training & Certifications */}
+                        {cvState.certifications && cvState.certifications.length > 0 && (
+                            <div style={{ marginBottom: '1.4rem' }}>
+                                <h3 style={{ fontSize: '0.92rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.5rem' }}>Training &amp; Certifications</h3>
+                                <div style={{ fontSize: '0.82rem', lineHeight: '1.55', opacity: 0.9 }}>
+                                    {cvState.certifications.map(c => (
+                                        <div key={c.id}>• {c.name}</div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Key Strengths */}
+                        {cvState.skills.soft && (
+                            <div>
+                                <h3 style={{ fontSize: '0.92rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff', borderBottom: '1px solid rgba(128,128,128,0.2)', paddingBottom: '0.3rem', marginBottom: '0.5rem' }}>Key Strengths</h3>
+                                <p style={{ fontSize: '0.82rem', lineHeight: '1.6', margin: 0, opacity: 0.9 }}>
+                                    {cvState.skills.soft}
+                                </p>
+                            </div>
+                        )}
 
                     </div>
                 </div>
