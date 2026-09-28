@@ -5,4 +5,6 @@ Thumbs.db
 # Environment variables (API keys - never commit these)
 .env
 .env.*
+!.env.example
 backend/.env
+!backend/.env.example

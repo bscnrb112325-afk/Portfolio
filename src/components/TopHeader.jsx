@@ -8,7 +8,8 @@ export default function TopHeader({ activeModule, onSelectModule }) {
     useEffect(() => {
         const updateClock = () => {
             const now = new Date();
-            setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+            // Formatted in 12-hour or 24-hour readable string
+            setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
         };
         updateClock();
         const timer = setInterval(updateClock, 1000);
@@ -16,16 +17,14 @@ export default function TopHeader({ activeModule, onSelectModule }) {
     }, []);
 
     const modules = [
-        { id: 'about',    label: 'About',    icon: 'fa-user' },
-        { id: 'skills',   label: 'Skills',   icon: 'fa-layer-group' },
-        { id: 'projects', label: 'Projects', icon: 'fa-code' },
-        { id: 'mission',  label: 'Mission',  icon: 'fa-bullseye' },
-        { id: 'aicv',     label: 'AI CV',    icon: 'fa-wand-magic-sparkles' },
-        { id: 'posts',    label: 'Posts',    icon: 'fa-newspaper' },
+        { id: 'about',    label: 'About Me',   icon: 'fa-user' },
+        { id: 'skills',   label: 'What I Do',  icon: 'fa-layer-group' },
+        { id: 'projects', label: 'Projects',   icon: 'fa-code' },
+        { id: 'mission',  label: 'Let\'s Connect', icon: 'fa-paper-plane' },
+        { id: 'aicv',     label: 'AI Resume',  icon: 'fa-wand-magic-sparkles' },
     ];
 
-    const isActive = (id) =>
-        activeModule === id || (id === 'posts' && activeModule === 'post');
+    const isActive = (id) => activeModule === id;
 
     return (
         <header className="w-full">
@@ -42,7 +41,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                     {/* Nav tabs */}
                     <div
                         role="tablist"
-                        aria-label="Portfolio Sections"
+                        aria-label="Portfolio Navigation"
                         className="flex flex-1 flex-wrap items-center gap-1.5 overflow-x-auto scrollbar-none md:justify-center"
                     >
                         {modules.map(mod => (
@@ -69,15 +68,15 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                         ))}
                     </div>
 
-                    {/* Right side: clock + theme toggle */}
+                    {/* Right side: Location & Clock + Theme Toggle */}
                     <div className="flex shrink-0 items-center gap-2">
-                        {/* Live clock badge */}
+                        {/* Live local time in Nairobi */}
                         <div
-                            title="Portfolio Active Status"
-                            className="hidden items-center gap-1.5 rounded-full border border-[#10b981]/40 bg-[#10b981]/10 px-3 py-1.5 text-xs font-semibold text-[#10b981] sm:flex"
+                            title="Local time in Nairobi, Kenya (UTC+3) · Available for projects"
+                            className="hidden items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 sm:flex"
                         >
-                            <span className="size-2 animate-[pulsing_2s_infinite] rounded-full bg-[#10b981]"></span>
-                            <span style={{ color: '#10b981' }}>Live • {currentTime || 'Ready'}</span>
+                            <span className="size-2 animate-[pulsing_2s_infinite] rounded-full bg-emerald-400"></span>
+                            <span>Nairobi, KE • {currentTime || 'EAT'}</span>
                         </div>
 
                         {/* ── Theme Toggle Button ── */}
@@ -103,49 +102,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                 </div>
             </nav>
 
-            {/* ── Intro card shown only on About tab ── */}
-            {activeModule === 'about' && (
-                <div className="mx-auto mt-6 max-w-300 px-6">
-                    <div
-                        className="max-w-xl rounded-[18px] p-7 shadow-[0_10px_30px_var(--shadow-card)] backdrop-blur-xl transition-colors duration-300"
-                        style={{
-                            border: '1px solid var(--border)',
-                            backgroundColor: 'var(--bg-card-solid)',
-                        }}
-                    >
-                        <p
-                            className="mb-5 border-l-4 border-[#4cc9f0] pl-4 text-base font-medium leading-relaxed"
-                            style={{ color: 'var(--text-primary)' }}
-                        >
-                            Explore my portfolio to discover my projects, technical skills, and professional journey.
-                        </p>
 
-                        <div className="flex flex-wrap items-center gap-3">
-                            {[
-                                { href: 'mailto:kelvinkimani513@gmail.com', icon: 'fa-envelope',         label: 'kelvinkimani513@gmail.com' },
-                                { href: 'tel:0701861965',                   icon: 'fa-phone',             label: '0701861965' },
-                                { href: 'https://github.com/bscnrb112325-afk', icon: 'fa-brands fa-github', label: 'bscnrb112325-afk', external: true },
-                                { href: 'https://www.linkedin.com/in/kelvin-kimani-a94552214/', icon: 'fa-brands fa-linkedin-in', label: 'LinkedIn', external: true },
-                            ].map(({ href, icon, label, external }) => (
-                                <a
-                                    key={href}
-                                    href={href}
-                                    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                    className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/10 hover:text-[#4cc9f0] hover:shadow-md hover:shadow-[#4cc9f0]/20"
-                                    style={{
-                                        border: '1px solid var(--border)',
-                                        backgroundColor: 'var(--bg-overlay-light)',
-                                        color: 'var(--text-muted)',
-                                    }}
-                                >
-                                    <i className={`${icon.startsWith('fa-brands') ? icon : `fa-solid ${icon}`} text-[#4cc9f0] text-sm`}></i>
-                                    <span className="max-w-40 truncate">{label}</span>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
         </header>
     );
 }

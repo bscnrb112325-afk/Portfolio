@@ -1,88 +1,105 @@
 export const aboutData = {
     greeting: "Hi, I'm",
-    name: "kelvin",
+    name: "Kelvin Kimani",
+    shortName: "Kelvin",
+    location: "Nairobi, Kenya",
     roles: [
-        "A Software Developer",
-        "System Security",
-        "AI Solutions",
-        "Network Engineer"
+        "Full-Stack Developer",
+        "Systems & Network Security",
+        "Practical AI Solutions",
+        "Cloud Infrastructure"
     ],
-    intro: "Passionate about building reliable, secure, and efficient technology solutions. I specialize in maintaining and securing network infrastructure, supporting enterprise systems, integrating AI-powered tools, managing hardware and software environments, and delivering dependable ICT operations that improve performance, accessibility, and service delivery.",
-    background: "My background combines software development, artificial intelligence, networking, system administration, cybersecurity, cloud technologies, and technical support, enabling me to design, implement, and maintain scalable technology solutions while solving complex technical challenges through innovation and practical problem-solving.",
-    status: "Available for Work"
+    headline: "Software Developer & Systems Builder",
+    intro: "Hey there! I'm Kelvin Kimani, a software developer and systems builder based in Nairobi, Kenya. I love turning complex, messy problems into clean, intuitive web applications, helpful AI tools, and rock-solid network infrastructure.",
+    story: "My journey started with a deep curiosity about how digital systems work beneath the surface — leading me to graduate with a Bachelor of Science in Computer Science and System Security. Along the way, I discovered that my real passion lies in building tools that make an immediate, tangible difference in people's daily work: from centralizing inventory for bustling local businesses to streamlining job search intelligence and safeguarding hospital networks.",
+    background: "I bridge the gap between creative frontend interfaces and the robust server/network architecture behind them. Whether crafting responsive user interfaces with React, engineering microservices with Python and Node.js, designing PostgreSQL databases, or hardening networks with VLANs and firewall rules, I focus on what truly counts: reliability, security, and human-friendly design.",
+    status: "Available for Work & Collaborations",
+    principles: [
+        {
+            title: "People First",
+            icon: "fa-heart",
+            description: "Code only matters if it solves a real frustration for the human being using it. I design with empathy and clarity."
+        },
+        {
+            title: "Security by Default",
+            icon: "fa-shield-halved",
+            description: "Privacy, segmented access, and reliable backups aren't optional extras — they are foundational to every project I build."
+        },
+        {
+            title: "Pragmatic AI",
+            icon: "fa-wand-magic-sparkles",
+            description: "I integrate LLMs and automation where they genuinely eliminate tedious work and add real productivity, not for empty buzzwords."
+        },
+        {
+            title: "Craft & Curiosity",
+            icon: "fa-compass",
+            description: "From pixel-level UI details to low-level packet routing, I stay curious, test thoroughly, and constantly refine my craft."
+        }
+    ],
+    quickFacts: [
+        { icon: "fa-location-dot", label: "Location", value: "Nairobi, Kenya (UTC+3)" },
+        { icon: "fa-graduation-cap", label: "Degree", value: "B.Sc. in Computer Science & System Security" },
+        { icon: "fa-code", label: "Primary Tools", value: "React, Node.js, Python, PostgreSQL, Linux" },
+        { icon: "fa-mug-hot", label: "Fuel", value: "Curiosity, tough bugs & Kenyan coffee" }
+    ]
 };
 
 export const whatIDoData = {
     title: "What I Do",
-    subtitle: "I provide technology solutions focused on reliability, security, scalability, and business efficiency.",
+    subtitle: "I build dependable digital products and secure systems designed to solve real operational challenges.",
     services: [
         {
-            title: "AI Integration",
-            icon: "fa-robot",
-            description: "Designing practical AI-assisted workflows, chatbots, automation tools, and intelligent features that improve productivity and decision-making.",
-            isSpecial: true
-        },
-        {
-            title: "Cloud Management",
-            icon: "fa-cloud",
-            description: "Deploying, configuring, monitoring, and maintaining cloud environments to ensure secure and high-performing operations."
-        },
-        {
-            title: "Custom Software Development",
+            title: "Full-Stack Web Development",
             icon: "fa-code",
-            description: "Designing and building modern software solutions tailored to business and operational requirements."
+            description: "Designing and building modern, responsive web applications from snappy React frontends to scalable Node.js and Python APIs backed by PostgreSQL.",
+            isSpecial: true,
+            highlight: "Modern & Responsive"
         },
         {
-            title: "Backup & Recovery Systems",
-            icon: "fa-rotate-right",
-            description: "Implementing secure backup and disaster recovery strategies to protect critical business data."
+            title: "Pragmatic AI & Automation",
+            icon: "fa-robot",
+            description: "Integrating practical AI assistants, LLM workflows, and intelligent data extraction pipelines that eliminate hours of repetitive manual tasks.",
+            isSpecial: true,
+            highlight: "Intelligent Workflows"
         },
         {
-            title: "Network Support",
-            icon: "fa-network-wired",
-            description: "Managing, optimizing, troubleshooting, and securing network infrastructure for stable connectivity."
-        },
-        {
-            title: "IT Consulting",
-            icon: "fa-lightbulb",
-            description: "Providing technical guidance, infrastructure planning, and solution recommendations."
-        },
-        {
-            title: "Project Management",
-            icon: "fa-clipboard-list",
-            description: "Coordinating technical projects from planning to deployment while ensuring quality delivery."
-        },
-        {
-            title: "Graphic Design",
-            icon: "fa-palette",
-            description: "Creating clean and professional digital designs for branding and user experiences."
-        },
-        {
-            title: "Cybersecurity",
+            title: "Network & Systems Security",
             icon: "fa-shield-halved",
-            description: "Strengthening systems through security practices, monitoring, and risk management."
+            description: "Configuring 802.1Q VLANs, hardening firewalls, and managing server environments to ensure high uptime and ironclad data protection.",
+            highlight: "Enterprise Resilient"
         },
         {
-            title: "Computer Repair",
-            icon: "fa-screwdriver-wrench",
-            description: "Diagnosing and resolving hardware and software issues to improve reliability."
+            title: "Cloud Infrastructure & Backups",
+            icon: "fa-cloud-arrow-up",
+            description: "Deploying and managing containerized services, automated database snapshots, and tested disaster recovery routines so you never lose sleep over data loss.",
+            highlight: "Zero Data Loss"
         },
         {
-            title: "Computer Networking",
-            icon: "fa-server",
-            description: "Designing and maintaining secure and scalable network environments."
+            title: "Database Architecture & APIs",
+            icon: "fa-database",
+            description: "Architecting relational schemas, optimizing complex queries, and building RESTful APIs with PostgreSQL and Drizzle ORM for speed and data integrity.",
+            highlight: "High Throughput"
+        },
+        {
+            title: "Technical Consulting & Support",
+            icon: "fa-lightbulb",
+            description: "Translating messy technical roadblocks into straightforward, cost-effective solutions and clear documentation for teams and founders.",
+            highlight: "Clear & Practical"
         }
     ]
 };
 
 export const projectsData = {
     title: "Featured Projects",
+    subtitle: "Real-world applications engineered to solve specific operational, data, and community challenges.",
     projects: [
         {
             title: "Online Inventory Control System (OICS)",
-            description: "Designed and developed a modern inventory and stock management platform that centralizes inventory operations and improves business efficiency. The system enables organizations to manage products, monitor stock movement, process sales, track orders, manage suppliers, and generate operational reports through a unified dashboard.",
-            extraDetails: "Features role-based access control, inventory automation workflows, reporting capabilities, and administrative controls.",
-            techStack: ["React", "Tailwind CSS", "Node.js", "Express", "PostgreSQL", "Drizzle ORM", "REST API", "Python", "AI", "GitHub Deployment"],
+            tagline: "Centralized stock, sales, and supplier management for growing businesses.",
+            description: "A production-ready inventory and sales platform designed to help store managers and warehouse teams eliminate spreadsheet chaos. It unifies stock movement tracking, sales recording, purchase order workflows, and operational reporting into an intuitive dashboard.",
+            story: "Why I built this: Small businesses frequently lose revenue and hours of work to stock discrepancies and manual record-keeping errors. I built OICS to give teams a real-time, tamper-resistant command center for inventory movements, automated low-stock warnings, and instant sales analytics.",
+            extraDetails: "Includes role-based permissions, automated stock alerts, atomic database transactions with PostgreSQL/Drizzle, and cloud deployment.",
+            techStack: ["React", "Node.js", "Express", "PostgreSQL", "Drizzle ORM", "Tailwind CSS", "REST API"],
             category: "Full-Stack",
             isFeatured: true,
             icon: "fa-boxes-stacked",
@@ -91,47 +108,57 @@ export const projectsData = {
         },
         {
             title: "BIDIIONE",
-            description: "A comprehensive construction operations and material management system developed for Bidii Quality Builders. Centralizes site procurement, contractor allocation, construction material tracking, equipment utilization, and operational reporting.",
+            tagline: "Operations & materials management hub for construction teams.",
+            description: "A comprehensive construction operations management system custom-built for Bidii Quality Builders. Centralizes procurement, contractor allocations, equipment tracking, and site progress reporting.",
+            story: "Why I built this: Construction sites are notoriously fast-moving. Paper logs and disconnected messaging apps led to misallocated building supplies. BIDIIONE gives project leads live visibility into every bag of cement, contractor dispatch, and budget estimate.",
             extraDetails: "Built with Django ORM, PostgreSQL, and data analytics dashboards for real-time tracking of site progress and cost estimation.",
-            techStack: ["Python", "Django", "PostgreSQL", "Gunicorn", "Matplotlib", "NumPy", "REST API", "Docker"],
+            techStack: ["Python", "Django", "PostgreSQL", "Docker", "Gunicorn", "Matplotlib", "REST API"],
             category: "Full-Stack",
             isFeatured: true,
             icon: "fa-trowel-bricks",
             githubUrl: "https://github.com/bscnrb112325-afk/BIDII-ONE"
         },
         {
-            title: "BrighterMonday Web Crawler",
-            description: "An automated data extraction and web crawler designed to monitor, scrape, and analyze job listings and hiring demand across Kenya from the BrighterMonday platform. Features polite rate-limiting, error recovery, and data sanitation pipelines.",
-            extraDetails: "Structures unstructured job postings into standardized datasets for market trend visualization, skill-gap analysis, and salary benchmarking.",
-            techStack: ["Python", "Web Scraping", "BeautifulSoup4", "Requests", "Data Engineering", "Pandas", "Automation"],
-            category: "AI & Automation",
-            isFeatured: true,
-            icon: "fa-spider"
-        },
-        {
-            title: "AI Bot",
-            description: "An intelligent, context-aware conversational AI assistant engineered for ICT troubleshooting, user query automation, and technical guidance. Integrates cutting-edge LLM reasoning with custom fallback heuristics.",
-            extraDetails: "Features real-time stream responses, prompt engineering, multi-turn dialogue memory, and API-driven knowledge base querying.",
-            techStack: ["Artificial Intelligence", "Gemini API", "Python", "Node.js", "Prompt Engineering", "NLP", "REST API"],
-            category: "AI & Automation",
-            isFeatured: true,
-            icon: "fa-robot"
-        },
-        {
             title: "AgriNatura",
-            description: "A smart organic agriculture platform combining microservices with cryptographic provenance and AI-assisted agronomy. Empowers farmers with crop health diagnosis, soil parameter monitoring, and verifiable supply-chain transparency from farm to consumer.",
-            extraDetails: "Containerized multi-tier ecosystem featuring dedicated AI diagnosis services, responsive farmer-facing UI, and cryptographic audit records.",
-            techStack: ["TypeScript", "React", "Node.js", "Python AI Service", "Docker", "Cryptographic Traceability", "REST API"],
+            tagline: "Smart agriculture platform with crop diagnostics and provenance.",
+            description: "An organic agriculture ecosystem combining microservices, AI-assisted agronomy, and verifiable crop provenance from farm to consumer.",
+            story: "Why I built this: Smallholder farmers often struggle with crop disease identification and fair market access. AgriNatura puts AI diagnosis directly into farmers' hands while providing consumers with transparent proof of organic cultivation.",
+            extraDetails: "Features containerized microservices, AI crop disease classification, and verifiable harvest traceability records.",
+            techStack: ["TypeScript", "React", "Node.js", "Python AI", "Docker", "REST API"],
             category: "Full-Stack",
             isFeatured: true,
             icon: "fa-seedling",
             githubUrl: "https://github.com/bscnrb112325-afk/agrinatura"
         },
         {
+            title: "BrighterMonday Web Crawler",
+            tagline: "Real-time hiring intelligence and tech skill-gap analysis across Kenya.",
+            description: "An automated data extraction engine and ETL pipeline that monitors, scrapes, and analyzes job postings from Kenya's leading career portal.",
+            story: "Why I built this: Navigating the regional job market shouldn't require guessing what skills employers are prioritizing. I engineered this crawler to turn raw job postings into clear data on salary trends, high-demand programming frameworks, and hiring surges.",
+            extraDetails: "Engineered with polite rate-limiting, proxy rotation, automatic deduplication, and Pandas analytics.",
+            techStack: ["Python", "BeautifulSoup4", "Pandas", "ETL Pipeline", "Data Engineering"],
+            category: "AI & Automation",
+            isFeatured: true,
+            icon: "fa-spider"
+        },
+        {
+            title: "AI ICT Troubleshooting Assistant",
+            tagline: "24/7 conversational support agent for common tech bottlenecks.",
+            description: "A context-aware AI assistant designed to help team members troubleshoot network, hardware, and operating system issues in clear, human language.",
+            story: "Why I built this: Non-technical staff often get overwhelmed when their internet drops or printer configurations break. I built this assistant to provide step-by-step guidance and diagnose issues before escalating to busy IT staff.",
+            extraDetails: "Integrates Google Gemini API, streaming responses, multi-turn memory, and tailored diagnostic prompts.",
+            techStack: ["Gemini API", "Python", "Node.js", "Prompt Engineering", "NLP"],
+            category: "AI & Automation",
+            isFeatured: true,
+            icon: "fa-robot"
+        },
+        {
             title: "Productify",
-            description: "A collaborative full-stack productivity and task management platform built to streamline team workflows, sprint backlogs, milestone deliveries, and productivity metrics through an interactive user interface.",
-            extraDetails: "Architected with secure REST APIs, role-based project workspaces, drag-and-drop workflow tracking, and real-time state synchronization.",
-            techStack: ["React", "JavaScript", "Node.js", "Express", "PostgreSQL", "REST API", "Tailwind CSS"],
+            tagline: "Collaborative agile workspace for sprint backlogs and team metrics.",
+            description: "A full-stack productivity and task coordination platform designed for developer and student teams to manage milestones with zero clutter.",
+            story: "Why I built this: Many project management tools are either overly bloated or too bare-bones. Productify provides just the right balance of sprint tracking, task assignments, and progress analytics.",
+            extraDetails: "Built with secure JWT authentication, interactive drag-and-drop boards, and PostgreSQL state management.",
+            techStack: ["React", "Node.js", "Express", "PostgreSQL", "Tailwind CSS"],
             category: "Full-Stack",
             isFeatured: true,
             icon: "fa-list-check",
@@ -139,35 +166,60 @@ export const projectsData = {
         },
         {
             title: "Hospital Network Infrastructure Optimization",
-            description: "Designed and supported network operations to improve connectivity, reliability, and system availability across departments while maintaining security and performance standards.",
-            techStack: ["Networking", "System Administration", "Infrastructure", "VLANs", "Firewall"],
+            tagline: "Mission-critical network reliability and VLAN segmentation for healthcare.",
+            description: "Supported and optimized multi-department network operations in a busy hospital environment to ensure 99.9% uptime for medical and administrative workflows.",
+            story: "Why this matters: In healthcare, network downtime isn't just an inconvenience — it delays patient triage and diagnostic reporting. I helped configure VLANs to isolate sensitive health data from general traffic and hardened edge routers.",
+            techStack: ["802.1Q VLANs", "Firewall Hardening", "Cisco Routing", "System Administration"],
             category: "Networking & Systems",
             icon: "fa-network-wired"
         },
         {
-            title: "Cloud Backup & Recovery",
-            description: "Implemented structured backup procedures and recovery processes to improve data protection and business continuity.",
-            techStack: ["Cloud Services", "Backup Management", "IT Operations", "Disaster Recovery"],
+            title: "Enterprise Cloud Backup & Disaster Recovery",
+            tagline: "Automated, verified data preservation for business continuity.",
+            description: "Implemented structured offsite backup pipelines and failover recovery testing to safeguard mission-critical organizational databases.",
+            story: "Why this matters: A backup system is only as good as its last successful restore test. I built automated snapshot routines and recovery playbooks to protect against hardware failures and ransomware threats.",
+            techStack: ["Cloud Storage", "Automated Snapshots", "Disaster Recovery", "Linux Bash"],
             category: "Cloud & Security",
             icon: "fa-cloud-arrow-up"
-        },
-        {
-            title: "Computer Maintenance Support",
-            description: "Created workflows and support procedures for diagnosing, maintaining, and resolving hardware and software issues.",
-            techStack: ["Hardware Support", "Troubleshooting", "System Diagnostics", "Documentation"],
-            category: "Networking & Systems",
-            icon: "fa-screwdriver-wrench"
         }
     ]
 };
 
 export const missionData = {
-    title: "My Mission",
-    statement: "To leverage technology to build secure, scalable, and impactful solutions that improve efficiency, support innovation, and create meaningful digital experiences.",
+    title: "Let's Connect & Build",
+    subtitle: "Have an exciting project, a role to fill, or just want to talk tech? I'd love to hear from you.",
+    statement: "I believe technology only fulfills its purpose when it genuinely improves people's lives. Whether it's streamlining daily work for a small business, safeguarding critical data, or connecting communities through thoughtful software, my goal is to build digital solutions with craft, empathy, and rock-solid reliability.",
+    availability: "Available for full-time engineering roles, high-impact freelance projects, and technical collaborations.",
+    locationText: "Based in Nairobi, Kenya (UTC+3) · Open to remote opportunities worldwide.",
     contact: {
+        name: "Kelvin Kimani",
         email: "kelvinkimani513@gmail.com",
-        phone: "0701861965",
-        linkedin: "https://www.linkedin.com/in/kelvin-kimani-a94552214/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B85kuA6LDSaukl8MUkM%2FZvA%3D%3D",
+        phone: "+254 701 861 965",
+        phoneRaw: "0701861965",
+        whatsappUrl: "https://wa.me/254701861965?text=Hi%20Kelvin%2C%20I%20saw%20your%20portfolio%20and%20would%20love%20to%20connect!",
+        linkedin: "https://www.linkedin.com/in/kelvin-kimani-a94552214/",
         github: "https://github.com/bscnrb112325-afk"
-    }
+    },
+    collaborationTypes: [
+        {
+            icon: "fa-briefcase",
+            title: "Full-Time Opportunities",
+            desc: "Full-stack developer, software engineer, or systems/network security roles."
+        },
+        {
+            icon: "fa-laptop-code",
+            title: "Freelance & MVPs",
+            desc: "End-to-end web apps, custom inventory systems, and automated pipelines."
+        },
+        {
+            icon: "fa-wand-magic-sparkles",
+            title: "AI Integration & Workflows",
+            desc: "Custom LLM assistants, scrapers, and intelligent business process automation."
+        },
+        {
+            icon: "fa-shield-halved",
+            title: "Systems & Security Audits",
+            desc: "VLAN segmentation, backup verification, and infrastructure hardening."
+        }
+    ]
 };
