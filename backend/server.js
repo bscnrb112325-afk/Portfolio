@@ -268,62 +268,6 @@ app.get('/api/posts', async (req, res) => {
         };
 
         let postList = await fetchPostsWithComments();
-
-        // Auto-seed sample posts if empty using Drizzle ORM
-        if (postList.length === 0) {
-            const seededPosts = await db.insert(posts).values([
-                {
-                    title: 'Building the Online Inventory Control System (OICS) with React & PostgreSQL',
-                    category: 'Software Engineering',
-                    read_time: '4 min read',
-                    image_url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-                    content: 'In this post, I break down the architectural decisions behind designing and deploying the Online Inventory Control System (OICS). We explore using React, Node.js, Express, and PostgreSQL with Drizzle ORM to build role-based access control, realtime stock management, and reliable sales pipelines.',
-                    tags: 'React, Node.js, PostgreSQL, Drizzle ORM, REST API',
-                    author: 'Kelvin Kimani',
-                    likes: 15,
-                },
-                {
-                    title: 'Enterprise Network Security: Lessons from Maintaining 99.9% Uptime in Hospital LAN/WANs',
-                    category: 'System Security',
-                    read_time: '5 min read',
-                    image_url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
-                    content: 'Maintaining critical network infrastructure requires redundant routing, aggressive firewall rules, proactive VLAN segmentation, and automated backup strategies. Here are practical security methodologies I implemented to achieve high availability and data integrity.',
-                    tags: 'Networking, Cybersecurity, LAN/WAN, System Administration',
-                    author: 'Kelvin Kimani',
-                    likes: 21,
-                },
-                {
-                    title: 'Integrating Google Gemini AI into Modern Full-Stack Web Applications',
-                    category: 'Artificial Intelligence',
-                    read_time: '3 min read',
-                    image_url: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80',
-                    content: 'Generative AI is changing how software interacts with users. In this article, I walk through connecting Google Gemini 1.5/2.0 Flash APIs with Node.js backends to power dynamic resume builders, smart assistants, and automated context-aware chat workflows.',
-                    tags: 'Python, AI, Google Gemini, API Integration, Automation',
-                    author: 'Kelvin Kimani',
-                    likes: 28,
-                }
-            ]).returning();
-
-            // Seed initial comments using Drizzle ORM
-            if (seededPosts.length > 0) {
-                const firstId = seededPosts[0].id;
-                await db.insert(postComments).values([
-                    {
-                        post_id: firstId,
-                        author: 'Alex Rivera',
-                        comment: 'Great breakdown of the PostgreSQL + Drizzle architecture! Really insightful and clean design.',
-                    },
-                    {
-                        post_id: firstId,
-                        author: 'David Mwangi',
-                        comment: 'How are you handling connection pooling in production? Awesome work Kelvin.',
-                    }
-                ]);
-            }
-
-            postList = await fetchPostsWithComments();
-        }
-
         res.json(postList);
     } catch (err) {
         console.error('Fetch posts error via Drizzle:', err.message);
