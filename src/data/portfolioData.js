@@ -17,30 +17,26 @@ export const aboutData = {
     principles: [
         {
             title: "People First",
-            icon: "fa-heart",
             description: "Code only matters if it solves a real frustration for the human being using it. I design with empathy and clarity."
         },
         {
             title: "Security by Default",
-            icon: "fa-shield-halved",
             description: "Privacy, segmented access, and reliable backups aren't optional extras — they are foundational to every project I build."
         },
         {
             title: "Pragmatic AI",
-            icon: "fa-wand-magic-sparkles",
             description: "I integrate LLMs and automation where they genuinely eliminate tedious work and add real productivity, not for empty buzzwords."
         },
         {
             title: "Craft & Curiosity",
-            icon: "fa-compass",
             description: "From pixel-level UI details to low-level packet routing, I stay curious, test thoroughly, and constantly refine my craft."
         }
     ],
     quickFacts: [
-        { icon: "fa-location-dot", label: "Location", value: "Nairobi, Kenya (UTC+3)" },
-        { icon: "fa-graduation-cap", label: "Degree", value: "B.Sc. in Computer Science & System Security" },
-        { icon: "fa-code", label: "Primary Tools", value: "React, Node.js, Python, PostgreSQL, Linux" },
-        { icon: "fa-mug-hot", label: "Fuel", value: "Curiosity, tough bugs & Kenyan coffee" }
+        { label: "Location", value: "Nairobi, Kenya (UTC+3)" },
+        { label: "Degree", value: "B.Sc. in Computer Science & System Security" },
+        { label: "Primary Tools", value: "React, Node.js, Python, PostgreSQL, Linux" },
+        { label: "Fuel", value: "Curiosity, tough bugs & Kenyan coffee" }
     ]
 };
 
@@ -50,39 +46,33 @@ export const whatIDoData = {
     services: [
         {
             title: "Full-Stack Web Development",
-            icon: "fa-code",
             description: "Designing and building modern, responsive web applications from snappy React frontends to scalable Node.js and Python APIs backed by PostgreSQL.",
             isSpecial: true,
             highlight: "Modern & Responsive"
         },
         {
             title: "Pragmatic AI & Automation",
-            icon: "fa-robot",
             description: "Integrating practical AI assistants, LLM workflows, and intelligent data extraction pipelines that eliminate hours of repetitive manual tasks.",
             isSpecial: true,
             highlight: "Intelligent Workflows"
         },
         {
             title: "Network & Systems Security",
-            icon: "fa-shield-halved",
             description: "Configuring 802.1Q VLANs, hardening firewalls, and managing server environments to ensure high uptime and ironclad data protection.",
             highlight: "Enterprise Resilient"
         },
         {
             title: "Cloud Infrastructure & Backups",
-            icon: "fa-cloud-arrow-up",
             description: "Deploying and managing containerized services, automated database snapshots, and tested disaster recovery routines so you never lose sleep over data loss.",
             highlight: "Zero Data Loss"
         },
         {
             title: "Database Architecture & APIs",
-            icon: "fa-database",
             description: "Architecting relational schemas, optimizing complex queries, and building RESTful APIs with PostgreSQL and Drizzle ORM for speed and data integrity.",
             highlight: "High Throughput"
         },
         {
             title: "Technical Consulting & Support",
-            icon: "fa-lightbulb",
             description: "Translating messy technical roadblocks into straightforward, cost-effective solutions and clear documentation for teams and founders.",
             highlight: "Clear & Practical"
         }
@@ -102,7 +92,6 @@ export const projectsData = {
             techStack: ["React", "Node.js", "Express", "PostgreSQL", "Drizzle ORM", "Tailwind CSS", "REST API"],
             category: "Full-Stack",
             isFeatured: true,
-            icon: "fa-boxes-stacked",
             liveUrl: "https://online-inventory-control-sy-mliso.sevalla.app/",
             githubUrl: "https://github.com/bscnrb112325-afk/ONLINE-INVENTORY-CONTROL-SYSTEM"
         },
@@ -115,7 +104,6 @@ export const projectsData = {
             techStack: ["Python", "Django", "PostgreSQL", "Docker", "Gunicorn", "Matplotlib", "REST API"],
             category: "Full-Stack",
             isFeatured: true,
-            icon: "fa-trowel-bricks",
             githubUrl: "https://github.com/bscnrb112325-afk/BIDII-ONE"
         },
         {
@@ -127,7 +115,6 @@ export const projectsData = {
             techStack: ["TypeScript", "React", "Node.js", "Python AI", "Docker", "REST API"],
             category: "Full-Stack",
             isFeatured: true,
-            icon: "fa-seedling",
             githubUrl: "https://github.com/bscnrb112325-afk/agrinatura"
         },
         {
@@ -138,8 +125,7 @@ export const projectsData = {
             extraDetails: "Engineered with polite rate-limiting, proxy rotation, automatic deduplication, and Pandas analytics.",
             techStack: ["Python", "BeautifulSoup4", "Pandas", "ETL Pipeline", "Data Engineering"],
             category: "AI & Automation",
-            isFeatured: true,
-            icon: "fa-spider"
+            isFeatured: true
         },
         {
             title: "AI ICT Troubleshooting Assistant",
@@ -149,8 +135,7 @@ export const projectsData = {
             extraDetails: "Integrates Google Gemini API, streaming responses, multi-turn memory, and tailored diagnostic prompts.",
             techStack: ["Gemini API", "Python", "Node.js", "Prompt Engineering", "NLP"],
             category: "AI & Automation",
-            isFeatured: true,
-            icon: "fa-robot"
+            isFeatured: true
         },
         {
             title: "Productify",
@@ -161,7 +146,6 @@ export const projectsData = {
             techStack: ["React", "Node.js", "Express", "PostgreSQL", "Tailwind CSS"],
             category: "Full-Stack",
             isFeatured: true,
-            icon: "fa-list-check",
             githubUrl: "https://github.com/bscnrb112325-afk/productify"
         },
         {
@@ -170,8 +154,7 @@ export const projectsData = {
             description: "Supported and optimized multi-department network operations in a busy hospital environment to ensure 99.9% uptime for medical and administrative workflows.",
             story: "Why this matters: In healthcare, network downtime isn't just an inconvenience — it delays patient triage and diagnostic reporting. I helped configure VLANs to isolate sensitive health data from general traffic and hardened edge routers.",
             techStack: ["802.1Q VLANs", "Firewall Hardening", "Cisco Routing", "System Administration"],
-            category: "Networking & Systems",
-            icon: "fa-network-wired"
+            category: "Networking & Systems"
         },
         {
             title: "Enterprise Cloud Backup & Disaster Recovery",
@@ -179,8 +162,7 @@ export const projectsData = {
             description: "Implemented structured offsite backup pipelines and failover recovery testing to safeguard mission-critical organizational databases.",
             story: "Why this matters: A backup system is only as good as its last successful restore test. I built automated snapshot routines and recovery playbooks to protect against hardware failures and ransomware threats.",
             techStack: ["Cloud Storage", "Automated Snapshots", "Disaster Recovery", "Linux Bash"],
-            category: "Cloud & Security",
-            icon: "fa-cloud-arrow-up"
+            category: "Cloud & Security"
         }
     ]
 };
@@ -202,22 +184,18 @@ export const missionData = {
     },
     collaborationTypes: [
         {
-            icon: "fa-briefcase",
             title: "Full-Time Opportunities",
             desc: "Full-stack developer, software engineer, or systems/network security roles."
         },
         {
-            icon: "fa-laptop-code",
             title: "Freelance & MVPs",
             desc: "End-to-end web apps, custom inventory systems, and automated pipelines."
         },
         {
-            icon: "fa-wand-magic-sparkles",
             title: "AI Integration & Workflows",
             desc: "Custom LLM assistants, scrapers, and intelligent business process automation."
         },
         {
-            icon: "fa-shield-halved",
             title: "Systems & Security Audits",
             desc: "VLAN segmentation, backup verification, and infrastructure hardening."
         }
