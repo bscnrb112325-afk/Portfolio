@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '../dist')));
 // API: Get Profile
 app.get('/api/profile', (req, res) => {
     res.json({
-        name: 'kelvin',
+        name: 'Kelvin Kimani',
         title: 'Bachelor of Science in Computer Science and System Security'
     });
 });

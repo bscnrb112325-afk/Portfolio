@@ -6,7 +6,6 @@ import SkillsModule   from './components/SkillsModule';
 import ProjectsModule from './components/ProjectsModule';
 import MissionModule  from './components/MissionModule';
 import AICVModule     from './components/AICVModule';
-import PostsModule    from './components/PostsModule';
 
 function AppInner() {
     const [activeModule, setActiveModule] = useState('about');
@@ -19,8 +18,6 @@ function AppInner() {
             case 'projects': return <ProjectsModule />;
             case 'mission':  return <MissionModule />;
             case 'aicv':     return <AICVModule />;
-            case 'posts':
-            case 'post':     return <PostsModule />;
             default:         return <AboutModule />;
         }
     };
