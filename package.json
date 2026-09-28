@@ -2,6 +2,9 @@
   "name": "portfolio-fullstack",
   "version": "1.0.0",
   "description": "Portfolio Website with Express Backend",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "backend": "node backend/server.js",
