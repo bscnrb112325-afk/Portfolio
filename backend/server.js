@@ -67,7 +67,7 @@ app.get('/api/messages', async (req, res) => {
 async function generateGeminiReply(prompt, systemInstruction) {
     const apiKey = process.env.AI_API_KEY;
     if (apiKey && apiKey.trim() !== '') {
-        const models = ['gemini-1.5-flash', 'gemini-2.0-flash'];
+        const models = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
         for (const model of models) {
             try {
                 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
