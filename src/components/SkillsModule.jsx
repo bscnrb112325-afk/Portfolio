@@ -37,17 +37,6 @@ export default function SkillsModule() {
                             )}
 
                             <div>
-                                {/* Icon */}
-                                <div
-                                    className="mb-4 flex size-14 items-center justify-center rounded-2xl text-2xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:bg-[#4361ee] group-hover:text-white"
-                                    style={{
-                                        backgroundColor: isSpecial ? 'rgba(76,201,240,0.14)' : 'rgba(67,97,238,0.10)',
-                                        color: isSpecial ? '#00f5d4' : '#4cc9f0',
-                                    }}
-                                >
-                                    <i className={`fa-solid ${service.icon}`}></i>
-                                </div>
-
                                 <h3 className="mb-2 text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
                                     {service.title}
                                 </h3>
@@ -59,8 +48,7 @@ export default function SkillsModule() {
 
                             <div className="mt-5 border-t pt-3" style={{ borderColor: 'var(--border)' }}>
                                 <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#4cc9f0] transition-transform duration-200 group-hover:translate-x-1">
-                                    <span>Learn more in Projects</span>
-                                    <i className="fa-solid fa-arrow-right text-[0.7rem]"></i>
+                                    <span>Learn more in Projects &rarr;</span>
                                 </span>
                             </div>
                         </div>
@@ -88,8 +76,7 @@ export default function SkillsModule() {
                     href="mailto:kelvinkimani513@gmail.com?subject=Project%20Inquiry%20from%20Portfolio"
                     className="inline-flex shrink-0 items-center gap-2 rounded-full bg-linear-to-r from-[#4361ee] to-[#7209b7] px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-[#4361ee]/25 transition-all hover:opacity-90"
                 >
-                    <i className="fa-solid fa-comment-dots"></i>
-                    Let&apos;s Discuss Your Idea
+                    Let&apos;s Discuss Your Idea &rarr;
                 </a>
             </div>
         </section>

@@ -116,13 +116,13 @@ export default function AICVModule() {
 
                     <div style={{ display: 'flex', gap: '0.7rem', flexWrap: 'wrap' }}>
                         <button className="ai-feat-btn" onClick={handleGenerateAiSummary} disabled={aiLoading}>
-                            <i className="fa-solid fa-wand-magic-sparkles"></i> {aiLoading ? 'Drafting...' : 'AI Summary'}
+                            {aiLoading ? 'Drafting...' : 'AI Summary'}
                         </button>
                         <button className="ai-feat-btn" onClick={handleAiReview} disabled={aiLoading}>
-                            <i className="fa-solid fa-brain"></i> AI ATS Review
+                            AI ATS Review
                         </button>
                         <button className="btn-primary" onClick={handlePrint} style={{ padding: '0.55rem 1.2rem', fontSize: '0.88rem' }}>
-                            <i className="fa-solid fa-file-pdf"></i> Export PDF
+                            Export PDF
                         </button>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ export default function AICVModule() {
                 {aiAdvice && (
                     <div style={{ background: 'rgba(76, 201, 240, 0.08)', border: '1px solid rgba(76, 201, 240, 0.3)', borderRadius: '12px', padding: '1rem 1.4rem', marginBottom: '2rem', position: 'relative' }}>
                         <h4 style={{ color: 'var(--accent-color)', margin: '0 0 0.5rem 0', fontSize: '0.95rem' }}>
-                            <i className="fa-solid fa-sparkles"></i> AI ATS Optimization Recommendations:
+                            AI ATS Optimization Recommendations:
                         </h4>
                         <p style={{ color: '#e2e8f0', fontSize: '0.88rem', margin: 0, whiteSpace: 'pre-line', lineHeight: '1.6' }}>
                             {aiAdvice}
@@ -303,7 +303,7 @@ export default function AICVModule() {
                                     </div>
                                 ))}
                                 <button type="button" onClick={handleReset} className="cv-template-btn" style={{ marginTop: '1rem', width: '100%' }}>
-                                    <i className="fa-solid fa-rotate-left"></i> Reset to Kelvin Defaults
+                                    Reset to Kelvin Defaults
                                 </button>
                             </div>
                         )}
@@ -317,9 +317,11 @@ export default function AICVModule() {
                             <h1 style={{ fontSize: '1.8rem', margin: '0 0 0.3rem 0', color: selectedTemplate === 'executive' ? '#0f172a' : '#fff' }}>{cvState.personal.name}</h1>
                             <p style={{ fontSize: '1rem', color: selectedTemplate === 'executive' ? '#0284c7' : 'var(--accent-color)', fontWeight: '600', margin: '0 0 0.6rem 0' }}>{cvState.personal.title}</p>
                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', fontSize: '0.82rem', color: selectedTemplate === 'executive' ? '#64748b' : 'var(--text-secondary)' }}>
-                                <span><i className="fa-solid fa-envelope"></i> {cvState.personal.email}</span>
-                                <span><i className="fa-solid fa-phone"></i> {cvState.personal.phone}</span>
-                                <span><i className="fa-solid fa-location-dot"></i> {cvState.personal.location}</span>
+                                <span>{cvState.personal.email}</span>
+                                <span>•</span>
+                                <span>{cvState.personal.phone}</span>
+                                <span>•</span>
+                                <span>{cvState.personal.location}</span>
                             </div>
                         </div>
 

@@ -17,11 +17,11 @@ export default function TopHeader({ activeModule, onSelectModule }) {
     }, []);
 
     const modules = [
-        { id: 'about',    label: 'About Me',   icon: 'fa-user' },
-        { id: 'skills',   label: 'What I Do',  icon: 'fa-layer-group' },
-        { id: 'projects', label: 'Projects',   icon: 'fa-code' },
-        { id: 'mission',  label: 'Let\'s Connect', icon: 'fa-paper-plane' },
-        { id: 'aicv',     label: 'AI Resume',  icon: 'fa-wand-magic-sparkles' },
+        { id: 'about',    label: 'About Me' },
+        { id: 'skills',   label: 'What I Do' },
+        { id: 'projects', label: 'Projects' },
+        { id: 'mission',  label: 'Let\'s Connect' },
+        { id: 'aicv',     label: 'AI Resume' },
     ];
 
     const isActive = (id) => activeModule === id;
@@ -62,7 +62,6 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                                     }
                                 `}
                             >
-                                <i className={`fa-solid ${mod.icon} text-[0.8rem] ${isActive(mod.id) ? 'text-white' : 'text-[#4361ee]'}`}></i>
                                 <span>{mod.label}</span>
                             </button>
                         ))}
@@ -93,10 +92,10 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                                 }
                             `}
                         >
-                            <i
-                                className={`theme-toggle-icon text-base ${isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'}`}
+                            <span
+                                className="theme-toggle-icon text-base"
                                 key={isDark ? 'sun' : 'moon'}
-                            ></i>
+                            >{isDark ? '☀️' : '🌙'}</span>
                         </button>
                     </div>
                 </div>

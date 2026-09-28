@@ -93,9 +93,6 @@ export default function AboutModule() {
                                 className="flex items-center gap-3 rounded-xl p-3.5 transition-all duration-200"
                                 style={cardStyle}
                             >
-                                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#4361ee]/15 text-[#4cc9f0]">
-                                    <i className={`fa-solid ${fact.icon} text-base`}></i>
-                                </div>
                                 <div className="min-w-0">
                                     <div className="text-[0.75rem] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-faint)' }}>
                                         {fact.label}
@@ -111,7 +108,7 @@ export default function AboutModule() {
                     {/* Guiding Principles */}
                     <div className="mt-8">
                         <h3 className="mb-3 text-base font-semibold uppercase tracking-wider" style={{ color: 'var(--text-primary)' }}>
-                            <i className="fa-solid fa-compass mr-2 text-[#4cc9f0]"></i>How I Think & Work
+                            How I Think & Work
                         </h3>
                         <div className="grid gap-3 sm:grid-cols-2">
                             {aboutData.principles.map(p => (
@@ -121,7 +118,6 @@ export default function AboutModule() {
                                     style={cardStyle}
                                 >
                                     <div className="mb-1.5 flex items-center gap-2">
-                                        <i className={`fa-solid ${p.icon} text-[#4cc9f0] text-sm`}></i>
                                         <h4 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{p.title}</h4>
                                     </div>
                                     <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
@@ -153,8 +149,8 @@ export default function AboutModule() {
                                     onError={() => setImgError(true)}
                                 />
                             ) : (
-                                <div className="flex h-full w-full items-center justify-center text-5xl text-[#4cc9f0]">
-                                    <i className="fa-solid fa-user-tie"></i>
+                                <div className="flex h-full w-full items-center justify-center text-4xl font-bold text-[#4cc9f0]">
+                                    KK
                                 </div>
                             )}
                         </div>
@@ -167,7 +163,6 @@ export default function AboutModule() {
                         </p>
 
                         <div className="mb-5 flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
-                            <i className="fa-solid fa-location-dot text-rose-400"></i>
                             <span>Nairobi, Kenya</span>
                         </div>
 
@@ -181,12 +176,12 @@ export default function AboutModule() {
                         </div>
 
                         {/* Direct Social Links */}
-                        <div className="flex items-center gap-2.5">
+                        <div className="flex flex-wrap items-center justify-center gap-2">
                             {[
-                                { href: 'https://github.com/bscnrb112325-afk', icon: 'fa-brands fa-github', label: 'GitHub' },
-                                { href: 'https://www.linkedin.com/in/kelvin-kimani-a94552214/', icon: 'fa-brands fa-linkedin-in', label: 'LinkedIn' },
-                                { href: 'mailto:kelvinkimani513@gmail.com', icon: 'fa-solid fa-envelope', label: 'Email' },
-                                { href: 'https://wa.me/254701861965?text=Hi%20Kelvin%2C%20I%20saw%20your%20portfolio%20and%20wanted%20to%20reach%20out!', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' }
+                                { href: 'https://github.com/bscnrb112325-afk', label: 'GitHub' },
+                                { href: 'https://www.linkedin.com/in/kelvin-kimani-a94552214/', label: 'LinkedIn' },
+                                { href: 'mailto:kelvinkimani513@gmail.com', label: 'Email' },
+                                { href: 'https://wa.me/254701861965?text=Hi%20Kelvin%2C%20I%20saw%20your%20portfolio%20and%20wanted%20to%20reach%20out!', label: 'WhatsApp' }
                             ].map(item => (
                                 <a
                                     key={item.label}
@@ -195,10 +190,10 @@ export default function AboutModule() {
                                     rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                                     aria-label={item.label}
                                     title={item.label}
-                                    className="flex size-9 items-center justify-center rounded-full border text-sm transition-all duration-200 hover:-translate-y-1 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/15 hover:text-[#4cc9f0]"
+                                    className="flex h-8 items-center justify-center rounded-lg border px-2.5 text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/15 hover:text-[#4cc9f0]"
                                     style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
                                 >
-                                    <i className={item.icon}></i>
+                                    {item.label}
                                 </a>
                             ))}
                         </div>

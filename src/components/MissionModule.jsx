@@ -75,7 +75,6 @@ export default function MissionModule() {
                     <span className="font-bold not-italic text-[#4cc9f0]">&rdquo;</span>
                 </blockquote>
                 <p className="mt-3 text-xs sm:text-sm font-medium text-emerald-400">
-                    <i className="fa-solid fa-circle-check mr-1.5"></i>
                     {missionData.locationText}
                 </p>
             </div>
@@ -87,7 +86,6 @@ export default function MissionModule() {
                         title: 'Chat on WhatsApp',
                         desc: 'Quickest response for project chats',
                         action: 'Open WhatsApp',
-                        icon: 'fa-brands fa-whatsapp',
                         href: missionData.contact.whatsappUrl,
                         isPrimary: true,
                         color: 'text-emerald-400',
@@ -97,7 +95,6 @@ export default function MissionModule() {
                         title: 'Email Kelvin',
                         desc: missionData.contact.email,
                         action: 'Send Email',
-                        icon: 'fa-solid fa-envelope',
                         href: `mailto:${missionData.contact.email}`,
                         color: 'text-[#4cc9f0]',
                         bg: 'bg-[#4361ee]/10 border-[#4361ee]/30'
@@ -106,7 +103,6 @@ export default function MissionModule() {
                         title: 'Direct Call',
                         desc: missionData.contact.phone,
                         action: 'Call Now',
-                        icon: 'fa-solid fa-phone',
                         href: `tel:${missionData.contact.phoneRaw}`,
                         color: 'text-teal-400',
                         bg: 'bg-teal-500/10 border-teal-500/30'
@@ -115,7 +111,6 @@ export default function MissionModule() {
                         title: 'LinkedIn',
                         desc: 'Professional network & experience',
                         action: 'View Profile',
-                        icon: 'fa-brands fa-linkedin-in',
                         href: missionData.contact.linkedin,
                         color: 'text-sky-400',
                         bg: 'bg-sky-500/10 border-sky-500/30'
@@ -129,9 +124,10 @@ export default function MissionModule() {
                         className={`group flex flex-col justify-between rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.bg}`}
                     >
                         <div>
-                            <div className="mb-3 flex items-center justify-between">
-                                <i className={`${item.icon} text-2xl ${item.color}`}></i>
-                                <i className="fa-solid fa-arrow-up-right-from-square text-xs text-neutral-400 opacity-60 transition-opacity group-hover:opacity-100"></i>
+                            <div className="mb-2">
+                                <span className={`text-[0.7rem] font-bold uppercase tracking-wider ${item.color}`}>
+                                    {item.title}
+                                </span>
                             </div>
                             <h4 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
                                 {item.title}
@@ -153,7 +149,7 @@ export default function MissionModule() {
                 {/* Left (2 cols): Collaboration Opportunities */}
                 <div className="lg:col-span-2 space-y-4">
                     <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
-                        <i className="fa-solid fa-handshake mr-2 text-[#4cc9f0]"></i>Ways We Can Work Together
+                        Ways We Can Work Together
                     </h3>
                     <div className="space-y-3">
                         {missionData.collaborationTypes.map(c => (
@@ -162,15 +158,12 @@ export default function MissionModule() {
                                 className="rounded-xl p-4 transition-all duration-200"
                                 style={cardStyle}
                             >
-                                <div className="mb-1 flex items-center gap-2.5">
-                                    <div className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-[#4361ee]/20 text-xs text-[#4cc9f0]">
-                                        <i className={`fa-solid ${c.icon}`}></i>
-                                    </div>
+                                <div className="mb-1 flex items-center gap-2">
                                     <h4 className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
                                         {c.title}
                                     </h4>
                                 </div>
-                                <p className="pl-9 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                                <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
                                     {c.desc}
                                 </p>
                             </div>
@@ -294,7 +287,7 @@ export default function MissionModule() {
 
                         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                             <span className="text-[0.75rem]" style={{ color: 'var(--text-faint)' }}>
-                                <i className="fa-solid fa-lock mr-1"></i>No spam. Directly saved to database.
+                                No spam. Directly saved to database.
                             </span>
 
                             <button
@@ -303,15 +296,9 @@ export default function MissionModule() {
                                 className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-linear-to-r from-[#4361ee] to-[#4cc9f0] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-[#4361ee]/30 transition-all hover:opacity-90 disabled:opacity-50"
                             >
                                 {status.state === 'loading' ? (
-                                    <>
-                                        <i className="fa-solid fa-spinner fa-spin"></i>
-                                        <span>Sending...</span>
-                                    </>
+                                    <span>Sending...</span>
                                 ) : (
-                                    <>
-                                        <i className="fa-solid fa-paper-plane"></i>
-                                        <span>Send Message</span>
-                                    </>
+                                    <span>Send Message</span>
                                 )}
                             </button>
                         </div>
@@ -319,15 +306,15 @@ export default function MissionModule() {
                 </div>
             </div>
 
-            {/* Social Icons row */}
-            <div className="mt-12 flex items-center justify-center gap-3">
+            {/* Social Links row */}
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
                 {[
-                    { href: missionData.contact.whatsappUrl, icon: 'fa-brands fa-whatsapp', label: 'WhatsApp' },
-                    { href: missionData.contact.github, icon: 'fa-brands fa-github', label: 'GitHub' },
-                    { href: missionData.contact.linkedin, icon: 'fa-brands fa-linkedin-in', label: 'LinkedIn' },
-                    { href: `mailto:${missionData.contact.email}`, icon: 'fa-solid fa-envelope', label: 'Email' },
-                    { href: `tel:${missionData.contact.phoneRaw}`, icon: 'fa-solid fa-phone', label: 'Phone' }
-                ].map(({ href, icon, label }) => (
+                    { href: missionData.contact.whatsappUrl, label: 'WhatsApp' },
+                    { href: missionData.contact.github, label: 'GitHub' },
+                    { href: missionData.contact.linkedin, label: 'LinkedIn' },
+                    { href: `mailto:${missionData.contact.email}`, label: 'Email' },
+                    { href: `tel:${missionData.contact.phoneRaw}`, label: 'Phone' }
+                ].map(({ href, label }) => (
                     <a
                         key={label}
                         href={href}
@@ -335,14 +322,14 @@ export default function MissionModule() {
                         rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                         aria-label={label}
                         title={label}
-                        className="flex size-11 items-center justify-center rounded-full text-base transition-all duration-200 hover:-translate-y-1 hover:border-[#4cc9f0]/60 hover:bg-[#4cc9f0]/10 hover:text-[#4cc9f0] hover:shadow-lg hover:shadow-[#4cc9f0]/20"
+                        className="flex h-9 items-center justify-center rounded-lg border px-3 text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/10 hover:text-[#4cc9f0] hover:shadow-lg hover:shadow-[#4cc9f0]/20"
                         style={{
                             border: '1px solid var(--border)',
                             backgroundColor: 'var(--bg-overlay-light)',
                             color: 'var(--text-muted)',
                         }}
                     >
-                        <i className={icon}></i>
+                        {label}
                     </a>
                 ))}
             </div>

@@ -49,13 +49,12 @@ export default function ProjectsModule() {
 
                 {/* React Search Bar */}
                 <div className="relative w-full sm:w-72">
-                    <i className="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-xs" style={{ color: 'var(--text-muted)' }}></i>
                     <input
                         type="text"
                         placeholder="Search projects or stack..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full rounded-full border py-2 pl-9 pr-8 text-xs sm:text-sm outline-none transition-all duration-200 focus:border-[#4361ee] focus:shadow-md focus:shadow-[#4361ee]/20"
+                        className="w-full rounded-full border py-2 px-4 pr-8 text-xs sm:text-sm outline-none transition-all duration-200 focus:border-[#4361ee] focus:shadow-md focus:shadow-[#4361ee]/20"
                         style={{
                             borderColor: 'var(--border)',
                             backgroundColor: 'var(--bg-card)',
@@ -68,7 +67,7 @@ export default function ProjectsModule() {
                             aria-label="Clear search"
                             className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white"
                         >
-                            <i className="fa-solid fa-xmark"></i>
+                            ✕
                         </button>
                     )}
                 </div>
@@ -105,9 +104,6 @@ export default function ProjectsModule() {
                     className="flex flex-col items-center justify-center rounded-2xl border p-12 text-center"
                     style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-card)' }}
                 >
-                    <div className="mb-3 flex size-14 items-center justify-center rounded-2xl bg-[#4361ee]/15 text-2xl text-[#4cc9f0]">
-                        <i className="fa-solid fa-folder-open"></i>
-                    </div>
                     <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>No projects found</h3>
                     <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
                         No projects matched your criteria for &quot;{searchQuery}&quot;. Try resetting your filters.
@@ -141,10 +137,7 @@ export default function ProjectsModule() {
                                 )}
 
                                 <div>
-                                    <div className="mb-4 flex items-start gap-3">
-                                        <div className="mt-0.5 flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#4361ee]/15 text-xl text-[#4cc9f0] transition-transform duration-300 group-hover:scale-110">
-                                            <i className={`fa-solid ${project.icon || 'fa-code'}`}></i>
-                                        </div>
+                                    <div className="mb-4">
                                         <div className="pr-16">
                                             <h3 className="text-xl font-bold transition-colors duration-200 group-hover:text-[#4cc9f0]" style={{ color: 'var(--text-primary)' }}>
                                                 {project.title}
@@ -174,7 +167,7 @@ export default function ProjectsModule() {
                                             style={{ backgroundColor: 'var(--bg-overlay-light)', color: 'var(--text-muted)' }}
                                         >
                                             <span className="font-bold text-[#4cc9f0]">
-                                                <i className="fa-solid fa-lightbulb mr-1"></i>Behind the Project:{' '}
+                                                Behind the Project:{' '}
                                             </span>
                                             {project.story}
                                         </div>
@@ -204,8 +197,7 @@ export default function ProjectsModule() {
                                                     rel="noopener noreferrer"
                                                     className="inline-flex items-center gap-1.5 rounded-full border border-[#4361ee]/40 bg-[#4361ee]/15 px-3.5 py-1.5 text-xs font-semibold text-[#4cc9f0] transition-all duration-200 hover:border-[#4361ee] hover:bg-[#4361ee]/30 hover:text-white"
                                                 >
-                                                    <i className="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                                                    Live Demo
+                                                    Live Demo &rarr;
                                                 </a>
                                             )}
                                             {project.githubUrl && (
@@ -216,7 +208,6 @@ export default function ProjectsModule() {
                                                     className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 hover:border-[#4361ee] hover:bg-[#4361ee]/20 hover:text-[#4cc9f0]"
                                                     style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-overlay-light)', color: 'var(--text-primary)' }}
                                                 >
-                                                    <i className="fa-brands fa-github text-xs"></i>
                                                     GitHub
                                                 </a>
                                             )}
@@ -226,7 +217,7 @@ export default function ProjectsModule() {
                                             onClick={() => setActiveModalProject(project)}
                                             className="cursor-pointer text-xs font-semibold text-[#4cc9f0] hover:underline"
                                         >
-                                            Deep Dive <i className="fa-solid fa-chevron-right ml-0.5 text-[0.65rem]"></i>
+                                            Deep Dive &rarr;
                                         </button>
                                     </div>
                                 </div>
@@ -259,19 +250,14 @@ export default function ProjectsModule() {
                             className="absolute right-5 top-5 flex size-8 cursor-pointer items-center justify-center rounded-full border text-neutral-400 transition-all hover:bg-white/10 hover:text-white"
                             style={{ borderColor: 'var(--border)' }}
                         >
-                            <i className="fa-solid fa-xmark"></i>
+                            ✕
                         </button>
 
-                        <div className="mb-4 flex items-center gap-3">
-                            <div className="flex size-12 items-center justify-center rounded-xl bg-[#4361ee]/20 text-2xl text-[#4cc9f0]">
-                                <i className={`fa-solid ${activeModalProject.icon || 'fa-code'}`}></i>
-                            </div>
-                            <div>
-                                <h3 className="text-2xl font-bold">{activeModalProject.title}</h3>
-                                <span className="text-xs font-semibold uppercase tracking-wider text-[#4cc9f0]">
-                                    {activeModalProject.category}
-                                </span>
-                            </div>
+                        <div className="mb-4">
+                            <h3 className="text-2xl font-bold">{activeModalProject.title}</h3>
+                            <span className="text-xs font-semibold uppercase tracking-wider text-[#4cc9f0]">
+                                {activeModalProject.category}
+                            </span>
                         </div>
 
                         {activeModalProject.tagline && (
@@ -291,7 +277,7 @@ export default function ProjectsModule() {
                             {activeModalProject.story && (
                                 <div className="rounded-xl border border-[#4cc9f0]/30 bg-[#4cc9f0]/5 p-4">
                                     <h4 className="mb-1 text-xs font-bold uppercase tracking-wider text-[#4cc9f0]">
-                                        <i className="fa-solid fa-heart mr-1.5"></i>Why I Built This / The Real-World Need
+                                        Why I Built This / The Real-World Need
                                     </h4>
                                     <p className="text-xs sm:text-sm">{activeModalProject.story}</p>
                                 </div>
@@ -332,8 +318,7 @@ export default function ProjectsModule() {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-[#4361ee] to-[#4cc9f0] px-5 py-2 text-xs font-semibold text-white shadow-md transition-all hover:opacity-90"
                                 >
-                                    <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                                    Visit Live Application
+                                    Visit Live Application &rarr;
                                 </a>
                             )}
                             {activeModalProject.githubUrl && (
@@ -344,7 +329,6 @@ export default function ProjectsModule() {
                                     className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs font-semibold transition-all hover:bg-white/10"
                                     style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
                                 >
-                                    <i className="fa-brands fa-github text-sm"></i>
                                     View Source on GitHub
                                 </a>
                             )}
