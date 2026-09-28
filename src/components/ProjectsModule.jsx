@@ -54,18 +54,13 @@ export default function ProjectsModule() {
                         placeholder="Search projects or stack..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full rounded-full border py-2 px-4 pr-8 text-xs sm:text-sm outline-none transition-all duration-200 focus:border-[#4361ee] focus:shadow-md focus:shadow-[#4361ee]/20"
-                        style={{
-                            borderColor: 'var(--border)',
-                            backgroundColor: 'var(--bg-card)',
-                            color: 'var(--text-primary)',
-                        }}
+                        className="input input-bordered w-full rounded-full pl-4 pr-9 text-xs sm:text-sm"
                     />
                     {searchQuery && (
                         <button
                             onClick={() => setSearchQuery('')}
                             aria-label="Clear search"
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white"
+                            className="btn btn-ghost btn-circle btn-xs absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white"
                         >
                             ✕
                         </button>
@@ -81,12 +76,11 @@ export default function ProjectsModule() {
                         <button
                             key={category}
                             onClick={() => setSelectedCategory(category)}
-                            className={`cursor-pointer rounded-full px-4 py-1.5 text-xs font-semibold transition-all duration-200 ${
+                            className={`btn btn-sm rounded-full transition-all duration-200 ${
                                 isSelected
-                                    ? 'bg-linear-to-r from-[#4361ee] to-[#4cc9f0] text-white shadow-md shadow-[#4361ee]/30'
-                                    : 'border hover:border-[#4361ee]/50 hover:bg-[#4361ee]/15 hover:text-[#4361ee]'
+                                    ? 'btn-primary text-white shadow-md shadow-[#4361ee]/30'
+                                    : 'btn-ghost border border-base-content/10 hover:border-primary/50'
                             }`}
-                            style={isSelected ? {} : { borderColor: 'var(--border)', backgroundColor: 'var(--bg-overlay-light)', color: 'var(--text-primary)' }}
                         >
                             {category}
                         </button>
@@ -101,8 +95,8 @@ export default function ProjectsModule() {
             {/* Projects Grid */}
             {filteredProjects.length === 0 ? (
                 <div
-                    className="flex flex-col items-center justify-center rounded-2xl border p-12 text-center"
-                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-card)' }}
+                    className="card card-bordered flex flex-col items-center justify-center p-12 text-center bg-base-200/50"
+                    style={{ borderColor: 'var(--border)' }}
                 >
                     <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>No projects found</h3>
                     <p className="mt-1 text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -110,7 +104,7 @@ export default function ProjectsModule() {
                     </p>
                     <button
                         onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}
-                        className="mt-4 rounded-full border border-[#4361ee]/40 bg-[#4361ee]/20 px-5 py-2 text-xs font-semibold text-[#4cc9f0] hover:bg-[#4361ee]/30"
+                        className="btn btn-primary btn-sm rounded-full mt-4"
                     >
                         Reset Filters
                     </button>
@@ -124,14 +118,13 @@ export default function ProjectsModule() {
                         return (
                             <div
                                 key={project.title}
-                                className={`group relative flex flex-col justify-between rounded-2xl p-6 sm:p-7 backdrop-blur-md transition-all duration-300 animate-[fadeInUp_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 ${delay} hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)]`}
+                                className={`card card-bordered group relative flex flex-col justify-between p-6 sm:p-7 backdrop-blur-md transition-all duration-300 animate-[fadeInUp_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 ${delay} hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.2)] bg-base-200/50`}
                                 style={{
-                                    border: isFeatured ? '1px solid var(--border-featured)' : '1px solid var(--border)',
-                                    backgroundColor: isFeatured ? 'var(--bg-card-featured)' : 'var(--bg-card)',
+                                    borderColor: isFeatured ? 'var(--border-featured)' : 'var(--border)',
                                 }}
                             >
                                 {isFeatured && (
-                                    <span className="absolute right-5 top-5 rounded-full border border-[#4361ee]/40 bg-[#4361ee]/20 px-3 py-0.5 text-xs font-semibold text-[#4cc9f0]">
+                                    <span className="badge badge-primary badge-outline absolute right-5 top-5 text-xs font-semibold">
                                         Featured
                                     </span>
                                 )}
@@ -180,7 +173,7 @@ export default function ProjectsModule() {
                                         {project.techStack.map(tag => (
                                             <span
                                                 key={tag}
-                                                className="rounded-full border border-[#4361ee]/30 bg-[#4361ee]/10 px-2.5 py-0.5 text-[0.75rem] font-medium text-[#4cc9f0]"
+                                                className="badge badge-sm badge-outline badge-primary"
                                             >
                                                 {tag}
                                             </span>
@@ -195,7 +188,7 @@ export default function ProjectsModule() {
                                                     href={project.liveUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-1.5 rounded-full border border-[#4361ee]/40 bg-[#4361ee]/15 px-3.5 py-1.5 text-xs font-semibold text-[#4cc9f0] transition-all duration-200 hover:border-[#4361ee] hover:bg-[#4361ee]/30 hover:text-white"
+                                                    className="btn btn-primary btn-sm rounded-full text-xs font-semibold text-white shadow-sm"
                                                 >
                                                     Live Demo &rarr;
                                                 </a>
@@ -205,8 +198,7 @@ export default function ProjectsModule() {
                                                     href={project.githubUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all duration-200 hover:border-[#4361ee] hover:bg-[#4361ee]/20 hover:text-[#4cc9f0]"
-                                                    style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-overlay-light)', color: 'var(--text-primary)' }}
+                                                    className="btn btn-outline btn-sm rounded-full text-xs font-semibold"
                                                 >
                                                     GitHub
                                                 </a>
@@ -215,7 +207,7 @@ export default function ProjectsModule() {
 
                                         <button
                                             onClick={() => setActiveModalProject(project)}
-                                            className="cursor-pointer text-xs font-semibold text-[#4cc9f0] hover:underline"
+                                            className="btn btn-ghost btn-sm text-xs font-semibold text-[#4cc9f0] hover:underline"
                                         >
                                             Deep Dive &rarr;
                                         </button>
@@ -229,33 +221,20 @@ export default function ProjectsModule() {
 
             {/* Project Deep Dive Modal */}
             {activeModalProject && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md"
-                    style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
-                    onClick={() => setActiveModalProject(null)}
-                >
-                    <div
-                        className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border p-6 sm:p-8 shadow-2xl backdrop-blur-xl"
-                        style={{
-                            borderColor: 'var(--border)',
-                            backgroundColor: 'var(--bg-card-solid)',
-                            color: 'var(--text-primary)',
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                <dialog className="modal modal-open">
+                    <div className="modal-box relative max-w-2xl bg-base-200 border border-base-content/10 shadow-2xl p-6 sm:p-8">
                         {/* Close button */}
                         <button
                             onClick={() => setActiveModalProject(null)}
                             aria-label="Close modal"
-                            className="absolute right-5 top-5 flex size-8 cursor-pointer items-center justify-center rounded-full border text-neutral-400 transition-all hover:bg-white/10 hover:text-white"
-                            style={{ borderColor: 'var(--border)' }}
+                            className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"
                         >
                             ✕
                         </button>
 
                         <div className="mb-4">
                             <h3 className="text-2xl font-bold">{activeModalProject.title}</h3>
-                            <span className="text-xs font-semibold uppercase tracking-wider text-[#4cc9f0]">
+                            <span className="badge badge-primary badge-outline text-xs font-semibold uppercase tracking-wider mt-1">
                                 {activeModalProject.category}
                             </span>
                         </div>
@@ -300,7 +279,7 @@ export default function ProjectsModule() {
                                     {activeModalProject.techStack.map(t => (
                                         <span
                                             key={t}
-                                            className="rounded-full border border-[#4361ee]/40 bg-[#4361ee]/15 px-3 py-1 text-xs font-medium text-[#4cc9f0]"
+                                            className="badge badge-primary badge-outline px-3 py-2 text-xs font-medium"
                                         >
                                             {t}
                                         </span>
@@ -310,13 +289,13 @@ export default function ProjectsModule() {
                         </div>
 
                         {/* Action buttons */}
-                        <div className="mt-8 flex flex-wrap items-center justify-end gap-3 border-t pt-5" style={{ borderColor: 'var(--border)' }}>
+                        <div className="modal-action mt-8 flex flex-wrap items-center justify-end gap-3 border-t pt-5 border-base-content/10">
                             {activeModalProject.liveUrl && (
                                 <a
                                     href={activeModalProject.liveUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-[#4361ee] to-[#4cc9f0] px-5 py-2 text-xs font-semibold text-white shadow-md transition-all hover:opacity-90"
+                                    className="btn btn-primary btn-sm rounded-full text-xs font-semibold text-white shadow-md"
                                 >
                                     Visit Live Application &rarr;
                                 </a>
@@ -326,22 +305,23 @@ export default function ProjectsModule() {
                                     href={activeModalProject.githubUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs font-semibold transition-all hover:bg-white/10"
-                                    style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
+                                    className="btn btn-outline btn-sm rounded-full text-xs font-semibold"
                                 >
                                     View Source on GitHub
                                 </a>
                             )}
                             <button
                                 onClick={() => setActiveModalProject(null)}
-                                className="cursor-pointer rounded-full border px-4 py-2 text-xs font-semibold transition-all hover:bg-white/10"
-                                style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                                className="btn btn-ghost btn-sm rounded-full text-xs font-semibold"
                             >
                                 Close
                             </button>
                         </div>
                     </div>
-                </div>
+                    <form method="dialog" className="modal-backdrop bg-black/60" onClick={() => setActiveModalProject(null)}>
+                        <button>close</button>
+                    </form>
+                </dialog>
             )}
         </section>
     );

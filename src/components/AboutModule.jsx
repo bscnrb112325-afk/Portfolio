@@ -90,11 +90,11 @@ export default function AboutModule() {
                         {aboutData.quickFacts.map(fact => (
                             <div
                                 key={fact.label}
-                                className="flex items-center gap-3 rounded-xl p-3.5 transition-all duration-200"
+                                className="card card-bordered card-sm flex-row items-center gap-3 p-3.5 transition-all duration-200 hover:border-primary/40 bg-base-200/40 backdrop-blur-sm"
                                 style={cardStyle}
                             >
                                 <div className="min-w-0">
-                                    <div className="text-[0.75rem] font-semibold uppercase tracking-wider" style={{ color: 'var(--text-faint)' }}>
+                                    <div className="text-[0.75rem] font-semibold uppercase tracking-wider text-base-content/60">
                                         {fact.label}
                                     </div>
                                     <div className="truncate text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
@@ -114,7 +114,7 @@ export default function AboutModule() {
                             {aboutData.principles.map(p => (
                                 <div
                                     key={p.title}
-                                    className="rounded-xl p-4 transition-all duration-200"
+                                    className="card card-bordered card-sm p-4 transition-all duration-200 hover:border-primary/40 bg-base-200/40 backdrop-blur-sm"
                                     style={cardStyle}
                                 >
                                     <div className="mb-1.5 flex items-center gap-2">
@@ -134,7 +134,7 @@ export default function AboutModule() {
                 {/* ── Right: Personal Profile Card ── */}
                 <div className="w-full shrink-0 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_0.15s_forwards] opacity-0 lg:w-[320px]">
                     <div
-                        className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl p-6 shadow-2xl backdrop-blur-md transition-colors duration-300"
+                        className="card card-bordered relative flex flex-col items-center justify-center overflow-hidden p-6 shadow-2xl backdrop-blur-md transition-colors duration-300 bg-base-200/60"
                         style={cardStyle}
                     >
                         <div className="pointer-events-none absolute inset-0 -skew-x-12 animate-[shine_6s_infinite] bg-linear-to-r from-transparent via-white/5 to-transparent"></div>
@@ -167,11 +167,8 @@ export default function AboutModule() {
                         </div>
 
                         {/* Status Chip */}
-                        <div
-                            className="mb-5 flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs transition-colors duration-300"
-                            style={{ border: '1px solid var(--border)', backgroundColor: 'var(--bg-overlay)', color: 'var(--text-primary)' }}
-                        >
-                            <span className="size-2 animate-[pulsing_2s_infinite] rounded-full bg-[#00f5d4]"></span>
+                        <div className="badge badge-success badge-outline mb-5 gap-2 px-3.5 py-3 text-xs font-medium">
+                            <span className="size-2 animate-[pulsing_2s_infinite] rounded-full bg-emerald-400"></span>
                             <span>{aboutData.status}</span>
                         </div>
 
@@ -190,8 +187,7 @@ export default function AboutModule() {
                                     rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                                     aria-label={item.label}
                                     title={item.label}
-                                    className="flex h-8 items-center justify-center rounded-lg border px-2.5 text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/15 hover:text-[#4cc9f0]"
-                                    style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}
+                                    className="btn btn-outline btn-sm rounded-lg text-xs"
                                 >
                                     {item.label}
                                 </a>

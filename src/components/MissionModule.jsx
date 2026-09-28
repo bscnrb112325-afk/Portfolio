@@ -121,7 +121,7 @@ export default function MissionModule() {
                         href={item.href}
                         target={item.href.startsWith('http') ? '_blank' : undefined}
                         rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className={`group flex flex-col justify-between rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.bg}`}
+                        className={`card card-bordered group flex flex-col justify-between p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${item.bg}`}
                     >
                         <div>
                             <div className="mb-2">
@@ -155,7 +155,7 @@ export default function MissionModule() {
                         {missionData.collaborationTypes.map(c => (
                             <div
                                 key={c.title}
-                                className="rounded-xl p-4 transition-all duration-200"
+                                className="card card-bordered card-sm p-4 transition-all duration-200 bg-base-200/40"
                                 style={cardStyle}
                             >
                                 <div className="mb-1 flex items-center gap-2">
@@ -181,7 +181,7 @@ export default function MissionModule() {
 
                 {/* Right (3 cols): Interactive Contact Form */}
                 <div
-                    className="lg:col-span-3 rounded-2xl p-6 sm:p-8 backdrop-blur-md transition-colors duration-300"
+                    className="card card-bordered lg:col-span-3 p-6 sm:p-8 backdrop-blur-md transition-colors duration-300 bg-base-200/50"
                     style={cardStyle}
                 >
                     <h3 className="mb-1 text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
@@ -193,13 +193,9 @@ export default function MissionModule() {
 
                     {status.msg && (
                         <div
-                            className={`mb-5 rounded-xl border p-3.5 text-xs sm:text-sm ${
-                                status.state === 'success'
-                                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-                                    : 'border-rose-500/40 bg-rose-500/10 text-rose-300'
-                            }`}
+                            className={`alert ${status.state === 'success' ? 'alert-success' : 'alert-error'} mb-5 text-xs sm:text-sm`}
                         >
-                            {status.msg}
+                            <span>{status.msg}</span>
                         </div>
                     )}
 
@@ -215,12 +211,7 @@ export default function MissionModule() {
                                     placeholder="e.g. Sarah Mwangi"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm outline-none transition-all focus:border-[#4cc9f0] focus:shadow-md"
-                                    style={{
-                                        borderColor: 'var(--border)',
-                                        backgroundColor: 'var(--bg-overlay-light)',
-                                        color: 'var(--text-primary)',
-                                    }}
+                                    className="input input-bordered w-full rounded-xl text-xs sm:text-sm"
                                 />
                             </div>
 
@@ -234,12 +225,7 @@ export default function MissionModule() {
                                     placeholder="e.g. sarah@company.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm outline-none transition-all focus:border-[#4cc9f0] focus:shadow-md"
-                                    style={{
-                                        borderColor: 'var(--border)',
-                                        backgroundColor: 'var(--bg-overlay-light)',
-                                        color: 'var(--text-primary)',
-                                    }}
+                                    className="input input-bordered w-full rounded-xl text-xs sm:text-sm"
                                 />
                             </div>
                         </div>
@@ -251,18 +237,13 @@ export default function MissionModule() {
                             <select
                                 value={subject}
                                 onChange={(e) => setSubject(e.target.value)}
-                                className="w-full rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm outline-none transition-all focus:border-[#4cc9f0]"
-                                style={{
-                                    borderColor: 'var(--border)',
-                                    backgroundColor: 'var(--bg-overlay-light)',
-                                    color: 'var(--text-primary)',
-                                }}
+                                className="select select-bordered w-full rounded-xl text-xs sm:text-sm"
                             >
-                                <option value="New Project Collaboration" style={{ background: '#12131a', color: '#fff' }}>New Project Collaboration / Freelance</option>
-                                <option value="Full-Time Engineering Role" style={{ background: '#12131a', color: '#fff' }}>Full-Time Engineering Role</option>
-                                <option value="AI & Automation Consultation" style={{ background: '#12131a', color: '#fff' }}>AI &amp; Automation Consultation</option>
-                                <option value="Network & Security Support" style={{ background: '#12131a', color: '#fff' }}>Network &amp; Security Support</option>
-                                <option value="Just Saying Hi & Networking" style={{ background: '#12131a', color: '#fff' }}>Just Saying Hi &amp; Networking</option>
+                                <option value="New Project Collaboration">New Project Collaboration / Freelance</option>
+                                <option value="Full-Time Engineering Role">Full-Time Engineering Role</option>
+                                <option value="AI & Automation Consultation">AI &amp; Automation Consultation</option>
+                                <option value="Network & Security Support">Network &amp; Security Support</option>
+                                <option value="Just Saying Hi & Networking">Just Saying Hi &amp; Networking</option>
                             </select>
                         </div>
 
@@ -276,12 +257,7 @@ export default function MissionModule() {
                                 placeholder="Tell me a bit about what you have in mind..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
-                                className="w-full rounded-xl border p-3.5 text-xs sm:text-sm outline-none transition-all focus:border-[#4cc9f0] focus:shadow-md"
-                                style={{
-                                    borderColor: 'var(--border)',
-                                    backgroundColor: 'var(--bg-overlay-light)',
-                                    color: 'var(--text-primary)',
-                                }}
+                                className="textarea textarea-bordered w-full rounded-xl text-xs sm:text-sm"
                             ></textarea>
                         </div>
 
@@ -293,10 +269,13 @@ export default function MissionModule() {
                             <button
                                 type="submit"
                                 disabled={status.state === 'loading'}
-                                className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-linear-to-r from-[#4361ee] to-[#4cc9f0] px-6 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md shadow-[#4361ee]/30 transition-all hover:opacity-90 disabled:opacity-50"
+                                className="btn btn-primary rounded-full px-7 text-xs sm:text-sm font-bold text-white shadow-md shadow-[#4361ee]/30"
                             >
                                 {status.state === 'loading' ? (
-                                    <span>Sending...</span>
+                                    <>
+                                        <span className="loading loading-spinner loading-xs"></span>
+                                        <span>Sending...</span>
+                                    </>
                                 ) : (
                                     <span>Send Message</span>
                                 )}
@@ -322,12 +301,7 @@ export default function MissionModule() {
                         rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                         aria-label={label}
                         title={label}
-                        className="flex h-9 items-center justify-center rounded-lg border px-3 text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/10 hover:text-[#4cc9f0] hover:shadow-lg hover:shadow-[#4cc9f0]/20"
-                        style={{
-                            border: '1px solid var(--border)',
-                            backgroundColor: 'var(--bg-overlay-light)',
-                            color: 'var(--text-muted)',
-                        }}
+                        className="btn btn-outline btn-sm rounded-lg text-xs"
                     >
                         {label}
                     </a>
