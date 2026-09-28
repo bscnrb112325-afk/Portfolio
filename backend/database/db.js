@@ -1,12 +1,21 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+require('dotenv').config();
 const { Pool } = require('pg');
 const { drizzle } = require('drizzle-orm/node-postgres');
 const schema = require('./schema');
 
+const connectionString = process.env.DATABASE_URL;
+
+const isLocal = !connectionString || 
+                connectionString.includes('localhost') || 
+                connectionString.includes('127.0.0.1') ||
+                connectionString.includes('sslmode=disable');
+
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true  // Uses sslmode=verify-full (recommended by pg v9 migration guide)
+    connectionString: connectionString || undefined,
+    ssl: isLocal ? false : { rejectUnauthorized: false }
 });
 
 // Prevent backend crash on idle database connection drops (common with Neon serverless)
@@ -18,11 +27,14 @@ pool.on('error', (err) => {
 const db = drizzle(pool, { schema });
 
 // Auto-check connection and verify schema on startup
-pool.query('SELECT NOW()', (err, res) => {
-    if (err) {
-        console.error('❌ Neon PostgreSQL Connection Error:', err.message);
-    } else {
-        console.log('✅ Connected to Neon PostgreSQL Database via Drizzle ORM at:', res.rows[0].now);
+if (!connectionString) {
+    console.warn('⚠️ [Database Notice] DATABASE_URL is not defined in backend/.env. To enable database features, add your Neon PostgreSQL connection string to backend/.env.');
+} else {
+    pool.query('SELECT NOW()', (err, res) => {
+        if (err) {
+            console.error('❌ PostgreSQL Connection Error:', err.message);
+        } else {
+            console.log('✅ Connected to PostgreSQL Database via Drizzle ORM at:', res.rows[0].now);
         
         const createTableQuery = `
             CREATE TABLE IF NOT EXISTS messages (
@@ -70,7 +82,8 @@ pool.query('SELECT NOW()', (err, res) => {
             .then(() => console.log('✅ Drizzle ORM schema verified in Neon DB'))
             .catch(e => console.error('❌ Schema initialization error:', e.message));
     }
-});
+    });
+}
 
 module.exports = {
     db,
