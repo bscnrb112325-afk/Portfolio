@@ -61,24 +61,7 @@ export default function AboutModule() {
                 {/* ── Left: Story & Personal Narrative ── */}
                 <div className="flex-1 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
 
-                    <span className="mb-1 block text-lg font-medium text-[#4cc9f0]">Hi, I'm</span>
-                    <h1
-                        className="mb-3 text-5xl font-extrabold tracking-tight md:text-6xl"
-                        style={{ color: 'var(--text-primary)' }}
-                    >
-                        Kelvin
-                    </h1>
 
-                    {/* Typewriter badge */}
-                    <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#4cc9f0]/40 bg-linear-to-r from-[#4361ee]/15 to-[#4cc9f0]/10 px-4 py-2 shadow-lg shadow-[#4361ee]/10">
-                        <span className="text-xs font-bold uppercase tracking-widest text-[#4cc9f0]">
-                            <i className="fa-solid fa-code mr-1"></i>Focus:
-                        </span>
-                        <span className="min-h-[1.5rem] bg-linear-to-r from-[#4361ee] to-[#4cc9f0] bg-clip-text text-sm font-bold text-transparent sm:text-base">
-                            {currentRoleText}
-                        </span>
-                        <span className="animate-[blinkCursor_0.8s_infinite] text-base font-extrabold text-[#4cc9f0]">|</span>
-                    </div>
 
                     {/* Bio */}
                     <div className="space-y-4 text-[0.98rem] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
@@ -148,28 +131,7 @@ export default function AboutModule() {
                         </div>
                     </div>
 
-                    {/* Availability Banner */}
-                    <div
-                        className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-teal-500/30 p-4 transition-colors duration-300"
-                        style={{ backgroundColor: 'var(--bg-availability)' }}
-                    >
-                        <div className="flex items-center gap-2.5">
-                            <span className="size-2.5 animate-[pulsing_2s_infinite] rounded-full bg-teal-400"></span>
-                            <div>
-                                <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>Currently Open for Opportunities</span>
-                                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                                    Full-time roles, freelance MVPs, systems engineering, or technical collaborations.
-                                </p>
-                            </div>
-                        </div>
-                        <a
-                            href="mailto:kelvinkimani513@gmail.com"
-                            className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-teal-500"
-                        >
-                            <i className="fa-solid fa-paper-plane text-xs"></i>
-                            Get In Touch
-                        </a>
-                    </div>
+
                 </div>
 
                 {/* ── Right: Personal Profile Card ── */}

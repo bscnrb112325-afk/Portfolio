@@ -102,51 +102,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                 </div>
             </nav>
 
-            {/* ── Welcoming Intro Header shown on About tab ── */}
-            {activeModule === 'about' && (
-                <div className="mx-auto mt-6 max-w-300 px-6">
-                    <div
-                        className="max-w-2xl rounded-[18px] p-6 shadow-[0_10px_30px_var(--shadow-card)] backdrop-blur-xl transition-colors duration-300"
-                        style={{
-                            border: '1px solid var(--border)',
-                            backgroundColor: 'var(--bg-card-solid)',
-                        }}
-                    >
-                        <p
-                            className="mb-4 border-l-4 border-[#4cc9f0] pl-4 text-sm font-medium leading-relaxed sm:text-base"
-                            style={{ color: 'var(--text-primary)' }}
-                        >
-                            Welcome! I&apos;m <strong>Kelvin Kimani</strong> — a software developer &amp; systems enthusiast from Nairobi, Kenya.
-                            Take a look at what I build, read the stories behind my projects, or drop me a line.
-                        </p>
 
-                        <div className="flex flex-wrap items-center gap-2.5">
-                            {[
-                                { href: 'mailto:kelvinkimani513@gmail.com', icon: 'fa-envelope', label: 'Email Kelvin' },
-                                { href: 'https://wa.me/254701861965?text=Hi%20Kelvin%2C%20I%20saw%20your%20portfolio!', icon: 'fa-brands fa-whatsapp', label: 'WhatsApp', external: true },
-                                { href: 'tel:0701861965', icon: 'fa-phone', label: '+254 701 861 965' },
-                                { href: 'https://github.com/bscnrb112325-afk', icon: 'fa-brands fa-github', label: 'GitHub', external: true },
-                                { href: 'https://www.linkedin.com/in/kelvin-kimani-a94552214/', icon: 'fa-brands fa-linkedin-in', label: 'LinkedIn', external: true },
-                            ].map(({ href, icon, label, external }) => (
-                                <a
-                                    key={label}
-                                    href={href}
-                                    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                                    className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-medium no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4cc9f0] hover:bg-[#4cc9f0]/10 hover:text-[#4cc9f0] hover:shadow-md hover:shadow-[#4cc9f0]/20"
-                                    style={{
-                                        border: '1px solid var(--border)',
-                                        backgroundColor: 'var(--bg-overlay-light)',
-                                        color: 'var(--text-muted)',
-                                    }}
-                                >
-                                    <i className={`${icon.startsWith('fa-brands') ? icon : `fa-solid ${icon}`} text-[#4cc9f0] text-xs`}></i>
-                                    <span>{label}</span>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
         </header>
     );
 }
