@@ -153,7 +153,8 @@ export default function AICVModule() {
             pdf.save(`${cvState.personal.name.replace(/\s+/g, '_')}_CV.pdf`);
         } catch (err) {
             console.error('PDF generation failed:', err);
-            alert('PDF generation failed. Try the Print option instead.');
+            // Silently fall back to browser print dialog
+            window.print();
         } finally {
             setPdfLoading(false);
         }
@@ -333,68 +334,63 @@ export default function AICVModule() {
     };
 
     return (
-        <section className="aicv-section module-content-container" id="aicv-module">
-            <div className="container">
+        <section
+            className="aicv-section module-content-container"
+            id="aicv-module"
+            style={{
+                backgroundImage: 'url("./aicv-bg.png")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'local',
+                position: 'relative',
+                borderRadius: '1rem',
+                overflow: 'hidden',
+            }}
+        >
+            {/* dark overlay */}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(135deg, rgba(5,5,20,0.85) 0%, rgba(10,12,35,0.75) 50%, rgba(5,5,20,0.88) 100%)',
+                    backdropFilter: 'blur(1px)',
+                    zIndex: 0,
+                }}
+            />
+            <div className="container" style={{ position: 'relative', zIndex: 1 }}>
                 {/* Header */}
-                <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                    <div>
-                        <h2 className="section-title" style={{ marginBottom: '0.3rem' }}>
-                            Interactive AI CV & Resume Studio
-                        </h2>
-                        <p style={{ color: 'var(--text-secondary)' }}>
-                            Customize, optimize with Gemini AI, preview live, and export as a PDF.
-                        </p>
-                    </div>
-
+                <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
                     <div style={{ display: 'flex', gap: '0.7rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                        <button className="btn btn-primary btn-sm rounded-lg" onClick={handleGenerateAiSummary} disabled={aiLoading}>
-                            {aiLoading ? (
-                                <>
-                                    <span className="loading loading-spinner loading-xs"></span>
-                                    <span>Drafting...</span>
-                                </>
-                            ) : 'AI Summary'}
-                        </button>
-                        <button className="btn btn-accent btn-sm rounded-lg" onClick={handleAiReview} disabled={aiLoading}>
-                            AI ATS Review
-                        </button>
+                        {/* Save Button */}
                         <button
                             className={`btn btn-sm rounded-lg ${
-                                saveStatus === 'saved' ? 'btn-success' :
-                                saveStatus === 'error' ? 'btn-error' :
-                                saveStatus === 'saving' ? 'btn-warning' :
-                                'btn-secondary'
+                                saveStatus === 'saved'  ? 'btn-success' :
+                                saveStatus === 'error'  ? 'btn-error'   :
+                                saveStatus === 'saving' ? 'btn-ghost'   :
+                                'btn-outline'
                             }`}
                             onClick={handleSave}
-                            disabled={saveStatus === 'saving'}
                             id="save-cv-btn"
+                            disabled={saveStatus === 'saving'}
                         >
-                            {saveStatus === 'saving' && (
-                                <><span className="loading loading-spinner loading-xs"></span> Saving...</>
+                            {saveStatus === 'saving' ? (
+                                <><span className="loading loading-spinner loading-xs" /> Saving…</>
+                            ) : saveStatus === 'saved' ? (
+                                <>✅ Saved!</>
+                            ) : saveStatus === 'error' ? (
+                                <>❌ Error</>
+                            ) : (
+                                <>💾 Save CV</>
                             )}
-                            {saveStatus === 'saved' && '✓ Saved!'}
-                            {saveStatus === 'error' && '✗ Error'}
-                            {!saveStatus && 'Save CV'}
                         </button>
+
                         <button
-                            className="btn btn-success btn-sm rounded-lg"
-                            onClick={handleDownloadPDF}
-                            disabled={pdfLoading}
-                            id="download-pdf-btn"
+                            className="btn btn-primary btn-sm rounded-lg"
+                            onClick={handleDownloadCV}
+                            id="download-cv-btn"
                         >
-                            {pdfLoading ? (
-                                <><span className="loading loading-spinner loading-xs"></span> Generating...</>
-                            ) : '📄 Download PDF'}
+                            📥 Download CV Template
                         </button>
-                        <div className="dropdown dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-outline btn-sm rounded-lg" id="cv-export-menu-btn">Export ▾</div>
-                            <ul tabIndex={0} className="dropdown-content menu bg-base-200 rounded-box z-50 w-52 p-2 shadow-xl border border-base-content/10">
-                                <li><button onClick={handleDownloadPDF} disabled={pdfLoading} className="text-sm font-semibold">📄 Download PDF</button></li>
-                                <li><button onClick={handleDownloadCV} className="text-sm">📥 Download CV (HTML)</button></li>
-                                <li><button onClick={handlePrint} className="text-sm">🖨 Print / Save PDF</button></li>
-                                <li><button onClick={handleDownloadJson} className="text-sm">💾 Backup (JSON)</button></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
 

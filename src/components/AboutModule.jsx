@@ -56,7 +56,27 @@ export default function AboutModule() {
     };
 
     return (
-        <section id="about" className="py-8">
+        <section
+            id="about"
+            className="py-8"
+            style={{
+                backgroundImage: 'url("./about-bg.jpg")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'local',
+                position: 'relative',
+                borderRadius: '1rem',
+                overflow: 'hidden',
+            }}
+        >
+            {/* dark overlay */}
+            <div style={{
+                position: 'absolute', inset: 0,
+                background: 'linear-gradient(135deg, rgba(5,5,20,0.82) 0%, rgba(10,10,35,0.72) 100%)',
+                backdropFilter: 'blur(1px)',
+                zIndex: 0,
+            }} />
+            <div style={{ position: 'relative', zIndex: 1, padding: '2rem' }}>
             <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between">
 
                 {/* ── Left: Story & Personal Narrative ── */}
@@ -65,19 +85,19 @@ export default function AboutModule() {
 
 
                     {/* Bio */}
-                    <div className="space-y-4 text-[0.98rem] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                    <div className="space-y-4 text-[0.98rem] leading-relaxed" style={{ color: '#dde6f0' }}>
                         <p>
-                            I am a <strong style={{ color: 'var(--text-primary)' }}>Computer Science graduate</strong> passionate about using technology to solve real-world problems
+                            I am a <strong style={{ color: '#4cc9f0' }}>Computer Science graduate</strong> passionate about using technology to solve real-world problems
                             and build reliable, secure, and efficient digital solutions.
                         </p>
                         <p>
-                            My technical background covers <strong style={{ color: 'var(--text-primary)' }}>software development, artificial intelligence, cybersecurity, computer networking,
+                            My technical background covers <strong style={{ color: '#4cc9f0' }}>software development, artificial intelligence, cybersecurity, computer networking,
                             system administration, cloud technologies, and technical support</strong>. I enjoy designing and implementing solutions that improve business operations,
                             automate tasks, protect information, and make technology easier and more accessible.
                         </p>
                         <p>
                             I combine technical knowledge with practical problem-solving to develop solutions that are
-                            <strong style={{ color: 'var(--text-primary)' }}> secure, scalable, user-friendly, and focused on real business needs</strong>.
+                            <strong style={{ color: '#4cc9f0' }}> secure, scalable, user-friendly, and focused on real business needs</strong>.
                         </p>
                         <p>
                             I am continuously developing my skills and exploring emerging technologies in
@@ -195,6 +215,7 @@ export default function AboutModule() {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
     );
