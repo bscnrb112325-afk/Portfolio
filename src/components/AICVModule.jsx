@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { defaultCvState } from '../data/cvDefaultState';
 import { apiFetch } from '../utils/api';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const CV_STORAGE_KEY = 'portfolio_ai_cv_data_v3';
 
@@ -21,10 +23,12 @@ export default function AICVModule() {
     });
 
     const [activeTab, setActiveTab] = useState('personal');
-    const [selectedTemplate, setSelectedTemplate] = useState('modern'); // 'modern', 'executive', 'creative'
+    const [selectedTemplate, setSelectedTemplate] = useState('modern');
     const [aiLoading, setAiLoading] = useState(false);
     const [aiAdvice, setAiAdvice] = useState('');
     const [atsScore, setAtsScore] = useState(88);
+    const [saveStatus, setSaveStatus] = useState(null);
+    const [pdfLoading, setPdfLoading] = useState(false);
 
     // Save CV state on update
     useEffect(() => {
@@ -102,6 +106,227 @@ export default function AICVModule() {
         window.print();
     };
 
+    const handleDownloadPDF = async () => {
+        const el = document.getElementById('cv-print-area');
+        if (!el) return;
+        setPdfLoading(true);
+        try {
+            // Temporarily expand the element so nothing is clipped
+            const originalMaxH = el.style.maxHeight;
+            const originalOverflow = el.style.overflow;
+            el.style.maxHeight = 'none';
+            el.style.overflow = 'visible';
+
+            const canvas = await html2canvas(el, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: el.style.background || '#0f172a',
+                logging: false,
+            });
+
+            el.style.maxHeight = originalMaxH;
+            el.style.overflow = originalOverflow;
+
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4',
+            });
+
+            const pdfW = pdf.internal.pageSize.getWidth();
+            const pdfH = pdf.internal.pageSize.getHeight();
+            const ratio = canvas.width / canvas.height;
+            const imgH = pdfW / ratio;
+
+            // Multi-page support
+            let yPos = 0;
+            let remainingH = imgH;
+            while (remainingH > 0) {
+                const sliceH = Math.min(remainingH, pdfH);
+                pdf.addImage(imgData, 'PNG', 0, -yPos, pdfW, imgH);
+                remainingH -= pdfH;
+                yPos += pdfH;
+                if (remainingH > 0) pdf.addPage();
+            }
+
+            pdf.save(`${cvState.personal.name.replace(/\s+/g, '_')}_CV.pdf`);
+        } catch (err) {
+            console.error('PDF generation failed:', err);
+            // Silently fall back to browser print dialog
+            window.print();
+        } finally {
+            setPdfLoading(false);
+        }
+    };
+
+    const handleSave = () => {
+        setSaveStatus('saving');
+        try {
+            localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(cvState));
+            setSaveStatus('saved');
+        } catch (e) {
+            setSaveStatus('error');
+        }
+        setTimeout(() => setSaveStatus(null), 2200);
+    };
+
+    const handleDownloadJson = () => {
+        const blob = new Blob([JSON.stringify(cvState, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${cvState.personal.name.replace(/\s+/g, '_')}_CV.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const handleDownloadCV = () => {
+        const isExec = selectedTemplate === 'executive';
+        const bg = isExec ? '#ffffff' : '#0f172a';
+        const text = isExec ? '#1e293b' : '#f1f5f9';
+        const accent = isExec ? '#0284c7' : '#38bdf8';
+        const subtle = isExec ? '#64748b' : '#94a3b8';
+        const border = isExec ? '#e2e8f0' : '#1e3a5f';
+        const expCompanyColor = isExec ? '#0284c7' : '#4cc9f0';
+
+        const experienceHtml = cvState.experience.map(exp => `
+            <div style="margin-bottom:1rem">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.9rem;font-weight:700">
+                    <span style="color:${text}">${exp.title}</span>
+                    <span style="color:${accent};font-size:0.8rem">${exp.period}</span>
+                </div>
+                <div style="font-size:0.84rem;font-weight:600;color:${expCompanyColor};margin-bottom:0.3rem">${exp.company}</div>
+                <div style="font-size:0.83rem;line-height:1.6;white-space:pre-line;color:${text};opacity:0.9">${exp.description}</div>
+            </div>`).join('');
+
+        const educationHtml = cvState.education.map(edu => `
+            <div style="margin-bottom:0.6rem">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.86rem">
+                    <span style="font-weight:700;color:${text}">${edu.school}</span>
+                    <span style="color:${accent};font-size:0.78rem">${edu.period}</span>
+                </div>
+                <div style="font-size:0.83rem;color:${subtle}">${edu.degree}</div>
+            </div>`).join('');
+
+        const certHtml = cvState.certifications?.map(c => `<div style="margin-bottom:0.2rem">&#8226; ${c.name}</div>`).join('') || '';
+
+        const skillsHtml = [
+            cvState.skills.programming ? `<p style="margin:0 0 0.3rem 0"><strong>Programming:</strong> ${cvState.skills.programming}</p>` : '',
+            cvState.skills.softwareDev ? `<p style="margin:0 0 0.3rem 0"><strong>Software Development:</strong> ${cvState.skills.softwareDev}</p>` : '',
+            cvState.skills.itSystems ? `<p style="margin:0 0 0.3rem 0"><strong>IT &amp; Systems:</strong> ${cvState.skills.itSystems}</p>` : '',
+            (cvState.skills.networkingSecurity || cvState.skills.security) ? `<p style="margin:0 0 0.3rem 0"><strong>Networking &amp; Security:</strong> ${cvState.skills.networkingSecurity || cvState.skills.security}</p>` : '',
+            cvState.skills.dataCloud ? `<p style="margin:0 0 0.3rem 0"><strong>Data &amp; Cloud:</strong> ${cvState.skills.dataCloud}</p>` : '',
+        ].join('');
+
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${cvState.personal.name} — CV</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: ${bg};
+    color: ${text};
+    padding: 0;
+    margin: 0;
+  }
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2.8rem 3rem;
+    background: ${bg};
+    min-height: 100vh;
+  }
+  h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: 0.5px; color: ${text}; margin-bottom: 0.2rem; }
+  .title { font-size: 0.88rem; color: ${accent}; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.7rem; }
+  .contact { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; font-size: 0.8rem; color: ${subtle}; border-bottom: 2px solid ${accent}; padding-bottom: 1.1rem; margin-bottom: 1.4rem; }
+  .contact span::before { content: '• '; }
+  .contact span:first-child::before { content: ''; }
+  h2 { font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: ${text}; border-bottom: 1px solid ${border}; padding-bottom: 0.25rem; margin-bottom: 0.6rem; }
+  section { margin-bottom: 1.4rem; }
+  p { font-size: 0.84rem; line-height: 1.65; }
+  @media print {
+    body { background: ${bg}; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { padding: 1.8rem 2rem; }
+    .no-print { display: none !important; }
+  }
+  .print-btn {
+    position: fixed; top: 1.2rem; right: 1.5rem;
+    background: ${accent}; color: #fff;
+    border: none; padding: 0.55rem 1.4rem;
+    border-radius: 8px; font-size: 0.9rem;
+    font-weight: 700; cursor: pointer; z-index: 999;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+  }
+  .print-btn:hover { opacity: 0.85; }
+</style>
+</head>
+<body>
+<button class="print-btn no-print" onclick="window.print()">&#x1F4E5; Save as PDF</button>
+<div class="page">
+  <h1>${cvState.personal.name}</h1>
+  <div class="title">${cvState.personal.title}</div>
+  <div class="contact">
+    <span>${cvState.personal.location}</span>
+    <span>${cvState.personal.phone}</span>
+    <span>${cvState.personal.email}</span>
+    ${cvState.personal.github ? `<span>GitHub: ${cvState.personal.github}</span>` : ''}
+    ${cvState.personal.portfolio ? `<span>Portfolio: ${cvState.personal.portfolio}</span>` : ''}
+  </div>
+
+  <section>
+    <h2>Professional Summary</h2>
+    <p>${cvState.summary}</p>
+  </section>
+
+  <section>
+    <h2>Professional Experience</h2>
+    ${experienceHtml}
+  </section>
+
+  <section>
+    <h2>Technical Skills</h2>
+    <div style="font-size:0.83rem;line-height:1.65">${skillsHtml}</div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    ${educationHtml}
+  </section>
+
+  ${cvState.certifications?.length ? `
+  <section>
+    <h2>Training &amp; Certifications</h2>
+    <div style="font-size:0.83rem;line-height:1.65;opacity:0.9">${certHtml}</div>
+  </section>` : ''}
+
+  ${cvState.skills.soft ? `
+  <section>
+    <h2>Key Strengths</h2>
+    <p>${cvState.skills.soft}</p>
+  </section>` : ''}
+</div>
+</body>
+</html>`;
+
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${cvState.personal.name.replace(/\s+/g, '_')}_CV.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
     const handleReset = () => {
         if (window.confirm('Reset CV data to Kelvin Kimani defaults?')) {
             setCvState(defaultCvState);
@@ -109,33 +334,62 @@ export default function AICVModule() {
     };
 
     return (
-        <section className="aicv-section module-content-container" id="aicv-module">
-            <div className="container">
+        <section
+            className="aicv-section module-content-container"
+            id="aicv-module"
+            style={{
+                backgroundImage: 'url("./aicv-bg.png")',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'local',
+                position: 'relative',
+                borderRadius: '1rem',
+                overflow: 'hidden',
+            }}
+        >
+            {/* dark overlay */}
+            <div
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(135deg, rgba(5,5,20,0.85) 0%, rgba(10,12,35,0.75) 50%, rgba(5,5,20,0.88) 100%)',
+                    backdropFilter: 'blur(1px)',
+                    zIndex: 0,
+                }}
+            />
+            <div className="container" style={{ position: 'relative', zIndex: 1 }}>
                 {/* Header */}
-                <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-                    <div>
-                        <h2 className="section-title" style={{ marginBottom: '0.3rem' }}>
-                            Interactive AI CV & Resume Studio
-                        </h2>
-                        <p style={{ color: 'var(--text-secondary)' }}>
-                            Customize, optimize with Gemini AI, preview live, and export as a PDF.
-                        </p>
-                    </div>
+                <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div style={{ display: 'flex', gap: '0.7rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                        {/* Save Button */}
+                        <button
+                            className={`btn btn-sm rounded-lg ${
+                                saveStatus === 'saved'  ? 'btn-success' :
+                                saveStatus === 'error'  ? 'btn-error'   :
+                                saveStatus === 'saving' ? 'btn-ghost'   :
+                                'btn-outline'
+                            }`}
+                            onClick={handleSave}
+                            id="save-cv-btn"
+                            disabled={saveStatus === 'saving'}
+                        >
+                            {saveStatus === 'saving' ? (
+                                <><span className="loading loading-spinner loading-xs" /> Saving…</>
+                            ) : saveStatus === 'saved' ? (
+                                <>✅ Saved!</>
+                            ) : saveStatus === 'error' ? (
+                                <>❌ Error</>
+                            ) : (
+                                <>💾 Save CV</>
+                            )}
+                        </button>
 
-                    <div style={{ display: 'flex', gap: '0.7rem', flexWrap: 'wrap' }}>
-                        <button className="btn btn-primary btn-sm rounded-lg" onClick={handleGenerateAiSummary} disabled={aiLoading}>
-                            {aiLoading ? (
-                                <>
-                                    <span className="loading loading-spinner loading-xs"></span>
-                                    <span>Drafting...</span>
-                                </>
-                            ) : 'AI Summary'}
-                        </button>
-                        <button className="btn btn-accent btn-sm rounded-lg" onClick={handleAiReview} disabled={aiLoading}>
-                            AI ATS Review
-                        </button>
-                        <button className="btn btn-outline btn-sm rounded-lg" onClick={handlePrint}>
-                            Export PDF
+                        <button
+                            className="btn btn-primary btn-sm rounded-lg"
+                            onClick={handleDownloadCV}
+                            id="download-cv-btn"
+                        >
+                            📥 Download CV Template
                         </button>
                     </div>
                 </div>
