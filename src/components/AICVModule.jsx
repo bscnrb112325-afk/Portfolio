@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { defaultCvState } from '../data/cvDefaultState';
 import { apiFetch } from '../utils/api';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+// jsPDF & html2canvas are loaded lazily on first PDF download (code splitting)
 
 const CV_STORAGE_KEY = 'portfolio_ai_cv_data_v3';
 
@@ -112,6 +111,12 @@ export default function AICVModule() {
         if (!el) return;
         setPdfLoading(true);
         try {
+            // Dynamically import heavy PDF libs only when needed
+            const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+                import('html2canvas'),
+                import('jspdf'),
+            ]);
+
             // Temporarily expand the element so nothing is clipped
             const originalMaxH = el.style.maxHeight;
             const originalOverflow = el.style.overflow;

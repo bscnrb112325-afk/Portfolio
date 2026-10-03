@@ -20,7 +20,7 @@ export default function TopHeader({ activeModule, onSelectModule }) {
         { id: 'about',    label: 'About Me' },
         { id: 'skills',   label: 'What I Do' },
         { id: 'projects', label: 'Projects' },
-        { id: 'aicv',     label: 'AI Resume' },
+        { id: 'aicv',     label: 'Resume' },
         { id: 'mission',  label: "Let's Connect" },
     ];
 
