@@ -12,7 +12,8 @@ export default function AICVModule() {
             const saved = localStorage.getItem(CV_STORAGE_KEY);
             if (saved) {
                 const parsed = JSON.parse(saved);
-                if (parsed?.personal?.name === 'KELVIN KIMANI MUGURE') {
+                // Accept any saved CV that has a valid personal section
+                if (parsed?.personal && typeof parsed.personal === 'object') {
                     return parsed;
                 }
             }
@@ -163,12 +164,20 @@ export default function AICVModule() {
     const handleSave = () => {
         setSaveStatus('saving');
         try {
-            localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(cvState));
-            setSaveStatus('saved');
+            const serialized = JSON.stringify(cvState);
+            localStorage.setItem(CV_STORAGE_KEY, serialized);
+            // Verify the write succeeded by reading it back
+            const verify = localStorage.getItem(CV_STORAGE_KEY);
+            if (verify === serialized) {
+                setSaveStatus('saved');
+            } else {
+                setSaveStatus('error');
+            }
         } catch (e) {
+            console.error('CV save failed:', e);
             setSaveStatus('error');
         }
-        setTimeout(() => setSaveStatus(null), 2200);
+        setTimeout(() => setSaveStatus(null), 2500);
     };
 
     const handleDownloadJson = () => {
