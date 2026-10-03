@@ -43,13 +43,23 @@
 
     --shadow-card:   rgba(0,0,0,0.25);
     --shadow-glow:   rgba(67,97,238,0.20);
+
+    /* ── Neumorphism (dark) ── */
+    --nm-bg:         #111318;
+    --nm-light:      rgba(255,255,255,0.05);
+    --nm-dark:       rgba(0,0,0,0.55);
+    --nm-shadow:     6px 6px 18px rgba(0,0,0,0.60), -4px -4px 12px rgba(255,255,255,0.05);
+    --nm-shadow-sm:  3px 3px 8px  rgba(0,0,0,0.50), -2px -2px 6px  rgba(255,255,255,0.03);
+    --nm-inset:      inset 3px 3px 8px rgba(0,0,0,0.55), inset -3px -3px 8px rgba(255,255,255,0.04);
+    --nm-pressed:    inset 4px 4px 12px rgba(0,0,0,0.65), inset -2px -2px 6px rgba(255,255,255,0.03);
+    --nm-glow:       0 0 0 1px rgba(67,97,238,0.40), 6px 6px 18px rgba(0,0,0,0.60), -4px -4px 12px rgba(255,255,255,0.05);
 }
 
 /* Light theme */
 [data-theme="light"] {
-    --bg:            #f0f2f8;
+    --bg:            #e8ecf0;
     --bg-card:       rgba(255,255,255,0.80);
-    --bg-nav:        rgba(240,242,248,0.92);
+    --bg-nav:        rgba(232,236,240,0.95);
     --border:        rgba(67,97,238,0.15);
     --border-nav:    rgba(67,97,238,0.12);
 
@@ -77,6 +87,16 @@
 
     --shadow-card:   rgba(67,97,238,0.10);
     --shadow-glow:   rgba(67,97,238,0.12);
+
+    /* ── Neumorphism (light) ── */
+    --nm-bg:         #e8ecf0;
+    --nm-light:      rgba(255,255,255,0.88);
+    --nm-dark:       rgba(155,170,190,0.60);
+    --nm-shadow:     6px 6px 18px rgba(155,170,190,0.60), -4px -4px 12px rgba(255,255,255,0.88);
+    --nm-shadow-sm:  3px 3px 8px  rgba(155,170,190,0.50), -2px -2px 6px  rgba(255,255,255,0.82);
+    --nm-inset:      inset 3px 3px 8px rgba(155,170,190,0.55), inset -3px -3px 8px rgba(255,255,255,0.88);
+    --nm-pressed:    inset 4px 4px 12px rgba(155,170,190,0.65), inset -2px -2px 6px rgba(255,255,255,0.72);
+    --nm-glow:       0 0 0 1px rgba(67,97,238,0.28), 6px 6px 18px rgba(155,170,190,0.60), -4px -4px 12px rgba(255,255,255,0.88);
 }
 
 /* ── Smooth transitions when toggling ── */
@@ -105,6 +125,129 @@ a { text-decoration: none; color: inherit; }
 .theme-border  { border-color: var(--border); }
 .theme-text    { color: var(--text-primary); }
 .theme-muted   { color: var(--text-muted); }
+
+/* ══════════════════════════════════════════
+   NEUMORPHISM UTILITY CLASSES
+   Works on both dark (#111318) and light (#e8ecf0) themes.
+   Use --nm-bg as the surface colour on any element.
+   ══════════════════════════════════════════ */
+
+/* ── Raised card (primary neumorphic surface) ── */
+.nm-card {
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow);
+    border: none;
+    border-radius: 1.25rem;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.35s ease;
+}
+.nm-card:hover {
+    box-shadow: var(--nm-glow);
+    transform: translateY(-3px);
+}
+.nm-card:active {
+    box-shadow: var(--nm-pressed);
+    transform: translateY(0);
+}
+
+/* ── Small raised surface (chip, tag, mini-card) ── */
+.nm-card-sm {
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    border: none;
+    border-radius: 0.75rem;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.nm-card-sm:hover {
+    box-shadow: var(--nm-glow);
+    transform: translateY(-2px);
+}
+
+/* ── Inset / concave well (inputs, progress tracks) ── */
+.nm-inset {
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-inset);
+    border: none;
+    border-radius: 0.75rem;
+    transition: box-shadow 0.25s ease;
+}
+.nm-inset:focus-within {
+    box-shadow: var(--nm-pressed), 0 0 0 2px rgba(67,97,238,0.40);
+    outline: none;
+}
+
+/* ── Pill button ── */
+.nm-btn {
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    border: none;
+    border-radius: 9999px;
+    padding: 0.45rem 1.1rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    -webkit-user-select: none;
+    user-select: none;
+}
+.nm-btn:hover {
+    box-shadow: var(--nm-glow);
+    transform: translateY(-2px);
+}
+.nm-btn:active {
+    box-shadow: var(--nm-pressed) !important;
+    transform: translateY(0) !important;
+}
+
+/* ── Active / selected nav pill ── */
+.nm-btn-active {
+    box-shadow: var(--nm-pressed) !important;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
+    color: #fff !important;
+    transform: none !important;
+}
+
+/* ── Badge / status chip ── */
+.nm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.22rem 0.8rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.nm-badge:hover {
+    box-shadow: var(--nm-glow);
+    transform: translateY(-1px);
+}
+
+/* ── Circular icon container ── */
+.nm-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--nm-bg);
+    box-shadow: var(--nm-shadow-sm);
+    border-radius: 50%;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.nm-circle:hover {
+    box-shadow: var(--nm-glow);
+    transform: scale(1.07);
+}
+
+/* ── Subtle divider ── */
+.nm-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--nm-dark), transparent);
+    border: none;
+    margin: 1rem 0;
+    opacity: 0.6;
+}
 
 /* ── Background Blobs ── */
 .blob {
@@ -135,10 +278,9 @@ a { text-decoration: none; color: inherit; }
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; }
 
-/* Light mode global scrollbar */
 [data-theme="light"] ::-webkit-scrollbar { width: 6px; }
-[data-theme="light"] ::-webkit-scrollbar-track { background: #e2e8f0; }
-[data-theme="light"] ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+[data-theme="light"] ::-webkit-scrollbar-track { background: #dde1e7; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: #a0afbf; border-radius: 3px; }
 
 /* ── Keyframes ── */
 @keyframes float {
@@ -174,7 +316,6 @@ a { text-decoration: none; color: inherit; }
     100% { left: 200%;  }
 }
 
-/* ── Theme toggle button animation ── */
 @keyframes spin-scale {
     0%   { transform: rotate(0deg)   scale(1); }
     50%  { transform: rotate(180deg) scale(1.15); }
