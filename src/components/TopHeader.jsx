@@ -32,8 +32,9 @@ export default function TopHeader({ activeModule, onSelectModule }) {
             <nav
                 className="navbar sticky top-0 z-50 w-full backdrop-blur-xl transition-colors duration-300"
                 style={{
-                    backgroundColor: 'var(--bg-nav)',
-                    borderBottom: '1px solid var(--border-nav)',
+                    backgroundColor: 'var(--nm-bg)',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.35), 0 -1px 0 rgba(255,255,255,0.04)',
+                    borderBottom: 'none',
                 }}
             >
                 <div className="mx-auto flex w-full max-w-300 items-center justify-between gap-3 px-4 sm:px-6">
@@ -50,15 +51,12 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                                 role="tab"
                                 aria-selected={isActive(mod.id)}
                                 onClick={() => onSelectModule(mod.id)}
-                                className={`
-                                    btn btn-sm rounded-full transition-all duration-200
-                                    ${isActive(mod.id)
-                                        ? 'btn-primary font-semibold text-white shadow-lg shadow-[#4361ee]/40'
-                                        : 'btn-ghost border border-base-content/10 hover:border-primary/50'
-                                    }
-                                `}
+                                className={`nm-btn text-sm font-medium px-4 py-1.5 ${
+                                    isActive(mod.id) ? 'nm-btn-active' : ''
+                                }`}
+                                style={{ color: isActive(mod.id) ? '#fff' : 'var(--text-muted)' }}
                             >
-                                <span>{mod.label}</span>
+                                {mod.label}
                             </button>
                         ))}
                     </div>
@@ -68,7 +66,8 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                         {/* Live local time in Nairobi */}
                         <div
                             title="Local time in Nairobi, Kenya (UTC+3) · Available for projects"
-                            className="badge badge-success badge-outline hidden gap-2 py-3 px-3 text-xs font-semibold sm:inline-flex"
+                            className="nm-badge hidden sm:inline-flex"
+                            style={{ color: 'var(--text-muted)' }}
                         >
                             <span className="size-2 animate-[pulsing_2s_infinite] rounded-full bg-emerald-400"></span>
                             <span>Nairobi, KE • {currentTime || 'EAT'}</span>
@@ -79,7 +78,8 @@ export default function TopHeader({ activeModule, onSelectModule }) {
                             onClick={toggle}
                             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
                             title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-                            className="btn btn-circle btn-ghost btn-sm border border-base-content/10"
+                            className="nm-circle"
+                            style={{ width: '2.1rem', height: '2.1rem' }}
                         >
                             <span
                                 className="theme-toggle-icon text-base"

@@ -40,8 +40,7 @@ export default function SkillsModule() {
                         return (
                             <div
                                 key={service.title}
-                                className={`card card-bordered group relative flex flex-col justify-between p-6 backdrop-blur-md transition-all duration-300 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 ${delay} hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]`}
-                                style={cardStyle}
+                                className={`nm-card group relative flex flex-col justify-between p-6 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards] opacity-0 ${delay}`}
                             >
                                 <div>
                                     <h3 className="mb-2 text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
@@ -65,8 +64,7 @@ export default function SkillsModule() {
 
                 {/* Bottom collaboration callout */}
                 <div
-                    className="card card-bordered mt-10 flex flex-col items-center justify-between gap-4 p-6 text-center backdrop-blur-md sm:flex-row sm:text-left"
-                    style={cardStyle}
+                    className="nm-card mt-10 flex flex-col items-center justify-between gap-4 p-6 text-center sm:flex-row sm:text-left"
                 >
                     <div>
                         <h4 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
