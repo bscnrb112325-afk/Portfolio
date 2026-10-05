@@ -56,11 +56,11 @@ export default function ProjectsModule() {
                 }}
             />
 
-            <div style={{ position: 'relative', zIndex: 1, padding: '2rem' }}>
+            <div style={{ position: 'relative', zIndex: 1 }} className="p-4 sm:p-8">
                 {/* Header section */}
                 <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     {/* React Search Bar */}
-                    <div className="relative w-full sm:w-72">
+                    <div className="projects-search-wrap relative w-full sm:w-72">
                         <input
                             type="text"
                             placeholder="Search projects or stack..."

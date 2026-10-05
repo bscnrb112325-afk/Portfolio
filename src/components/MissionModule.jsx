@@ -84,13 +84,13 @@ export default function MissionModule() {
                 }}
             />
 
-            <div style={{ position: 'relative', zIndex: 1, padding: '2rem' }}>
+            <div style={{ position: 'relative', zIndex: 1 }} className="p-4 sm:p-8">
                 {/* Hero / Philosophy */}
                 <div className="mb-10 text-center">
                     <span className="mb-2 inline-block text-xs font-bold uppercase tracking-wider text-[#4cc9f0]">
                         Get In Touch
                     </span>
-                    <h2 className="mb-4 bg-linear-to-r from-[#4361ee] via-[#4cc9f0] to-[#7209b7] bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl md:text-5xl">
+                    <h2 className="hero-title mb-4 bg-linear-to-r from-[#4361ee] via-[#4cc9f0] to-[#7209b7] bg-clip-text text-3xl font-extrabold text-transparent sm:text-4xl md:text-5xl">
                         {missionData.title}
                     </h2>
                     <blockquote className="mx-auto max-w-2xl text-base sm:text-lg leading-relaxed italic" style={{ color: '#dde6f0' }}>
@@ -225,7 +225,7 @@ export default function MissionModule() {
                         )}
 
                         <form onSubmit={handleSubmitMessage} className="space-y-4">
-                            <div className="grid gap-4 sm:grid-cols-2">
+                            <div className="contact-grid-2col grid gap-4 sm:grid-cols-2">
                                 <div>
                                     <label className="mb-1.5 block text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>
                                         Your Name *

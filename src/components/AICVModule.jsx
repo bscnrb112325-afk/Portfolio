@@ -371,7 +371,7 @@ export default function AICVModule() {
                     zIndex: 0,
                 }}
             />
-            <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+            <div className="container p-4 sm:p-8" style={{ position: 'relative', zIndex: 1 }}>
                 {/* Header */}
                 <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'flex-end', flexWrap: 'wrap', gap: '1rem' }}>
                     <div style={{ display: 'flex', gap: '0.7rem', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -463,7 +463,7 @@ export default function AICVModule() {
                 )}
 
                 {/* Studio Grid: Left Editor & Right Live Preview */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 420px) 1fr', gap: '2rem', alignItems: 'start' }}>
+                <div className="aicv-studio-grid">
                     
                     {/* Left: Interactive Form */}
                     <div className="card card-bordered p-6 bg-base-200/50 backdrop-blur-md">
