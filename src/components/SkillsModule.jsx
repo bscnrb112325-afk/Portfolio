@@ -32,7 +32,7 @@ export default function SkillsModule() {
                 }}
             />
 
-            <div style={{ position: 'relative', zIndex: 1, padding: '2rem' }}>
+            <div style={{ position: 'relative', zIndex: 1 }} className="p-4 sm:p-8">
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {whatIDoData.services.map((service, index) => {
                         const delay = index % 3 === 1 ? 'delay-[100ms]' : index % 3 === 2 ? 'delay-[200ms]' : '';

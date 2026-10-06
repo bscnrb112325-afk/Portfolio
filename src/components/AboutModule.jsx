@@ -76,11 +76,11 @@ export default function AboutModule() {
                 backdropFilter: 'blur(1px)',
                 zIndex: 0,
             }} />
-            <div style={{ position: 'relative', zIndex: 1, padding: '2rem' }}>
+            <div style={{ position: 'relative', zIndex: 1, padding: '2rem 2rem' }} className="p-4 sm:p-8">
             <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-between">
 
                 {/* ── Left: Story & Personal Narrative ── */}
-                <div className="flex-1 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
+                <div className="about-bio-col flex-1 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_forwards]">
 
 
 
@@ -152,7 +152,7 @@ export default function AboutModule() {
                 </div>
 
                 {/* ── Right: Personal Profile Card ── */}
-                <div className="w-full shrink-0 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_0.15s_forwards] opacity-0 lg:w-[320px]">
+                <div className="about-profile-card profile-card-col w-full shrink-0 animate-[fadeInUp_0.6s_cubic-bezier(0.16,1,0.3,1)_0.15s_forwards] opacity-0 lg:w-[320px]">
                     <div
                         className="card card-bordered relative flex flex-col items-center justify-center overflow-hidden p-6 shadow-2xl backdrop-blur-md transition-colors duration-300 bg-base-200/60"
                         style={cardStyle}
